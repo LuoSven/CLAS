@@ -15,6 +15,7 @@ namespace LocalTest
         public Form1()
         {
             InitializeComponent();
-        }
-    }
+            var t = 1;
+        } 
+    } 
 }
