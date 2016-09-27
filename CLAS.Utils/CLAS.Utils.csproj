@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B4199C1E-4332-4914-82CE-AA335F9C14F8}</ProjectGuid>
+    <ProjectGuid>{A0FBEF8F-7FC5-4243-BAF4-8C7366FF3B0F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CASL.Bll</RootNamespace>
-    <AssemblyName>CASL.Bll</AssemblyName>
+    <RootNamespace>CLAS.Utils</RootNamespace>
+    <AssemblyName>CLAS.Utils</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,8 +30,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,27 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="CommandManager.cs" />
+    <Compile Include="DESEncrypt.cs" />
+    <Compile Include="HtmlUtils.cs" />
+    <Compile Include="ObjectStrConvert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringUtil.cs" />
+    <Compile Include="XmlUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CLAS.Common\CLAS.Common.csproj">
-      <Project>{a8abdf78-a267-4c8c-b578-2c7b53ffc4d6}</Project>
-      <Name>CLAS.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CLAS.Data\CLAS.Data.csproj">
-      <Project>{540e21ee-f510-4031-a391-32b61079c171}</Project>
-      <Name>CLAS.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CLAS.Model\CLAS.Model.csproj">
-      <Project>{917e16ef-f17c-4133-88bf-39ab3fa2a2e6}</Project>
-      <Name>CLAS.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CLAS.Utils\CLAS.Utils.csproj">
-      <Project>{a0fbef8f-7fc5-4243-baf4-8c7366ff3b0f}</Project>
-      <Name>CLAS.Utils</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
