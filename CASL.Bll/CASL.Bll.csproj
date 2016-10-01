@@ -39,7 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ActivationCodeManager.cs" />
+    <Compile Include="InstructionManager.cs" />
+    <Compile Include="SynchronizeManager.cs" />
+    <Compile Include="ScriptManager.cs" />
     <Compile Include="CommandManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

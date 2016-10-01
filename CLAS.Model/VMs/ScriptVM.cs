@@ -14,7 +14,7 @@ namespace CLAS.Model.VMs
         /// <summary>
         /// 脚本Id
         /// </summary>
-        public int ScritpId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// 脚本名称
@@ -22,8 +22,14 @@ namespace CLAS.Model.VMs
         public int ScritpName { get; set; }
 
         /// <summary>
-        /// 指令列表
+        /// 执行指令
         /// </summary>
-        public List<string> Instructions { get; set; }
+        public List<string> ExecuteInstructions { get; set; }
+
+
+        /// <summary>
+        /// 校验指令
+        /// </summary>
+        public string CheckInstruction { get; set; }
     }
 }
