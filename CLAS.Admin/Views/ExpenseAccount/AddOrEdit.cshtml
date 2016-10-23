@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@using CLAS.Model.Entities;
+@using CLAS.Model.DTOs;
+@using CLAS.Common;
+@{
+    var Title = Model.Id == 0 ? "新增报销单" : "编辑报销单";
+    var action = Model.Id == 0 ? "Add" : "Edit";
+}
+@model CL_ExpenseAccount
+<form method="post" data-role="form" action="@action" data-url="" data-beforesave="BeforeSave" data-success="SuccessFunction" class="basic-grey">
+    <h1>
+        @Title
+        <span></span>
+    </h1>
+    @Html.HiddenFor(o => o.Id)
+    <label>
+        <span>报销单号 :</span>
+        @Html.TextBoxFor(o => o.EANumber, new { placeholder = "单据的报销单号", @class = "required" })
+        <div class="pAbs checkContent">
+            @Html.CheckBox("IsPublic", Model.IsPublic.HasValue && Model.IsPublic.Value ? true : false, new { id = "IsPublic" })  <a class="checkTitle">对公</a>
+            @Html.CheckBox("IsNotAccount", Model.IsNotAccount.HasValue && Model.IsNotAccount.Value ? true : false, new { id = "IsPublic" })  <a class="checkTitle">不计入费用</a>
+        </div>  
+    </label>
+    <label>
+        <span>申请日期 :</span>
+        @Html.TextBox("ApplyDate", Model.ApplyDate.ToShortDateString(), new { @placeholder = "报销单上的申请时间", @class = "datepicker required" })
+    </label>
+    <label>
+        <span>报销人 :</span>
+        @Html.TextBoxFor(o => o.Name, new { @placeholder = "报销的对象", @class = "required " })
+    </label>
+
+    <label>
+        <span>总金额 :</span>
+        @Html.TextBoxFor(o => o.SumMoney, new { @class = "required", readOnly = "readOnly" })
+    </label>    @Html.Partial("_BodyList")
+    <label>
+        <span>&nbsp;</span>
+        <input type="submit" class="button" value="保存" />
+        <p class="mlp20 cCCC mt10 fwN"><input name="ApproveStatus" type="checkbox" value="@((int)ExpenseAccountApproveStatus.WaitingApprove)" /> 同时提交报销单(提交后不能进行编辑，请慎重提交)</p>
+
+    </label>
+</form>
+@Html.Partial("_UploadField")
+<div id="DetailUpdate">
+
+</div>
+<div id="bodyContent">
+
+</div>
+@section Js
+{
+    <script src="~/Js/Program/ExpenseAccount.js"></script>}

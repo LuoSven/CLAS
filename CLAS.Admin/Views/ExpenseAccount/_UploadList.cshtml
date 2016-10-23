@@ -1,0 +1,56 @@
+﻿@using CLAS.Model.Entities;
+@{
+    var IsView = (string)ViewBag.ActionName == "browse";
+}
+@model List<CL_ExpenseAccount_File>
+<label>
+    <span>附件记录 :</span>
+    <table id="FileList" data-role="body" data-field="FileIds" class="table table-hover wp80">
+        <thead>
+            <tr>
+                <th width="50%">附件名称</th>
+                <th width="30%">上传时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count == 0)
+            {
+                <tr id="NoRow">
+                    <td colspan="3" class="taC">暂无数据</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var item in Model)
+                {
+                    <tr data-id="@item.Id">
+                        <td class="taL">@item.FileName</td>
+                        <td class="taL">@item.CreateDate</td>
+                        <td class="taL">
+                            @if (!IsView)
+                            {
+                                <a href="javascript:;" onclick="UploadEAFile.DeleteFile(@item.Id)">删除</a>
+                            }
+                            &nbsp;<a href="javascript:;" onclick="UploadEAFile.Browse('../../ExpenseAccount/BrowseFile/@item.Id')" target="_blank">查看</a>
+                        </td>
+                    </tr>
+                }
+            }
+            @if (!IsView)
+            {
+                <tr id="AddRow">
+                    <td colspan="3" class="taC">
+                        <div class="pRel" id="AddFileForm">
+                            <a onclick="UploadEAFile.Show()" >新增记录</a>
+                        </div>
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</label>
+
+

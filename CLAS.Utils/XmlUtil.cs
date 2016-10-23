@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace EM.Utils
+namespace CLAS.Utils
 {
     public class XmlUtil
     {

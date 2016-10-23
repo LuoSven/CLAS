@@ -1,0 +1,42 @@
+﻿@using CLAS.Model.VMs;
+@using CLAS.Data.Infrastructure;
+@using CLAS.Web.Core;
+@using CLAS.Common;
+@model PagedResult<UserLoginRecordVM>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th class="w60 taR">用户名</th>
+            <th class="w100 taR">账号</th>
+            <th class="w90 taR">验证信息</th>
+            <th class="w50 taR">登陆状态</th>
+            <th class="w70 taR">登陆信息</th>
+            <th class="w80 taR">Ip</th>
+            <th class="w80 taR">操作系统</th>
+            <th class="w80 taR ">浏览器</th>
+            <th class="w100 taR ">登陆时间</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Results.Count == 0)
+        {
+            <tr><td colspan="9" class="size18 taC fL20">暂无数据</td></tr>
+        }
+        @foreach (var LR in Model.Results)
+        {
+            <tr>
+                <td class="taR">@LR.UserName</td>
+                <td class="taR">@LR.LoginEmail</td>
+                <td class="taR"><a class="cFFF">@LR.Password</a></td>
+                <td class="taR">@(LR.IsLogin ? "登陆成功" : "未登陆")</td>
+                <td class="taR">@LR.ErrorInfo</td>
+                <td class="taR" >@LR.LoginIp</td>
+                <td class="taR">@LR.LoginSystem</td>
+                <td class="taR">@LR.LoginBrower</td>
+                <td class="taR">@LR.LoginTime</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("_Pager", new PagerModel(Model.RowCount, Model.PageSize, Model.CurrentPage) { AjaxOptions = new PagerAjaxOptions() { HttpMethod = "Post", UpdateTargetId = "List", SearchFormId = "SearchForm" } })
+

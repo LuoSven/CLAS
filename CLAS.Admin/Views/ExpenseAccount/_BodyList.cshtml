@@ -1,0 +1,4 @@
+﻿@using CLAS.Model.Entities;
+@using CLAS.Model.DTOs;
+@Html.Partial("_DetailList", (List<ExpenseAccountDetailListDTO>)ViewBag.Details)
+@Html.Partial("_UploadList", (List<CL_ExpenseAccount_File>)ViewBag.Files)

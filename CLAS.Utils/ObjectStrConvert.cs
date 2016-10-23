@@ -8,8 +8,8 @@ using System.IO;
 using System.Web;
 using System.Xml.Serialization;
 using System.Xml;
-
-namespace EM.Utils
+using Newtonsoft.Json;
+namespace CLAS.Utils
 {
     public class ObjectStrConvert
     {
@@ -31,10 +31,19 @@ namespace EM.Utils
                 bytes = sm.ToArray();
                 str = Convert.ToBase64String(bytes);
                 str = HttpContext.Current.Server.UrlEncode(str);//编码
-            }
+            } 
             return str;
         }
 
+
+        public static string SerializeObjectJson(object ob)
+        {
+            return JsonConvert.SerializeObject(ob);
+        }
+        public static T DeserializeObjectJson<T>(string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
+        }
         #region 反序列化字符串为对象
         /// <summary>
         /// 反序列化对象

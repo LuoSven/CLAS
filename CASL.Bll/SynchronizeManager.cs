@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using CLAS.Model.VMs;
-using EM.Utils;
+using CLAS.Utils;
 using System.Diagnostics;
 
 namespace CASL.Bll
@@ -29,6 +29,14 @@ namespace CASL.Bll
         /// </summary>
         public static int CommunicationSpan = 5000;
 
+        /// <summary>
+        /// 脚本最后更新时间
+        /// </summary>
+        public static DateTime? ScriptLastUpdateTime { get; set; }
+        /// <summary>
+        ///策略最后更新时间
+        /// </summary>
+        public static DateTime? TacticsLastUpdateTime { get; set; }
 
         /// <summary>
         /// 和服务器进行通信
@@ -40,14 +48,31 @@ namespace CASL.Bll
             {
                 while (true)
                 {
+                    var now = DateTime.Now;
+                    //一段时间停止更新的逻辑
+                    if (CommandManager.Tactics.SyncStopTimeBegin.HasValue &&
+                        CommandManager.Tactics.SyncStopTimeStop.HasValue)
+                    {
+                        if (CommandManager.Tactics.SyncStopTimeBegin <= now &&
+                            now <= CommandManager.Tactics.SyncStopTimeStop.Value)
+                        {
+                            CommandManager.instance.Log(string.Format("{0}停止进行同步", DateTime.Now));
+                            //停止时间
+                            Thread.Sleep(CommunicationSpan);
+                            continue;
+                        }
+                    }
+                    
                     var clientRequestTM = new ClientRequestTM()
                     {
                         ActivationCode = ActivationCodeManager.ActivationCode,
-                        ScriptLastUpdateTime = CommandManager.ScriptLastUpdateTime,
-                        TacticsLastUpdateTime = CommandManager.TacticsLastUpdateTime,
+                        ScriptLastUpdateTime = ScriptLastUpdateTime,
+                        TacticsLastUpdateTime = TacticsLastUpdateTime,
                         ScriptExecuteRecords = ScriptManager.ScriptExecuteRecords,
-                        SendTime = DateTime.Now,
+                        SendTime = now,
                     };
+
+                    CommandManager.instance.Log(string.Format("{0}进行同步", DateTime.Now));
                     //将更新记录记录放到最后
                     ScriptManager.ScriptExecuteRecordsSended.AddRange(ScriptManager.ScriptExecuteRecords);
                     //置空当前更新记录
@@ -102,8 +127,8 @@ namespace CASL.Bll
         {
             var modelStr = DESEncrypt.EncryptModel(tm);
 
-            var s = RequestHelper.HttpPost(SiteUrl.GetApiUrl("Command"), modelStr);
-            var serverRequestTM = (ServerReponseTM)DESEncrypt.DecryptModel(s);
+            var s = RequestHelper.HttpPost(SiteUrl.GetApiUrl("Command/Sync"),   modelStr );
+            var serverRequestTM = DESEncrypt.DecryptModel<ServerReponseTM>(s);
             return serverRequestTM;
         }
         /// <summary>
@@ -119,6 +144,10 @@ namespace CASL.Bll
                     {
                         CommandManager.Tactics = tm.Tactics;
                     }
+
+                    TacticsLastUpdateTime = tm.SendTime;
+
+                    CommandManager.instance.Log(string.Format("{0}同步完毕策略 {1}", DateTime.Now, tm.Tactics.Id));
                     break;
                     //同步脚本
                 case ServerCommandType.SynScript:
@@ -129,6 +158,9 @@ namespace CASL.Bll
                             CommandManager.Tactics.Scripts.SetIfEmtpy(script.Key, script.Value);
                         }
                     }
+
+                    CommandManager.instance.Log(string.Format("{0}同步完毕脚本，共 {1}个脚本", DateTime.Now, CommandManager.Tactics.Scripts.Count));
+                    ScriptLastUpdateTime = tm.SendTime;
                     break;
             }
         }

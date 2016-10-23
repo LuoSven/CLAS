@@ -1,0 +1,40 @@
+﻿@using CLAS.Model.VMs
+@model List<UserRoleListVM>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th width="5%">编号</th>
+            <th width="10%">角色名</th>
+            <th width="30%">当前公司</th>
+            <th width="10%">角色类型</th>
+            <th width="35%">说明</th>
+            <th width="10%">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>
+                    @role.Id
+                </td>
+                <td>
+                    @role.Name
+                </td>
+                <td>
+                    @role.CompanyNames
+                </td>
+                <td>
+                    @role.RoleTypeName
+                </td>
+                <td>
+                    @role.Description
+                </td>
+                <td>
+                    <a data-commond="edit" onclick="Global.Form.NewIframe('编辑角色','UserRole@(role.Id)','@Url.Action("Edit", new { Id=role.Id })')">编辑</a>
+                    <a data-commond="delete" onclick="Global.Form.Delete('@Url.Action("Delete", new { Id = role.Id })',this,false)">删除</a>      
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

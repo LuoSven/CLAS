@@ -15,7 +15,7 @@
     <AssemblyName>CLAS.Admin</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -39,10 +39,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -59,9 +72,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -69,9 +79,6 @@
     <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http">
     </Reference>
@@ -122,16 +129,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SystemUserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Login.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -186,9 +199,234 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\Third\bootstrap.min.js" />
+    <Content Include="Content\Third\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Content\Third\bootstrap\bootstrap.min.css" />
+    <Content Include="Css\base.css" />
+    <Content Include="Css\Form.css" />
+    <Content Include="Css\Login.css" />
+    <Content Include="Css\Main-2015-11-21.css" />
+    <Content Include="Css\Main-Black.css" />
+    <Content Include="Css\Main.css" />
+    <Content Include="Css\Programs\CompanyMHome.css" />
+    <Content Include="Css\Programs\ExpenseAccount.css" />
+    <Content Include="Css\Site.css" />
+    <Content Include="Css\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Css\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Css\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Css\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Css\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Css\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Css\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Css\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Css\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Css\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Css\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Css\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Css\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Css\themes\base\jquery-ui.css" />
+    <Content Include="Css\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Css\themes\base\jquery.ui.all.css" />
+    <Content Include="Css\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Css\themes\base\jquery.ui.base.css" />
+    <Content Include="Css\themes\base\jquery.ui.button.css" />
+    <Content Include="Css\themes\base\jquery.ui.core.css" />
+    <Content Include="Css\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Css\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Css\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Css\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Css\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Css\themes\base\jquery.ui.slider.css" />
+    <Content Include="Css\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Css\themes\base\jquery.ui.theme.css" />
+    <Content Include="Css\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Css\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Css\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Css\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Css\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Css\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Css\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Css\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Css\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Css\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Css\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Css\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Css\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Css\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Css\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Css\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Css\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Css\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Css\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Css\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Css\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Css\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Css\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Css\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Css\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Css\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Css\Third\bootstrap.min.js" />
+    <Content Include="Css\Third\bootstrap\bootstrap-theme.css" />
+    <Content Include="Css\Third\bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Css\Third\bootstrap\bootstrap.css" />
+    <Content Include="Css\Third\bootstrap\bootstrap.min.css" />
+    <Content Include="Css\Third\dtree\dtree.css" />
+    <Content Include="Css\Third\dtree\img\base.gif" />
+    <Content Include="Css\Third\dtree\img\cd.gif" />
+    <Content Include="Css\Third\dtree\img\empty.gif" />
+    <Content Include="Css\Third\dtree\img\folder.gif" />
+    <Content Include="Css\Third\dtree\img\folderopen.gif" />
+    <Content Include="Css\Third\dtree\img\globe.gif" />
+    <Content Include="Css\Third\dtree\img\imgfolder.gif" />
+    <Content Include="Css\Third\dtree\img\join.gif" />
+    <Content Include="Css\Third\dtree\img\joinbottom.gif" />
+    <Content Include="Css\Third\dtree\img\line.gif" />
+    <Content Include="Css\Third\dtree\img\minus.gif" />
+    <Content Include="Css\Third\dtree\img\minusbottom.gif" />
+    <Content Include="Css\Third\dtree\img\musicfolder.gif" />
+    <Content Include="Css\Third\dtree\img\nolines_minus.gif" />
+    <Content Include="Css\Third\dtree\img\nolines_plus.gif" />
+    <Content Include="Css\Third\dtree\img\page.gif" />
+    <Content Include="Css\Third\dtree\img\plus.gif" />
+    <Content Include="Css\Third\dtree\img\plusbottom.gif" />
+    <Content Include="Css\Third\dtree\img\question.gif" />
+    <Content Include="Css\Third\dtree\img\trash.gif" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Css\Third\bootstrap\bootstrap-theme.css.map" />
+    <Content Include="Css\Third\bootstrap\bootstrap.css.map" />
+    <Content Include="Dowload\Excel\20160222\20160222230758.xls" />
+    <Content Include="Dowload\Excel\20160223\20160223210935.xls" />
+    <Content Include="Dowload\Excel\20160223\20160223230542.xls" />
+    <Content Include="Dowload\Excel\20160223\20160223231808.xls" />
+    <Content Include="Dowload\Excel\20160223\20160223233054.xls" />
+    <Content Include="Dowload\Excel\20160223\20160223234131.xls" />
+    <Content Include="Dowload\Excel\20160223\20160223234747.xls" />
+    <Content Include="Dowload\Excel\20160224\20160224001707.xls" />
+    <Content Include="Dowload\Excel\20160224\20160224005009.xls" />
+    <Content Include="Dowload\Excel\20160224\20160224005056.xls" />
+    <Content Include="Dowload\Excel\20160224\20160224005815.xls" />
+    <Content Include="Dowload\Excel\20160224\20160224010109.xls" />
+    <Content Include="Dowload\Excel\20160229\20160229224017.xls" />
+    <Content Include="Dowload\Excel\20160229\20160229234936.xls" />
+    <Content Include="Dowload\Excel\20160317\20160317235012.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318001106.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318001340.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318001759.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318001831.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318002618.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318003957.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318004334.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318004736.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318005646.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318010559.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318010651.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318010741.xls" />
+    <Content Include="Dowload\Excel\20160318\20160318010837.xls" />
+    <Content Include="Dowload\Excel\20160320\20160320210601.xls" />
+    <Content Include="Dowload\Excel\20160320\20160320210751.xls" />
+    <Content Include="Js\Third\layer-v2.0\doc\jquery下载.url" />
+    <Content Include="Js\Third\layer-v2.0\doc\layer交流.url" />
+    <Content Include="Js\Third\layer-v2.0\doc\layer官网.url" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Images\accent.png" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\close.png" />
+    <Content Include="Images\heroAccent.png" />
+    <Content Include="Images\Icons\0945462.png" />
+    <Content Include="Images\Icons\Logo-Small.JPG" />
+    <Content Include="Images\Icons\Logo.JPG" />
+    <Content Include="Images\Icons\select_close.png" />
+    <Content Include="Images\Icons\select_open.png" />
+    <Content Include="Images\Icons\tab_close - 副本 %282%29.png" />
+    <Content Include="Images\Icons\tab_close - 副本 %283%29.png" />
+    <Content Include="Images\Icons\tab_close - 副本 %284%29.png" />
+    <Content Include="Images\Icons\tab_close - 副本 %285%29.png" />
+    <Content Include="Images\Icons\tab_close - 副本 %286%29.png" />
+    <Content Include="Images\Icons\tab_close - 副本 %287%29.png" />
+    <Content Include="Images\Icons\tab_close - 副本.png" />
+    <Content Include="Images\Icons\tab_close.png" />
+    <Content Include="Images\Icons\x.png" />
+    <Content Include="Images\orderedList0.png" />
+    <Content Include="Images\orderedList1.png" />
+    <Content Include="Images\orderedList2.png" />
+    <Content Include="Images\orderedList3.png" />
+    <Content Include="Images\orderedList4.png" />
+    <Content Include="Images\orderedList5.png" />
+    <Content Include="Images\orderedList6.png" />
+    <Content Include="Images\orderedList7.png" />
+    <Content Include="Images\orderedList8.png" />
+    <Content Include="Images\orderedList9.png" />
+    <Content Include="Images\QQ图片20160309230527.png" />
+    <Content Include="Images\UcChrome.png" />
+    <Content Include="Images\UcIeIcon.png" />
+    <Content Include="Js\ajaxfileupload.js" />
+    <Content Include="Js\ajaxPager.js" />
+    <Content Include="Js\common.js" />
+    <Content Include="Js\feedback.js" />
+    <Content Include="Js\form.js" />
+    <None Include="Js\jquery-1.8.2.intellisense.js" />
+    <Content Include="Js\jquery-1.8.2.js" />
+    <Content Include="Js\jquery-1.8.2.min.js" />
+    <Content Include="Js\jquery-ui-1.8.24.js" />
+    <Content Include="Js\jquery-ui-1.8.24.min.js" />
+    <Content Include="Js\jquery.unobtrusive-ajax.js" />
+    <Content Include="Js\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Js\jquery.validate-vsdoc.js" />
+    <Content Include="Js\jquery.validate.js" />
+    <Content Include="Js\jquery.validate.messages_cn.js" />
+    <Content Include="Js\jquery.validate.min.js" />
+    <Content Include="Js\jquery.validate.unobtrusive.js" />
+    <Content Include="Js\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Js\knockout-2.2.0.debug.js" />
+    <Content Include="Js\knockout-2.2.0.js" />
+    <Content Include="Js\main - 副本.js" />
+    <Content Include="Js\main.js" />
+    <Content Include="Js\modernizr-2.6.2.js" />
+    <Content Include="Js\Program\CompanyMHome.js" />
+    <Content Include="Js\Program\ExpenseAccount.js" />
+    <Content Include="Js\Program\Feedback.js" />
+    <Content Include="Js\Program\MonthExpenseStatistics.js" />
+    <Content Include="Js\table.js" />
+    <Content Include="Js\Third\bootstrap\bootstrap.min.js" />
+    <Content Include="Js\Third\dtree\dtree.js" />
+    <Content Include="Js\Third\echarts\echarts.js" />
+    <Content Include="Js\Third\layer-v2.0\demo.html" />
+    <Content Include="Js\Third\layer-v2.0\layer\extend\layer.ext.js" />
+    <Content Include="Js\Third\layer-v2.0\layer\layer.js" />
+    <Content Include="Js\Third\layer-v2.0\layer\skin\default\icon-ext.png" />
+    <Content Include="Js\Third\layer-v2.0\layer\skin\default\icon.png" />
+    <Content Include="Js\Third\layer-v2.0\layer\skin\default\loading-0.gif" />
+    <Content Include="Js\Third\layer-v2.0\layer\skin\default\loading-1.gif" />
+    <Content Include="Js\Third\layer-v2.0\layer\skin\default\loading-2.gif" />
+    <Content Include="Js\Third\layer-v2.0\layer\skin\layer.css" />
+    <Content Include="Js\Third\layer-v2.0\layer\skin\layer.ext.css" />
+    <Content Include="Js\Third\layer-v2.0\更新日志.txt" />
+    <Content Include="Js\Third\My97DatePicker\calendar.js" />
+    <Content Include="Js\Third\My97DatePicker\lang\en.js" />
+    <Content Include="Js\Third\My97DatePicker\lang\zh-cn.js" />
+    <Content Include="Js\Third\My97DatePicker\lang\zh-tw.js" />
+    <Content Include="Js\Third\My97DatePicker\skin\datePicker.gif" />
+    <Content Include="Js\Third\My97DatePicker\skin\default\datepicker.css" />
+    <Content Include="Js\Third\My97DatePicker\skin\default\img.gif" />
+    <Content Include="Js\Third\My97DatePicker\skin\WdatePicker.css" />
+    <Content Include="Js\Third\My97DatePicker\skin\whyGreen\bg.jpg" />
+    <Content Include="Js\Third\My97DatePicker\skin\whyGreen\datepicker.css" />
+    <Content Include="Js\Third\My97DatePicker\skin\whyGreen\img.gif" />
+    <Content Include="Js\Third\My97DatePicker\WdatePicker.js" />
+    <Content Include="Js\Third\My97DatePicker\开发包\lang\en.js" />
+    <Content Include="Js\Third\My97DatePicker\开发包\lang\zh-cn.js" />
+    <Content Include="Js\Third\My97DatePicker\开发包\lang\zh-tw.js" />
+    <Content Include="Js\Third\My97DatePicker\开发包\readme.txt" />
+    <Content Include="Js\Third\My97DatePicker\开发包\skin\datePicker.gif" />
+    <Content Include="Js\Third\My97DatePicker\开发包\skin\default\datepicker.css" />
+    <Content Include="Js\Third\My97DatePicker\开发包\skin\default\img.gif" />
+    <Content Include="Js\Third\My97DatePicker\开发包\skin\WdatePicker.css" />
+    <Content Include="Js\Third\My97DatePicker\开发包\skin\whyGreen\bg.jpg" />
+    <Content Include="Js\Third\My97DatePicker\开发包\skin\whyGreen\datepicker.css" />
+    <Content Include="Js\Third\My97DatePicker\开发包\skin\whyGreen\img.gif" />
+    <Content Include="Js\Third\pdf\pdfobject.js" />
+    <None Include="Js\_references.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -203,7 +441,12 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\Third\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Static\Log\error-2016-03-12041644Z-70c97412-f81e-4ee8-bb15-3aee8ec678ba.xml" />
+    <Content Include="Static\Log\error-2016-03-12042532Z-672e17a9-3ad2-4e51-ab5e-d6b7352b000f.xml" />
+    <Content Include="Static\Log\error-2016-03-13134809Z-4ec33759-a9da-4a79-8d17-3ba289b3c88d.xml" />
+    <Content Include="Static\Log\error-2016-04-01131931Z-7c71d48f-474b-4459-8e6a-ea7462187257.xml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -215,14 +458,101 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\CompanyLimit\Add.cshtml" />
+    <Content Include="Views\CompanyLimit\Edit.cshtml" />
+    <Content Include="Views\CompanyLimit\Index.cshtml" />
+    <Content Include="Views\CompanyLimit\_List.cshtml" />
+    <Content Include="Views\CompanyPerformance\Add.cshtml" />
+    <Content Include="Views\CompanyPerformance\Edit.cshtml" />
+    <Content Include="Views\CompanyPerformance\Index.cshtml" />
+    <Content Include="Views\CompanyPerformance\_List.cshtml" />
+    <Content Include="Views\Company\Add.cshtml" />
+    <Content Include="Views\Company\Edit.cshtml" />
+    <Content Include="Views\Company\Index.cshtml" />
+    <Content Include="Views\Company\_List.cshtml" />
+    <Content Include="Views\Error\NoRight.cshtml" />
+    <Content Include="Views\ExpenseAccount\AddOrEdit.cshtml" />
+    <Content Include="Views\ExpenseAccount\ApproveBrowse.cshtml" />
+    <Content Include="Views\ExpenseAccount\ApproveIndex.cshtml" />
+    <Content Include="Views\ExpenseAccount\Browse.cshtml" />
+    <Content Include="Views\ExpenseAccount\BrowseFile.cshtml" />
+    <Content Include="Views\ExpenseAccount\FindLostAccountIndex.cshtml" />
+    <Content Include="Views\ExpenseAccount\Index.cshtml" />
+    <Content Include="Views\ExpenseAccount\_AddOrEditDetail.cshtml" />
+    <Content Include="Views\ExpenseAccount\_ApproveBodyList.cshtml" />
+    <Content Include="Views\ExpenseAccount\_ApproveDetailList.cshtml" />
+    <Content Include="Views\ExpenseAccount\_ApproveList.cshtml" />
+    <Content Include="Views\ExpenseAccount\_BodyList.cshtml" />
+    <Content Include="Views\ExpenseAccount\_BrowseDetail.cshtml" />
+    <Content Include="Views\ExpenseAccount\_DetailList.cshtml" />
+    <Content Include="Views\ExpenseAccount\_FindLostAccountList.cshtml" />
+    <Content Include="Views\ExpenseAccount\_List.cshtml" />
+    <Content Include="Views\ExpenseAccount\_SM.cshtml" />
+    <Content Include="Views\ExpenseAccount\_UploadField.cshtml" />
+    <Content Include="Views\ExpenseAccount\_UploadList.cshtml" />
+    <Content Include="Views\Home\AdminWelcome.cshtml" />
+    <Content Include="Views\Home\CompanyManagerWelcome.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\WelCome.cshtml" />
+    <Content Include="Views\Home\_List.cshtml" />
+    <Content Include="Views\Report\CompanyLimitDetail.cshtml" />
+    <Content Include="Views\Report\MonthExpenseStatistics.cshtml" />
+    <Content Include="Views\Report\_CompanyLimitDetailList.cshtml" />
+    <Content Include="Views\Shared\_LayoutCommon.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\Shared\_LayoutMain.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_Pager.cshtml" />
+    <Content Include="Views\SystemUser\AddOrEdit.cshtml" />
+    <Content Include="Views\SystemUser\ChangePassword.cshtml" />
+    <Content Include="Views\SystemUser\Index.cshtml" />
+    <Content Include="Views\SystemUser\_List.cshtml" />
+    <Content Include="Views\System\FeedbackManage.cshtml" />
+    <Content Include="Views\System\GetFeedBack.cshtml" />
+    <Content Include="Views\System\LoginManage.cshtml" />
+    <Content Include="Views\System\SystemMessageManage.cshtml" />
+    <Content Include="Views\System\_ListFeedbackManage.cshtml" />
+    <Content Include="Views\System\_ListFeedbacks.cshtml" />
+    <Content Include="Views\System\_ListLoginManage.cshtml" />
+    <Content Include="Views\System\_ListSystemMessageManage.cshtml" />
+    <Content Include="Views\UserRole\AddOrEdit.cshtml" />
+    <Content Include="Views\UserRole\Index.cshtml" />
+    <Content Include="Views\UserRole\_CompanyList.cshtml" />
+    <Content Include="Views\UserRole\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CASL.Bll\CASL.Bll.csproj">
+      <Project>{b4199c1e-4332-4914-82ce-aa335f9c14f8}</Project>
+      <Name>CASL.Bll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CLAS.Common\CLAS.Common.csproj">
+      <Project>{a8abdf78-a267-4c8c-b578-2c7b53ffc4d6}</Project>
+      <Name>CLAS.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CLAS.Data\CLAS.Data.csproj">
+      <Project>{540e21ee-f510-4031-a391-32b61079c171}</Project>
+      <Name>CLAS.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CLAS.Model\CLAS.Model.csproj">
+      <Project>{917e16ef-f17c-4133-88bf-39ab3fa2a2e6}</Project>
+      <Name>CLAS.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CLAS.Utils\CLAS.Utils.csproj">
+      <Project>{a0fbef8f-7fc5-4243-baf4-8c7366ff3b0f}</Project>
+      <Name>CLAS.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CLAS.Web.Core\CLAS.Web.Core.csproj">
+      <Project>{2fffda5d-ad4b-4d19-b40d-a967a2d68c13}</Project>
+      <Name>CLAS.Web.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -242,7 +572,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2246</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:2246/</IISUrl>
+          <IISUrl>http://admin.clas.com</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://admin.clas.com</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -23,5 +23,8 @@ namespace CLAS.Model.Entities
         public System.DateTime CreateDate { get; set; }
         public string Modifier { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
+        public string SystemInfo { get; set; }
+        public Nullable<int> TracticsId { get; set; }
+        public Nullable<System.DateTime> LastActiveDate { get; set; }
     }
 }

@@ -75,6 +75,9 @@
             this.MinimizeBox = false;
             this.Name = "Login";
             this.Text = "验证";
+            this.TopMost = true;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Login_FormClosed);
+            this.Load += new System.EventHandler(this.Login_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

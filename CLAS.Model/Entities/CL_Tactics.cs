@@ -19,5 +19,9 @@ namespace CLAS.Model.Entities
         public string Description { get; set; }
         public System.DateTime CreateDate { get; set; }
         public string Creater { get; set; }
+        public Nullable<System.DateTime> ModifyDate { get; set; }
+        public string Modifier { get; set; }
+        public Nullable<System.DateTime> SyncStopTimeBegin { get; set; }
+        public Nullable<System.DateTime> SyncStopTimeStop { get; set; }
     }
 }

@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@using CLAS.Model.Entities;
+@model CL_Company
+<form method="post" data-role="form" data-url="" class="basic-grey" >
+    <h1>
+        编辑公司信息
+        <span></span>
+    </h1>
+    @Html.HiddenFor(o => o.Id)
+    <label>
+        <span>公司名 :</span>
+        @Html.TextBoxFor(o => o.CompanyName, new { @class = "required" })
+    </label>
+    <label>
+        <span>KPI百分比:</span>
+        @Html.TextBoxFor(o => o.KPIPercent, new { @class = "required" })%
+    </label>
+    <label>
+        <span>KPI :</span>
+        @Html.TextBoxFor(o => o.KPIValue, new { @class = "required" }) 万元
+    </label>
+    <label>
+        <span>公司类型 :</span>       
+         @Html.DropDownListFor(o => o.CompanyType, (SelectList)ViewBag.CompanyTypeList, new { @class = "required" })
+    </label>
+    <label>
+        <span>行政公司 :</span>
+        @Html.DropDownListFor(o => o.ParentCompanyId, (SelectList)ViewBag.ParentCompanyIdList,"-无行政公司-")
+    </label>
+    <label>
+        <span>通知对象 :</span>
+        @Html.DropDownListFor(o => o.InformUserId, (SelectList)ViewBag.UserList, new { @class = "required" })
+    </label>
+
+    <label>
+        <span>&nbsp;</span>
+        <input type="submit" class="button" value="保存" />
+    </label>
+</form>

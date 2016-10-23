@@ -1,0 +1,27 @@
+﻿@using CLAS.Model.Entities;
+@model List<CL_User>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th class="w50">编号</th> 
+            <th class="w80">用户名</th> 
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @user.Id
+                </td> 
+                <td>
+                    @user.UserName 
+                <td>
+                    <a   onclick="window.parent.Global.Iframe.OpenIframe('编辑用户','SystemUser@(user.Id)','@Url.Action("Edit", new { user.Id })',false)">编辑</a>
+                    <a  onclick="Global.Form.Delete('@Url.Action("Delete", new { user.Id })',this,false)">删除</a>      
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

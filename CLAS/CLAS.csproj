@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -73,6 +77,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -99,9 +104,17 @@
       <Project>{540e21ee-f510-4031-a391-32b61079c171}</Project>
       <Name>CLAS.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CLAS.Model\CLAS.Model.csproj">
+      <Project>{917e16ef-f17c-4133-88bf-39ab3fa2a2e6}</Project>
+      <Name>CLAS.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CLAS.Utils\CLAS.Utils.csproj">
       <Project>{a0fbef8f-7fc5-4243-baf4-8c7366ff3b0f}</Project>
       <Name>CLAS.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CLAS.Web.Core\CLAS.Web.Core.csproj">
+      <Project>{2fffda5d-ad4b-4d19-b40d-a967a2d68c13}</Project>
+      <Name>CLAS.Web.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

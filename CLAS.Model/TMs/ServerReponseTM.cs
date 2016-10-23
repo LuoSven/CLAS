@@ -20,11 +20,11 @@ namespace CLAS.Model.TMs
         /// <summary>
         /// 要同步的策略
         /// </summary>
-        public TacticsVM Tactics { get; set; }
+        public TacticsTM Tactics { get; set; }
         /// <summary>
         /// 要同步的脚本
         /// </summary>
-        public Dictionary<DateTime, ScriptVM>  Scripts { get; set; } 
+        public Dictionary<DateTime, ScriptTM>  Scripts { get; set; } 
 
         /// <summary>
         /// 用来表示发送的时间的

@@ -30,7 +30,7 @@ namespace CLAS
                 //如果是管理员，则直接运行
 
                 Application.EnableVisualStyles();
-                Application.Run(new MainForm());
+                Application.Run(new Login());
             }
             else
             {

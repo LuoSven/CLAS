@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@using CLAS.Model.Entities;
+@using CLAS.Model.DTOs;
+@using CLAS.Common;
+@using EM;
+@{
+    var StatusMessage = Enum.ToObject(ExpenseAccountApproveStatus.FailApproved.GetType(), Model.ApproveStatus).GetEnumDescription() + " " + (string.IsNullOrEmpty(Model.RefusedMessage) ? "" : ":" + Model.RefusedMessage);
+    StatusMessage += Model.IsPublic.HasValue && Model.IsPublic.Value ? "(对公)" : "(对私)";
+    StatusMessage += Model.IsNotAccount.HasValue && Model.IsNotAccount.Value ? "(不计入费用)" : "(已计入费用)";
+}
+@model CL_ExpenseAccount
+<form class="basic-grey">
+    <h1>
+        查看报销单
+        <button class="btn btn-info btn fr" data-name="确认报销单" data-url="expenseaccount/approveindex" data-role="returnBtn" >返回列表</button>
+        <span></span>
+    </h1>
+    @Html.HiddenFor(o => o.Id)
+    <label>
+        <span>当前状态 :</span>
+        <span class="view">@StatusMessage</span>
+     </label>
+    <label>
+        <span>报销单号 :</span>
+        <span class="view">@Model.EANumber</span>
+    </label>
+    <label>
+        <span>申请日期 :</span>
+        <span class="view">@Model.ApplyDate.ToShortDateString()</span>
+    </label>
+    <label>
+        <span>报销人 :</span>
+        <span class="view">@Model.Name</span>
+    </label>
+
+    <label>
+        <span>总金额 :</span>
+        <span class="view">@Model.SumMoney</span>
+    </label>
+    @Html.Partial("_ApproveBodyList")
+    <label data-commond="updataapprovestatus">
+        <span>确认报销单</span>
+        <select id="ApproveStatus">
+            <option value="4">通过</option>
+            <option value="4">通过:超支,扣减下季度费用</option>
+            <option value="3">不通过:额度不足</option>
+            <option value="3">不通过:按沟通要求重新选定费用类别</option>
+        </select>
+
+        <button type="button" style="margin-top: -5px;" onclick="UploadApproveStatus()" class="btn btn-success ">
+            确认
+        </button>
+    </label>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+</form>
+@Html.Partial("_UploadField")
+<div id="DetailUpdate">
+
+</div>
+<div id="bodyContent">
+
+</div>
+@section Js
+{
+    <script src="~/Js/Program/ExpenseAccount.js"></script>}

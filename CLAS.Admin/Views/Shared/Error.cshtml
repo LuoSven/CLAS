@@ -1,18 +1,17 @@
-﻿@{
-    Layout = null;
-}
+﻿@model Exception
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width" />
-    <title>错误</title>
-</head>
-<body>
-    <hgroup>
-        <h1>错误。</h1>
-        <h2>处理你的请求时出错。</h2>
-    </hgroup>
-</body>
-</html>
+@{
+    ViewBag.Title = "错误";
+
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@section Js{
+<script>
+    $("#message").click(function () { $(this).next().toggle()})
+</script>
+
+    }
+<div id="message" class="size20">页面还在施工中。。。</div>
+<div style="">
+    @Html.DisplayForModel(Model)
+</div>

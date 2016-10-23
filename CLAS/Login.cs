@@ -25,18 +25,28 @@ namespace CLAS
 
         private void button1_Click(object sender, EventArgs e)
         {
-           var result= ActivationCodeManager.instance.CheckActivationCodeAndSave(textBox1.Text);
+           var result= ActivationCodeManager.instance.SendActivationCodeAndCheck(textBox1.Text);
 
            if (result)
            {
                var form = new MainForm();
                form.Show();
-               this.Hide();
+              Hide();
            }
            else
            {
                MessageBox.Show("验证码有误，请联系管理员");
            }
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Login_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            System.Environment.Exit(0);
         }
     }
 }

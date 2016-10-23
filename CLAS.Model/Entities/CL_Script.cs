@@ -21,5 +21,7 @@ namespace CLAS.Model.Entities
         public Nullable<System.DateTime> ModifyDate { get; set; }
         public string Modifer { get; set; }
         public string Description { get; set; }
+        public string ExecuteInstructions { get; set; }
+        public string CheckInstruction { get; set; }
     }
 }

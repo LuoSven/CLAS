@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 
 
-namespace EM.Utils
+namespace CLAS.Utils
 {
     public class HtmlUtil
     {

@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using CLAS.Model.VMs;
-using EM.Utils;
+using CLAS.Utils;
 
 namespace CASL.Bll
 {
@@ -26,21 +26,30 @@ namespace CASL.Bll
         private ActivationCodeManager() { }
         public static readonly ActivationCodeManager instance = new ActivationCodeManager();
 
+        #region 客户端函数
         /// <summary>
-        /// 验证激活码
+        /// 发送并且验证激活码
         /// </summary>
         /// <param name="activationCode"></param>
         /// <returns></returns>
-        public bool CheckActivationCodeAndSave(string activationCode)
-        {
-            activationCode = DESEncrypt.Encrypt(activationCode);
-            var result = RequestHelper.HttpGet(SiteUrl.GetApiUrl("command/check"), activationCode);
-            if (DESEncrypt.Decrypt(result) == "true")
+        public bool SendActivationCodeAndCheck(string activationCode)
+        { 
+            var loginVm = new ActivationVM()
             {
-                ActivationCodeManager.ActivationCode = activationCode;
+                ActivationCode = activationCode
+            };
+            var obStr = DESEncrypt.EncryptModel(loginVm);
+            var result = RequestHelper.HttpGet(SiteUrl.GetApiUrl("command/Login?s=" + obStr));
+            var isLogin = DESEncrypt.Decrypt(result.Replace("\"", "")); 
+            if ( isLogin== "true")
+            {
+                ActivationCode = activationCode;
                 return true;
             }
             return false;
         }
+        #endregion
+
+       
     }
 }

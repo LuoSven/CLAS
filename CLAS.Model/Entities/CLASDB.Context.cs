@@ -30,6 +30,9 @@ namespace CLAS.Model.Entities
         public virtual DbSet<CL_Script_Instruction> CL_Script_Instruction { get; set; }
         public virtual DbSet<CL_Tactics> CL_Tactics { get; set; }
         public virtual DbSet<CL_Tactics_Script> CL_Tactics_Script { get; set; }
+        public virtual DbSet<CL_Script_Execute_Record> CL_Script_Execute_Record { get; set; }
+        public virtual DbSet<CL_Bidder_Activite_Record> CL_Bidder_Activite_Record { get; set; }
+        public virtual DbSet<CL_System_Program> CL_System_Program { get; set; }
         public virtual DbSet<CL_User> CL_User { get; set; }
     }
 }

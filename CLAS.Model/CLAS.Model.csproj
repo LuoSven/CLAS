@@ -30,11 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -49,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DTOs\ScriptExecuteDTO.cs" />
     <Compile Include="Entities\CLASDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -67,10 +70,19 @@
     <Compile Include="Entities\CL_Bidder.cs">
       <DependentUpon>CLASDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\CL_Bidder_Activite_Record.cs">
+      <DependentUpon>CLASDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\CL_Script.cs">
       <DependentUpon>CLASDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entities\CL_Script_Execute_Record.cs">
+      <DependentUpon>CLASDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entities\CL_Script_Instruction.cs">
+      <DependentUpon>CLASDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\CL_System_Program.cs">
       <DependentUpon>CLASDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\CL_Tactics.cs">
@@ -83,13 +95,21 @@
       <DependentUpon>CLASDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Result\ScriptResult.cs" />
+    <Compile Include="Result\PositionResult.cs" />
+    <Compile Include="Result\InstructionResult.cs" />
+    <Compile Include="SMs\SystemUserSM.cs" />
     <Compile Include="TMs\ServerReponseTM.cs" />
     <Compile Include="TMs\CommandTM.cs" />
     <Compile Include="TMs\ClientRequestTM.cs" />
     <Compile Include="TMs\ScriptResultTM.cs" />
+    <Compile Include="VMs\AccountLoginVM.cs" />
+    <Compile Include="VMs\AccountVM.cs" />
+    <Compile Include="VMs\MenuVM.cs" />
     <Compile Include="VMs\ScriptExecuteRecordVM.cs" />
     <Compile Include="VMs\ScriptVM.cs" />
-    <Compile Include="VMs\TacticsVM.cs" />
+    <Compile Include="VMs\ActivationVM.cs" />
+    <Compile Include="TMs\TacticsTM.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CLAS.Common\CLAS.Common.csproj">
@@ -127,6 +147,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

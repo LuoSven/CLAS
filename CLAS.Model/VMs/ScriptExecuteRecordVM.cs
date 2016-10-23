@@ -27,6 +27,10 @@ namespace CLAS.Model.VMs
          /// 脚本执行结束时间
          /// </summary>
          public DateTime ActualExecutionEndTime { get; set; }
+         /// <summary>
+         /// 脚本执行时间，毫秒
+         /// </summary>
+         public int ExecuteMSec { get; set; }
 
          /// <summary>
          /// 脚本执行信息

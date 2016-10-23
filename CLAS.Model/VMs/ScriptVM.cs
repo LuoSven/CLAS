@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CLAS.Model.VMs
+namespace CLAS.Model.TMs
 {
     /// <summary>
     /// 脚本，由指令组成，由策略调用
     /// </summary>
-     public  class ScriptVM
+     public  class ScriptTM
     {
         /// <summary>
         /// 脚本Id
@@ -17,14 +17,9 @@ namespace CLAS.Model.VMs
         public int Id { get; set; }
 
         /// <summary>
-        /// 脚本名称
-        /// </summary>
-        public int ScritpName { get; set; }
-
-        /// <summary>
         /// 执行指令
         /// </summary>
-        public List<string> ExecuteInstructions { get; set; }
+        public string ExecuteExpressions { get; set; }
 
 
         /// <summary>

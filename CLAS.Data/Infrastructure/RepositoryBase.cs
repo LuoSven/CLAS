@@ -35,12 +35,15 @@ namespace CLAS.Data.Infrastructure
         public virtual void Add(T entity)
         {
             dbset.Add(entity);
-          
+            dataContext.SaveChanges();
+
         }
         //新增方法
         public virtual void AddAll(IEnumerable<T> entities)
         {
             dbset.AddRange(entities);
+            dataContext.SaveChanges();
+
         }
         public virtual void Update(T entity)
         {
@@ -54,12 +57,18 @@ namespace CLAS.Data.Infrastructure
             {
                 dbset.Attach(obj);
                 dataContext.Entry(obj).State = EntityState.Modified;
+                dataContext.SaveChanges();
+
             }
         }
+
+
 
         public virtual void Delete(T entity)
         {
             dbset.Remove(entity);
+            dataContext.SaveChanges();
+
         }
         public virtual void Delete(Expression<Func<T, bool>> where)
         {

@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace EM.Utils
+namespace CLAS.Utils
 {
     /// <summary>
     /// DES加密/解密类。
@@ -58,7 +58,7 @@ namespace EM.Utils
         /// <returns></returns>
         public static string EncryptModel(object model)
         {
-            var result = ObjectStrConvert.SerializeObject(model);
+            var result = ObjectStrConvert.SerializeObjectJson(model);
             result = DESEncrypt.Encrypt(result);
             return result;
         }
@@ -85,6 +85,7 @@ namespace EM.Utils
         /// <returns></returns> 
         public static string Decrypt(string Text, string sKey)
         {
+            Text = Text.Replace("\"", "");
             if (string.IsNullOrEmpty(Text))
                 return String.Empty;
             DESCryptoServiceProvider des = new DESCryptoServiceProvider();
@@ -111,10 +112,10 @@ namespace EM.Utils
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static object DecryptModel(string key)
+        public static T DecryptModel<T>(string key)
         {
             key = DESEncrypt.Decrypt(key);
-            var result = ObjectStrConvert.DeserializeObject(key);
+            var result = ObjectStrConvert.DeserializeObjectJson<T>(key);
             return result;
         }
 

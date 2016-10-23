@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CLASModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CLASModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CL_Bidder">
           <Key>
             <PropertyRef Name="Id" />
@@ -18,18 +18,50 @@
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="Modifier" Type="nvarchar" MaxLength="500" />
           <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="SystemInfo" Type="nvarchar" MaxLength="3000" />
+          <Property Name="TracticsId" Type="int" />
+          <Property Name="LastActiveDate" Type="datetime" />
+        </EntityType>
+        <!--生成过程中发现错误:
+警告 6002: 表/视图“CLAS.dbo.CL_Bidder_Activite_Record”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
+        <EntityType Name="CL_Bidder_Activite_Record">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="BidderId" />
+            <PropertyRef Name="LoginDate" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BidderId" Type="int" Nullable="false" />
+          <Property Name="LoginDate" Type="datetime" Nullable="false" />
+          <Property Name="SystemInfo" Type="nvarchar" MaxLength="3000" />
         </EntityType>
         <EntityType Name="CL_Script">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SciptName" Type="nvarchar" MaxLength="3000" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="Creater" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="ModifyDate" Type="datetime" />
           <Property Name="Modifer" Type="nvarchar" MaxLength="500" />
           <Property Name="Description" Type="nvarchar" MaxLength="3000" />
+          <Property Name="ExecuteInstructions" Type="nvarchar" MaxLength="3000" Nullable="false" />
+          <Property Name="CheckInstruction" Type="nvarchar" MaxLength="3000" />
+        </EntityType>
+        <EntityType Name="CL_Script_Execute_Record">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ScriptId" Type="int" Nullable="false" />
+          <Property Name="ExecuteTime" Type="datetime" Nullable="false" />
+          <Property Name="ActualExecutionStartTime" Type="datetime" Nullable="false" />
+          <Property Name="ActualExecutionEndTime" Type="datetime" Nullable="false" />
+          <Property Name="Message" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsSucceed" Type="bit" Nullable="false" />
+          <Property Name="BidderId" Type="int" Nullable="false" />
+          <Property Name="ExecuteMSec" Type="int" />
         </EntityType>
         <EntityType Name="CL_Script_Instruction">
           <Key>
@@ -43,6 +75,20 @@
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="Creater" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="CL_System_Program">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ControllerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ActionDescription" Type="nvarchar" MaxLength="500" />
+          <Property Name="ControllerDescription" Type="nvarchar" MaxLength="500" />
+          <Property Name="RightType" Type="int" Nullable="false" />
+          <Property Name="ParentAction" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ModifeTime" Type="datetime" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="CL_Tactics">
           <Key>
             <PropertyRef Name="Id" />
@@ -52,6 +98,10 @@
           <Property Name="Description" Type="nvarchar" MaxLength="3000" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="Creater" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="Modifier" Type="nvarchar" MaxLength="500" />
+          <Property Name="SyncStopTimeBegin" Type="datetime" />
+          <Property Name="SyncStopTimeStop" Type="datetime" />
         </EntityType>
         <EntityType Name="CL_Tactics_Script">
           <Key>
@@ -67,19 +117,28 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UseName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="500" Nullable="false" />
         </EntityType>
         <EntityContainer Name="CLASModelStoreContainer">
           <EntitySet Name="CL_Bidder" EntityType="Self.CL_Bidder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Script" EntityType="Self.CL_Script" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CL_Script_Execute_Record" EntityType="Self.CL_Script_Execute_Record" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Script_Instruction" EntityType="Self.CL_Script_Instruction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CL_System_Program" EntityType="Self.CL_System_Program" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Tactics" EntityType="Self.CL_Tactics" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Tactics_Script" EntityType="Self.CL_Tactics_Script" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_User" EntityType="Self.CL_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CL_Bidder_Activite_Record" EntityType="Self.CL_Bidder_Activite_Record" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CL_Bidder_Activite_Record].[Id] AS [Id], 
+    [CL_Bidder_Activite_Record].[BidderId] AS [BidderId], 
+    [CL_Bidder_Activite_Record].[LoginDate] AS [LoginDate], 
+    [CL_Bidder_Activite_Record].[SystemInfo] AS [SystemInfo]
+    FROM [dbo].[CL_Bidder_Activite_Record] AS [CL_Bidder_Activite_Record]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CLASModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -96,6 +155,9 @@
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Modifier" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="SystemInfo" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="TracticsId" Type="Int32" />
+          <Property Name="LastActiveDate" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="CL_Script">
           <Key>
@@ -108,6 +170,8 @@
           <Property Name="ModifyDate" Type="DateTime" Precision="3" />
           <Property Name="Modifer" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="ExecuteInstructions" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="CheckInstruction" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CL_Script_Instruction">
           <Key>
@@ -130,6 +194,10 @@
           <Property Name="Description" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Creater" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="Modifier" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SyncStopTimeBegin" Type="DateTime" Precision="3" />
+          <Property Name="SyncStopTimeStop" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="CL_Tactics_Script">
           <Key>
@@ -140,22 +208,64 @@
           <Property Name="ScriptId" Type="Int32" Nullable="false" />
           <Property Name="ExecuteTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
-        <EntityType Name="CL_User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UseName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
         <EntityContainer Name="CLASEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CL_Bidder" EntityType="Self.CL_Bidder" />
           <EntitySet Name="CL_Script" EntityType="Self.CL_Script" />
           <EntitySet Name="CL_Script_Instruction" EntityType="Self.CL_Script_Instruction" />
           <EntitySet Name="CL_Tactics" EntityType="Self.CL_Tactics" />
           <EntitySet Name="CL_Tactics_Script" EntityType="Self.CL_Tactics_Script" />
-          <EntitySet Name="CL_User" EntityType="Self.CL_User" />
+          <EntitySet Name="CL_Script_Execute_Record" EntityType="CLASModel.CL_Script_Execute_Record" />
+          <EntitySet Name="CL_Bidder_Activite_Record" EntityType="CLASModel.CL_Bidder_Activite_Record" />
+          <EntitySet Name="CL_System_Program" EntityType="CLASModel.CL_System_Program" />
+          <EntitySet Name="CL_User" EntityType="CLASModel.CL_User" />
         </EntityContainer>
+        <EntityType Name="CL_Script_Execute_Record">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ScriptId" Type="Int32" Nullable="false" />
+          <Property Name="ExecuteTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActualExecutionStartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ActualExecutionEndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IsSucceed" Type="Boolean" Nullable="false" />
+          <Property Name="BidderId" Type="Int32" Nullable="false" />
+          <Property Name="ExecuteMSec" Type="Int32" />
+        </EntityType>
+        <EntityType Name="CL_Bidder_Activite_Record">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="BidderId" />
+            <PropertyRef Name="LoginDate" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BidderId" Type="Int32" Nullable="false" />
+          <Property Name="LoginDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SystemInfo" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CL_System_Program">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ControllerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActionDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ControllerDescription" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RightType" Type="Int32" Nullable="false" />
+          <Property Name="ParentAction" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ModifeTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="CL_User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -165,6 +275,9 @@
           <EntitySetMapping Name="CL_Bidder">
             <EntityTypeMapping TypeName="CLASModel.CL_Bidder">
               <MappingFragment StoreEntitySet="CL_Bidder">
+                <ScalarProperty Name="LastActiveDate" ColumnName="LastActiveDate" />
+                <ScalarProperty Name="TracticsId" ColumnName="TracticsId" />
+                <ScalarProperty Name="SystemInfo" ColumnName="SystemInfo" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="OpenId" ColumnName="OpenId" />
@@ -180,6 +293,8 @@
           <EntitySetMapping Name="CL_Script">
             <EntityTypeMapping TypeName="CLASModel.CL_Script">
               <MappingFragment StoreEntitySet="CL_Script">
+                <ScalarProperty Name="CheckInstruction" ColumnName="CheckInstruction" />
+                <ScalarProperty Name="ExecuteInstructions" ColumnName="ExecuteInstructions" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="SciptName" ColumnName="SciptName" />
                 <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
@@ -206,6 +321,10 @@
           <EntitySetMapping Name="CL_Tactics">
             <EntityTypeMapping TypeName="CLASModel.CL_Tactics">
               <MappingFragment StoreEntitySet="CL_Tactics">
+                <ScalarProperty Name="SyncStopTimeStop" ColumnName="SyncStopTimeStop" />
+                <ScalarProperty Name="SyncStopTimeBegin" ColumnName="SyncStopTimeBegin" />
+                <ScalarProperty Name="Modifier" ColumnName="Modifier" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TacticsName" ColumnName="TacticsName" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
@@ -224,12 +343,52 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CL_Script_Execute_Record">
+            <EntityTypeMapping TypeName="CLASModel.CL_Script_Execute_Record">
+              <MappingFragment StoreEntitySet="CL_Script_Execute_Record">
+                <ScalarProperty Name="ExecuteMSec" ColumnName="ExecuteMSec" />
+                <ScalarProperty Name="BidderId" ColumnName="BidderId" />
+                <ScalarProperty Name="IsSucceed" ColumnName="IsSucceed" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="ActualExecutionEndTime" ColumnName="ActualExecutionEndTime" />
+                <ScalarProperty Name="ActualExecutionStartTime" ColumnName="ActualExecutionStartTime" />
+                <ScalarProperty Name="ExecuteTime" ColumnName="ExecuteTime" />
+                <ScalarProperty Name="ScriptId" ColumnName="ScriptId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CL_Bidder_Activite_Record">
+            <EntityTypeMapping TypeName="CLASModel.CL_Bidder_Activite_Record">
+              <MappingFragment StoreEntitySet="CL_Bidder_Activite_Record">
+                <ScalarProperty Name="SystemInfo" ColumnName="SystemInfo" />
+                <ScalarProperty Name="LoginDate" ColumnName="LoginDate" />
+                <ScalarProperty Name="BidderId" ColumnName="BidderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CL_System_Program">
+            <EntityTypeMapping TypeName="CLASModel.CL_System_Program">
+              <MappingFragment StoreEntitySet="CL_System_Program">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="ModifeTime" ColumnName="ModifeTime" />
+                <ScalarProperty Name="ParentAction" ColumnName="ParentAction" />
+                <ScalarProperty Name="RightType" ColumnName="RightType" />
+                <ScalarProperty Name="ControllerDescription" ColumnName="ControllerDescription" />
+                <ScalarProperty Name="ActionDescription" ColumnName="ActionDescription" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CL_User">
             <EntityTypeMapping TypeName="CLASModel.CL_User">
               <MappingFragment StoreEntitySet="CL_User">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UseName" ColumnName="UseName" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

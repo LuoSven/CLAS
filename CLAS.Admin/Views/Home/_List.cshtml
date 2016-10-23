@@ -1,0 +1,47 @@
+﻿@using CLAS.Model.VMs;
+@using CLAS.Data.Infrastructure;
+@using CLAS.Web.Core;
+@using CLAS.Common;
+@model PagedResult<CompanyCateLimitVM>
+@{
+    var Cates = (List<KeyValueVM>)ViewBag.Cates;
+}
+<table class="table table-hover">
+    <thead>
+        <tr class="">
+            <th class="w100  taR">公司</th>
+            @foreach (var Cate in Cates)
+            {
+                <th class="w100   taR">@Cate.Value</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="w100 taR"></td>
+            @foreach (var Cate in Cates)
+            {
+                <td class="w100 taR"></td>
+            }
+        </tr>
+        @foreach (var CCVM in Model.Results)
+        {
+            <tr data-id="@CCVM.CompanyId">
+                <td class="taR">@CCVM.CompanyName</td>
+                @foreach (var CCl in CCVM.CompanyCateLimits)
+                {
+                    var Redlass = CCl.TotalRest < 0 ? "cRed" : "";
+                    <td class="@Redlass taR pRel  ">
+                        <span class="curp" onmouseover="ShowRestDetail(this)" onclick="ShowRestDetailList(this,@(CCVM.CompanyId),@(CCl.CateId))" onmouseout="HiddenRestDetail(this)">@CCl.TotalRest.ToString().Replace(".00", "")</span>
+                        <div class="hidden adminCompanyLimit">
+                            <span>已使用：@CCl.TotalCost.ToString().Replace(".00", "")</span> <br>
+                            <span> 总额度：@CCl.TotalLimit.ToString().Replace(".00", "")</span>
+                        </div>
+                    </td>
+                }
+
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("_Pager", new PagerModel(Model.RowCount, Model.PageSize, Model.CurrentPage) { AjaxOptions = new PagerAjaxOptions() { HttpMethod = "Post", UpdateTargetId = "List", SearchFormId = "SearchForm" } })

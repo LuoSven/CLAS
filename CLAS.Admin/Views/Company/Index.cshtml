@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@using CLAS.Model.Entities
+@using CLAS.Common;
+@model List<CL_Company>
+@{
+}
+<div class="SearchForm">
+    <form id="SearchForm" >
+        <input type="text" placeholder="公司名称" name="Name" />
+        <button class="searchButton" type="submit">搜索</button>
+    </form>
+
+</div>
+
+<div id="List">
+    @Html.Partial("_List", Model)
+</div>

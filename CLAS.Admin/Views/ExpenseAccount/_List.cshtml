@@ -1,0 +1,99 @@
+﻿@using CLAS.Model.VMs;
+@using CLAS.Data.Infrastructure;
+@using CLAS.Web.Core;
+@using CLAS.Common;
+@model PagedResult<ExpenseAccountListVM>
+<table class="table table-hover">
+    <thead>
+        <tr>
+
+            <th class="w20 taL"><input id="selectAll" type="checkbox"></th>
+            <th class="w120">单号</th>
+            <th class="w70 taR">报销人</th>
+            <th class="w90 taR">公司名称</th>
+            <th class="taR w150">费用大类</th>
+            <th class="taR w450">事由说明</th>
+            <th class="taR w80">报销日期</th>
+            <th class="taR w100">金额</th>
+            <th class="taR w100">总金额</th>
+            <th class="w80 taR">申请日期</th>
+            <th class="w80 taR">更新日期</th>
+            <th class="taR w80">当前状态</th>
+            <th class="taR">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Results.Count == 0)
+        {
+            <tr><td colspan="13" class="size18 taC fL20">暂无数据</td></tr>
+        }
+        @foreach (var EA in Model.Results)
+        {
+            <tr data-id="@EA.Id" data-status="@EA.ApproveStatus">
+                <td class="w20 taL"><input type="checkbox" /></td>
+                <td>
+                    @if (EA.IsPublic.HasValue && EA.IsPublic.Value)
+                    {
+                        <span class="glyphicon glyphicon-flag cRed" aria-hidden="true"></span>
+                    }
+                    @if (EA.IsNotAccount.HasValue && EA.IsNotAccount.Value)
+                    {
+                        <span class="glyphicon glyphicon-remove-sign cRed" aria-hidden="true"></span>
+                    }
+                    @EA.EANumber
+                </td>
+                <td class="taR">
+                    @EA.Name
+                </td>
+                <td class="taR">
+                    @Html.Raw(string.Join("<br>", EA.List.Select(o => o.CompanyName)))
+                </td>
+                <td class="taR">
+                    @Html.Raw(string.Join("<br>", EA.List.Select(o => o.CateName)))
+                </td>
+                <td class="taR w80">
+                    @Html.Raw(string.Join("<br>", EA.List.Select(o => o.Remark)))
+                </td>
+                <td class="taR">
+                    @Html.Raw(string.Join("<br>", EA.List.Select(o => o.OccurDate.ToShortDateString())))
+                </td>
+                <td class="taR">
+                    @Html.Raw(string.Join("<br>", EA.List.Select(o => o.Money)))
+                </td>
+                <td class="taR">
+                    @(EA.List.Sum(o => o.Money))
+                </td>
+                <td class="taR">
+                    @EA.ApplyDate.ToShortDateString()
+                </td>
+                <td class="taR">
+                    @EA.ModifyDate
+                </td>
+                <td class="taR">
+                    @EA.ApproveStatusName
+                </td>
+                <td class="taR">
+
+                    @if (EA.Creater == ViewHelp.GetUserName() || ViewHelp.GetRoleType()==(int)RoleType.Admin)//只有自己录的或者管理员可以操作和查看明细
+                    {
+                        if (EA.ApproveStatus == (int)ExpenseAccountApproveStatus.Created || EA.ApproveStatus == (int)ExpenseAccountApproveStatus.FailApproved || ViewHelp.GetRoleType() == (int)RoleType.Admin)
+                        {
+
+                            <a data-commond="edit" onclick="Global.Form.NewIframe('编辑报销单','editexpenseaccount_@(EA.Id)','@Url.Action("Edit", new { id=EA.Id })')">编辑</a>
+
+                            <a data-commond="delete" onclick="Global.Form.Delete('@Url.Action("Delete", new {Id=EA.Id })',this,false)">删除</a>
+                            <a data-commond="sumbitexpenseaccount" onclick="Global.Form.Confirm('@Url.Action("SumbitExpenseAccount", new { Id = EA.Id })',this,false,'提交')">提交</a>
+                        }
+                        else if (EA.ApproveStatus == (int)ExpenseAccountApproveStatus.WaitingApprove || ViewHelp.GetRoleType() == (int)RoleType.Admin)
+                        {
+                            <a data-commond="cancelexpenseaccount" onclick="Global.Form.Confirm('@Url.Action("CancelExpenseAccount", new { Id = EA.Id})',this,false,'撤销')">撤销</a>
+                        }
+                    }
+                    <a data-commond="browse" @(ViewHelp.BindEAViewClick(EA.Id, EA.EANumber))>查看</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.Partial("_Pager", new PagerModel(Model.RowCount, Model.PageSize, Model.CurrentPage) { AjaxOptions = new PagerAjaxOptions() { HttpMethod = "Post", UpdateTargetId = "List", SearchFormId = "SearchForm" } })
+

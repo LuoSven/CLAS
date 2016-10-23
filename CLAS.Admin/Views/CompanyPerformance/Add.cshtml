@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@using CLAS.Model.Entities;
+@model CL_Company_Performance  
+<form method="post" data-role="form" data-url="" class="basic-grey" data-success="SuccessFunction">
+    <h1>
+        新增公司业绩
+        <span></span>
+    </h1>
+    @Html.HiddenFor(o => o.Id)
+    <label>
+        <span>录入日期 :</span>
+        @Html.TextBox("UploadDate", Model.UploadDate.ToShortDateString(), new { @class = "datepicker required" })
+    </label>
+    <label>
+        <span>公司 :</span>
+        @Html.DropDownListFor(o => o.CompanyId, (SelectList)ViewBag.CompanyList, "-请选择-", new { @class = "required" })
+    </label>
+    <label>
+        <span>业绩 :</span>
+        @Html.TextBoxFor(o => o.SalesPerformance, new { @class = "required" }) 万元
+    </label>
+    <label>
+        <span>&nbsp;</span>
+        <input type="submit" class="button" value="保存" />
+    </label>
+</form>
+@section Js
+{
+    <script >
+        var SuccessFunction = function () {
+            if (confirm("是否继续新增业绩？"))
+                location.href = location.href;
+            else {
+                Global.Form.NewIframe("业绩列表", "companyperformance_index", "companyperformance/index");
+                Global.Form.CloseIframe("companyperformance_add");
+            }
+            return false
+        }
+    </script>
+    }
