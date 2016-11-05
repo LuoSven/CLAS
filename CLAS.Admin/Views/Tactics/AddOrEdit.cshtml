@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@using CLAS.Model.Entities;
+@model CL_User   
+@{
+    var title = Model.Id == 0 ? "新增" : "编辑";
+    var action = Model.Id == 0 ? "Add" : "Edit"; 
+}
+<form action="@action" method="post" data-role="form" id="UserAccount" data-url="" class="basic-grey">
+    <h1>
+        @(title)用户
+        <span></span>
+    </h1>
+    @Html.HiddenFor(o => o.Id) 
+    <label>
+        <span>用户名 :</span>
+        @if (Model.Id == 0)
+        {
+
+            @Html.TextBoxFor(o => o.UserName, new { @placeholder = "登陆账号", @class = "required" })
+        }
+        else
+        {
+
+            @Html.TextBoxFor(o => o.UserName, new { @placeholder = "登陆账号", @class = "required",readOnly="readOnly" })
+        }
+        
+    </label>
+    <label>
+        <span>密码 :</span>
+        @Html.PasswordFor(o => o.Password, new { @class="required" })
+    </label>  
+    <label>
+        <span>&nbsp;</span>
+        <input type="submit" class="button"   value="保存" />
+    </label>
+</form>  

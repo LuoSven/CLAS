@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace CLAS.Model.DTOs
 {
-    public  class ScriptExecuteDTO
+    public class ScriptExecuteNameDTO
     {
 
         public int ScriptId { get; set; }
+
+        public string SciptName { get; set; }
+        public System.DateTime CreateDate { get; set; } 
+        public Nullable<System.DateTime> ModifyDate { get; set; }
         /// <summary>
         /// 执行时间
         /// </summary>

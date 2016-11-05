@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CLAS.Common;
 using CLAS.Data.Infrastructure;
 using CLAS.Model.Entities;
 using CLAS.Data.Dapper;
@@ -65,7 +66,11 @@ namespace CLAS.Data.Repositories
         public List<MenuVM> GetMenu()
         {
             var menuList = new List<MenuVM>();
-            var programList = DapperHelper.SqlQuery<CL_System_Program>(@"select a.ControllerName,a.ControllerDescription,a.ActionName,a.ActionDescription,a.Id from CL_System_Program a   ");
+            var programList = DapperHelper.SqlQuery<CL_System_Program>(@"select a.ControllerName,a.ControllerDescription,a.ActionName,a.ActionDescription,a.Id from CL_System_Program a where a.RightType=@RightType  ", new
+            {
+                RightType = (int)RightType.View
+                    
+            });
 
             var controls = programList.Select(o => new Tuple<string, string>(o.ControllerName, o.ControllerDescription)).Distinct();
             foreach (var Control in controls)

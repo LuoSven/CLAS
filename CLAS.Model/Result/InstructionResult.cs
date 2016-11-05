@@ -15,5 +15,9 @@ namespace CLAS.Model.Result
         public bool IsBreak { get; set; }
         public string Message { get; set; }
         public object Data { get; set; }
+        /// <summary>
+        /// 参数列表，回传用
+        /// </summary>
+        public Dictionary<string, object> Variables { get; set; }
     }
 }

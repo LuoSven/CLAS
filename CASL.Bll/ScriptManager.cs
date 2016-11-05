@@ -86,50 +86,53 @@ namespace CASL.Bll
         /// <param name="executeTime">executeTime</param>
         /// <param name="script">script</param>
         /// <param name="message">message</param>
-        public bool DoScript(DateTime executeTime, ScriptTM script,string message=null)
+        public bool DoScript(ScriptTM script,string message=null)
         {
             //同一时间只能执行一个脚本
             lock (log)
             {
-                //变量集合，碰到等于号左边就要存在这个里面，执行下条指令的时候要把参数带进去，参数的写法是一个@
-                var variables =new Dictionary<string, object>();
-                //带入公共变量
+                  //变量集合，碰到等于号左边就要存在这个里面，执行下条指令的时候要把参数带进去，参数的写法是一个@
+                    var variables = new Dictionary<string, object>();
+                    //带入公共变量
 
-                var scriptMessage =new List<string>();
+                    var scriptMessage = new List<string>();
 
-                //添加脚本记录，记录执行开始时间
-                var recordVm = new ScriptExecuteRecordVM()
-                {
-                    ScriptId = script.Id,
-                    ExecuteTime = executeTime,
-                    ActualExecutionStartTime = DateTime.Now
-                };
+                    //添加脚本记录，记录执行开始时间
+                    var recordVm = new ScriptExecuteRecordVM()
+                    {
+                        ScriptId = script.Id,
+                        ExecuteTime = DateTime.Now,
+                        ActualExecutionStartTime = DateTime.Now
+                    };
 
-                //执行表达式
-                scriptMessage.AddRange(ExecExpressions(variables, script.ExecuteExpressions));
+                    //执行表达式
+                    var expressionsResult = ExecExpressions(variables, script.ExecuteExpressions);
+                    scriptMessage.AddRange(expressionsResult.Logs);
 
- 
 
-                //记录执行结束时间
-                recordVm.ActualExecutionEndTime = DateTime.Now;
-                recordVm.ExecuteMSec =(recordVm.ActualExecutionEndTime - recordVm.ActualExecutionStartTime).Milliseconds;
-                CommandManager.instance.Log(string.Format("{0}执行完毕脚本{1}", DateTime.Now, script.Id));
-                if (!string.IsNullOrEmpty(script.CheckInstruction))
-                {
-                    //验证脚本
-                    var checkResult = InstructionManager.instance.DoInstruction(script.CheckInstruction);
-                    recordVm.IsSucceed = checkResult.IsSucceed;
+
+                    //记录执行结束时间
+                    recordVm.ActualExecutionEndTime = DateTime.Now;
+                    recordVm.ExecuteMSec = (recordVm.ActualExecutionEndTime - recordVm.ActualExecutionStartTime).Milliseconds;
+                    CommandManager.instance.Log(string.Format("{0}执行完毕脚本{1}", DateTime.Now, script.Id));
+                    if (!string.IsNullOrEmpty(script.CheckInstruction))
+                    {
+                        //验证脚本
+                        var checkResult = InstructionManager.instance.DoInstruction(script.CheckInstruction);
+                        recordVm.IsSucceed = checkResult.IsSucceed;
+
+                        CommandManager.instance.Log(string.Format("{0}脚本{1}执行{2}", DateTime.Now, script.Id,
+                            checkResult.IsSucceed ? "成功" : "失败"));
+                    }
+                    if (!string.IsNullOrEmpty(message))
+                    {
+                        scriptMessage.Insert(0, message);
+                    }
+                    recordVm.Message = string.Join(",", scriptMessage);
+                    //记录脚本执行情况
+                    ScriptExecuteRecords.Add(recordVm);
              
-                    CommandManager.instance.Log(string.Format("{0}脚本{1}执行{2}", DateTime.Now, script.Id,
-                        checkResult.IsSucceed ? "成功" : "失败"));
-                }
-                if (!string.IsNullOrEmpty(message))
-                {
-                    scriptMessage.Insert(0,message);
-                }
-                recordVm.Message = string.Join(",", scriptMessage);
-                //记录脚本执行情况
-                ScriptExecuteRecords.Add(recordVm);
+               
             }
 
 
@@ -179,42 +182,34 @@ namespace CASL.Bll
             //表达式
             var expression = equals[1];
             var values = new Dictionary<string, object>();
-            if (expression.Contains(":"))
-            {//函数
-                if (expression.Split(':')[0].IsInt())
+            if (!string.IsNullOrEmpty(InstructionManager.instance.IsContainsInstruction(expression)))
+            {//函数 
+                var functionResult = ExecInstruction(variables, expression);
+                if (functionResult.IsSucceed)
                 {
-                    var functionResult = ExecInstruction(variables, expression);
-                    if (functionResult.IsSucceed)
-                    {
-                        //遍历对象的属性，变成x.x这种形式
-                        values = TransObjects(equalLeft, functionResult.Data);
-                    }
+                    //遍历对象的属性，变成x.x这种形式
+                    values = TransObjects(equalLeft, functionResult.Data);
                 }
 
             }
+            else if (expression.Contains("+") || expression.Contains("-"))
+            { //加减乘除,仅支持变量
+                expression = InputVariable(variables, expression);
+                DataTable dt = new DataTable();
+                values = new Dictionary<string, object>() { { equalLeft, dt.Compute(expression, "false").ToString() } };
+            }
+            else if (expression.IndexOf("@") == 0)
+            { //变量赋值
+
+                var keyName = expression.Replace("@", "");
+                values = new Dictionary<string, object>() { { equalLeft, variables.ContainsKey(keyName) ? variables[keyName] : "" } };
+
+            }
             else
-                //加减乘除,仅支持变量
-                if (expression.Contains("+") || expression.Contains("-") || expression.Contains("*") || expression.Contains("/"))
-                {
-                    expression = InputVariable(variables, expression);
-                    DataTable dt = new DataTable();
-                    values = new Dictionary<string, object>() { { equalLeft, dt.Compute(expression, "false").ToString() } };
-                }
-                else if (expression.IndexOf("@") == 0)
-                { //变量赋值
+            {//数值赋值
 
-                    var keyName = expression.Replace("@", "");
-                    values = new Dictionary<string, object>() { { equalLeft, variables.ContainsKey(keyName) ? variables[keyName] : "" } };
-
-                }
-                else
-                {//数值赋值
-                    if (expression.Split(':')[0].IsInt())
-                    {
-
-                        values = new Dictionary<string, object>() { { equalLeft, expression } };
-                    }
-                }
+                values = new Dictionary<string, object>() { { equalLeft, expression } };
+            }
 
             foreach (var item in values)
             {
@@ -249,11 +244,13 @@ namespace CASL.Bll
 
         private ScriptResult ExecExpressions(Dictionary<string, object> variables, string expressions)
         {
-            var scriptResult = new ScriptResult() {Logs = new List<string>()}; 
+            var scriptResult = new ScriptResult() {Logs = new List<string>()};
+            expressions = expressions.Replace("\r\n", "").Replace("\n", "");
             //执行表达式
             foreach (var expression in expressions.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries).ToList())
-            {
+            { 
                 var result = ExecExpression(variables, expression);
+                variables = result.Variables;
                 scriptResult.Logs.Add((result.IsSucceed ? "成功" : "失败") + ":" + expression);
                 if (result.IsBreak)
                 {
@@ -273,8 +270,7 @@ namespace CASL.Bll
         /// <returns></returns>
         private InstruqctionResult ExecExpression(Dictionary<string, object> variables, string expression)
         {
-
-            var result = new InstruqctionResult(){IsSucceed = true};
+            var result = new InstruqctionResult() { IsSucceed = true,Variables=variables }; 
             if (expression == "break")
             {
                 result.IsBreak = false;
@@ -289,7 +285,7 @@ namespace CASL.Bll
                 while (!isFinish)
                 {
                     var boolResult = ExecBoolInstruction(variables, whileCondition);
-                    if (!boolResult)
+                    if (boolResult)
                     {
                         //如果条件成功,就执行while里面的内容
                         var whileExpression = expression.SplitByBraces();
@@ -320,7 +316,7 @@ namespace CASL.Bll
             else if (expression.Contains("=") && expression.Split('=').Length == 2)
             {
                 //赋值操作
-                variables = SetVariable(variables, expression);
+                result.Variables = SetVariable(variables, expression);
             }
             else
             {
@@ -342,6 +338,7 @@ namespace CASL.Bll
             instruction = InputVariable(variables, instruction);
             //执行脚本
             var result = InstructionManager.instance.DoInstruction(instruction);
+            result.Variables = variables;
             return result;
         }
 
@@ -351,7 +348,7 @@ namespace CASL.Bll
         /// <param name="variables"></param>
         /// <param name="instruction"></param>
         /// <returns></returns>
-        private bool ExecBoolInstruction(Dictionary<string, object> variables, string instruction)
+        public bool ExecBoolInstruction(Dictionary<string, object> variables, string instruction)
         {
             //生成while(1==1&&1==1)括号里面内容的判断式
             var jsExpress = InputVariable(variables, instruction, true);
@@ -364,10 +361,11 @@ namespace CASL.Bll
         /// 获取公共变量
         /// </summary>
         /// <returns></returns>
-        private Dictionary<string, object> GetPublicVariable()
+        public Dictionary<string, object> GetPublicVariable()
         {
             var variables = new Dictionary<string, object>();
             variables.SetIfEmtpy("keyDownCount", CommandManager.Keyloggers.Count);
+            variables.SetIfEmtpy("price", CommandManager.Price);
             return variables;
         }
         #endregion

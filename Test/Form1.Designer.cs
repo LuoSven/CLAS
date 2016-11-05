@@ -30,6 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.SyncMessage = new System.Windows.Forms.TextBox();
+            this.ExecuteConditionText = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.AddedSecond = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.MillSecond = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ScriptExecTime = new System.Windows.Forms.DateTimePicker();
             this.CountDownText = new System.Windows.Forms.Label();
             this.ExcuteScript = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -39,13 +48,6 @@
             this.RefreshRecord = new System.Windows.Forms.Button();
             this.RecordInfo = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.ScriptExecTime = new System.Windows.Forms.DateTimePicker();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.MillSecond = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.AddedSecond = new System.Windows.Forms.TextBox();
             this.tabPage1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -53,9 +55,11 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.SyncMessage);
+            this.tabPage1.Controls.Add(this.ExecuteConditionText);
+            this.tabPage1.Controls.Add(this.label5);
             this.tabPage1.Controls.Add(this.AddedSecond);
             this.tabPage1.Controls.Add(this.button1);
-            this.tabPage1.Controls.Add(this.label4);
             this.tabPage1.Controls.Add(this.MillSecond);
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.label2);
@@ -67,26 +71,113 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(623, 361);
+            this.tabPage1.Size = new System.Drawing.Size(215, 336);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "测试脚本";
             this.tabPage1.UseVisualStyleBackColor = true;
             this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
+            // SyncMessage
+            // 
+            this.SyncMessage.Location = new System.Drawing.Point(43, 240);
+            this.SyncMessage.Multiline = true;
+            this.SyncMessage.Name = "SyncMessage";
+            this.SyncMessage.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.SyncMessage.Size = new System.Drawing.Size(162, 90);
+            this.SyncMessage.TabIndex = 14;
+            // 
+            // ExecuteConditionText
+            // 
+            this.ExecuteConditionText.Location = new System.Drawing.Point(43, 63);
+            this.ExecuteConditionText.Name = "ExecuteConditionText";
+            this.ExecuteConditionText.Size = new System.Drawing.Size(162, 21);
+            this.ExecuteConditionText.TabIndex = 13;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("宋体", 9F);
+            this.label5.Location = new System.Drawing.Point(7, 66);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 12);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "条件:";
+            // 
+            // AddedSecond
+            // 
+            this.AddedSecond.Font = new System.Drawing.Font("宋体", 12F);
+            this.AddedSecond.Location = new System.Drawing.Point(43, 36);
+            this.AddedSecond.Multiline = true;
+            this.AddedSecond.Name = "AddedSecond";
+            this.AddedSecond.Size = new System.Drawing.Size(33, 21);
+            this.AddedSecond.TabIndex = 11;
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("宋体", 9F);
+            this.button1.Location = new System.Drawing.Point(82, 35);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(61, 22);
+            this.button1.TabIndex = 10;
+            this.button1.Text = "添加时间";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // MillSecond
+            // 
+            this.MillSecond.Font = new System.Drawing.Font("宋体", 9F);
+            this.MillSecond.Location = new System.Drawing.Point(176, 8);
+            this.MillSecond.Multiline = true;
+            this.MillSecond.Name = "MillSecond";
+            this.MillSecond.Size = new System.Drawing.Size(29, 21);
+            this.MillSecond.TabIndex = 8;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("宋体", 9F);
+            this.label3.Location = new System.Drawing.Point(7, 90);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(35, 12);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "脚本:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("宋体", 9F);
+            this.label2.Location = new System.Drawing.Point(7, 13);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 12);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "时间:";
+            // 
+            // ScriptExecTime
+            // 
+            this.ScriptExecTime.Font = new System.Drawing.Font("宋体", 9F);
+            this.ScriptExecTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.ScriptExecTime.Location = new System.Drawing.Point(43, 8);
+            this.ScriptExecTime.MaxDate = new System.DateTime(2020, 12, 1, 0, 0, 0, 0);
+            this.ScriptExecTime.MinDate = new System.DateTime(2016, 1, 1, 0, 0, 0, 0);
+            this.ScriptExecTime.Name = "ScriptExecTime";
+            this.ScriptExecTime.Size = new System.Drawing.Size(127, 21);
+            this.ScriptExecTime.TabIndex = 5;
+            this.ScriptExecTime.Value = new System.DateTime(2016, 10, 23, 0, 0, 0, 0);
+            // 
             // CountDownText
             // 
             this.CountDownText.AutoSize = true;
-            this.CountDownText.Location = new System.Drawing.Point(7, 260);
+            this.CountDownText.Location = new System.Drawing.Point(7, 240);
             this.CountDownText.Name = "CountDownText";
             this.CountDownText.Size = new System.Drawing.Size(0, 12);
             this.CountDownText.TabIndex = 3;
             // 
             // ExcuteScript
             // 
-            this.ExcuteScript.Font = new System.Drawing.Font("宋体", 12F);
-            this.ExcuteScript.Location = new System.Drawing.Point(517, 322);
+            this.ExcuteScript.Font = new System.Drawing.Font("宋体", 9F);
+            this.ExcuteScript.Location = new System.Drawing.Point(43, 210);
             this.ExcuteScript.Name = "ExcuteScript";
-            this.ExcuteScript.Size = new System.Drawing.Size(100, 36);
+            this.ExcuteScript.Size = new System.Drawing.Size(71, 24);
             this.ExcuteScript.TabIndex = 2;
             this.ExcuteScript.Text = "执行脚本";
             this.ExcuteScript.UseVisualStyleBackColor = true;
@@ -103,10 +194,11 @@
             // 
             // ScriptToExcute
             // 
-            this.ScriptToExcute.Location = new System.Drawing.Point(89, 64);
+            this.ScriptToExcute.Location = new System.Drawing.Point(43, 90);
             this.ScriptToExcute.Multiline = true;
             this.ScriptToExcute.Name = "ScriptToExcute";
-            this.ScriptToExcute.Size = new System.Drawing.Size(526, 252);
+            this.ScriptToExcute.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.ScriptToExcute.Size = new System.Drawing.Size(162, 115);
             this.ScriptToExcute.TabIndex = 1;
             // 
             // tabControl1
@@ -117,7 +209,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(631, 387);
+            this.tabControl1.Size = new System.Drawing.Size(223, 362);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage2
@@ -126,14 +218,14 @@
             this.tabPage2.Controls.Add(this.RecordInfo);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(277, 285);
+            this.tabPage2.Size = new System.Drawing.Size(215, 336);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "脚本执行结果";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // RefreshRecord
             // 
-            this.RefreshRecord.Location = new System.Drawing.Point(218, 261);
+            this.RefreshRecord.Location = new System.Drawing.Point(3, 311);
             this.RefreshRecord.Name = "RefreshRecord";
             this.RefreshRecord.Size = new System.Drawing.Size(47, 21);
             this.RefreshRecord.TabIndex = 1;
@@ -146,7 +238,7 @@
             this.RecordInfo.Location = new System.Drawing.Point(3, 3);
             this.RecordInfo.Multiline = true;
             this.RecordInfo.Name = "RecordInfo";
-            this.RecordInfo.Size = new System.Drawing.Size(271, 252);
+            this.RecordInfo.Size = new System.Drawing.Size(209, 305);
             this.RecordInfo.TabIndex = 0;
             // 
             // timer1
@@ -154,86 +246,19 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // ScriptExecTime
-            // 
-            this.ScriptExecTime.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.ScriptExecTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.ScriptExecTime.Location = new System.Drawing.Point(89, 28);
-            this.ScriptExecTime.MaxDate = new System.DateTime(2020, 12, 1, 0, 0, 0, 0);
-            this.ScriptExecTime.MinDate = new System.DateTime(2016, 1, 1, 0, 0, 0, 0);
-            this.ScriptExecTime.Name = "ScriptExecTime";
-            this.ScriptExecTime.Size = new System.Drawing.Size(188, 26);
-            this.ScriptExecTime.TabIndex = 5;
-            this.ScriptExecTime.Value = new System.DateTime(2016, 10, 23, 0, 0, 0, 0);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("宋体", 12F);
-            this.label2.Location = new System.Drawing.Point(7, 33);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 16);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "执行时间:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("宋体", 12F);
-            this.label3.Location = new System.Drawing.Point(7, 67);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 16);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "脚本内容:";
-            // 
-            // MillSecond
-            // 
-            this.MillSecond.Font = new System.Drawing.Font("宋体", 12F);
-            this.MillSecond.Location = new System.Drawing.Point(283, 28);
-            this.MillSecond.Multiline = true;
-            this.MillSecond.Name = "MillSecond";
-            this.MillSecond.Size = new System.Drawing.Size(74, 26);
-            this.MillSecond.TabIndex = 8;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("宋体", 12F);
-            this.label4.Location = new System.Drawing.Point(363, 33);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(40, 16);
-            this.label4.TabIndex = 9;
-            this.label4.Text = "毫秒";
-            // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("宋体", 9F);
-            this.button1.Location = new System.Drawing.Point(517, 28);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(90, 26);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "添加时间";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // AddedSecond
-            // 
-            this.AddedSecond.Font = new System.Drawing.Font("宋体", 12F);
-            this.AddedSecond.Location = new System.Drawing.Point(437, 28);
-            this.AddedSecond.Multiline = true;
-            this.AddedSecond.Name = "AddedSecond";
-            this.AddedSecond.Size = new System.Drawing.Size(74, 26);
-            this.AddedSecond.TabIndex = 11;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(631, 387);
+            this.ClientSize = new System.Drawing.Size(223, 362);
             this.Controls.Add(this.tabControl1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
+            this.ShowInTaskbar = false;
             this.Text = "测试";
             this.TopMost = true;
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -258,10 +283,12 @@
         private System.Windows.Forms.DateTimePicker ScriptExecTime;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox MillSecond;
         private System.Windows.Forms.TextBox AddedSecond;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox ExecuteConditionText;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox SyncMessage;
 
     }
 }

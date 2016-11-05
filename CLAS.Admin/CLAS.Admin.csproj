@@ -138,6 +138,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SystemUserController.cs" />
+    <Compile Include="Controllers\TacticsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -291,6 +292,7 @@
     <Content Include="Css\Third\dtree\img\plusbottom.gif" />
     <Content Include="Css\Third\dtree\img\question.gif" />
     <Content Include="Css\Third\dtree\img\trash.gif" />
+    <Content Include="Css\Third\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Css\Third\bootstrap\bootstrap-theme.css.map" />
@@ -325,9 +327,15 @@
     <Content Include="Dowload\Excel\20160318\20160318010837.xls" />
     <Content Include="Dowload\Excel\20160320\20160320210601.xls" />
     <Content Include="Dowload\Excel\20160320\20160320210751.xls" />
+    <Content Include="Js\jquery-1.9.1.js" />
+    <Content Include="Js\jquery-1.9.1.min.js" />
     <Content Include="Js\Third\layer-v2.0\doc\jquery下载.url" />
     <Content Include="Js\Third\layer-v2.0\doc\layer交流.url" />
     <Content Include="Js\Third\layer-v2.0\doc\layer官网.url" />
+    <Content Include="Css\Third\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Css\Third\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Css\Third\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
@@ -520,6 +528,11 @@
     <Content Include="Views\UserRole\Index.cshtml" />
     <Content Include="Views\UserRole\_CompanyList.cshtml" />
     <Content Include="Views\UserRole\_List.cshtml" />
+    <Content Include="Views\Tactics\Index.cshtml" />
+    <Content Include="Views\Tactics\_List.cshtml" />
+    <Content Include="Views\Tactics\AddOrEdit.cshtml" />
+    <Content Include="Views\Shared\_CommonJs.cshtml" />
+    <Content Include="Views\Shared\_CommonCss.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

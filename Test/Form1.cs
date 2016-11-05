@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Deployment;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,26 +18,28 @@ namespace Test
     public partial class Form1 : BaseForm
     {
 
+        private Hocy_Hook hook_Main = new Hocy_Hook();
         public Form1()
         {
             InitializeComponent();
             InstructionManager.instance.Init(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height,this);
             MouseEventHelper.Init(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-            ScriptExecTime.CustomFormat = "yyyy/MM/dd HH:mm:ss.fff ";
+            ScriptExecTime.CustomFormat = "HH:mm:ss.fff ";
+              
         }
 
         private void tabPage1_Click(object sender, EventArgs e)
-        {
-
+        { 
         }
+ 
+   
 
         private void ExcuteScript_Click(object sender, EventArgs e)
         {
-            var instructions =ScriptToExcute.Text.Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries).ToList();
-            var time = ScriptExecTime.Value;
-            CommandManager.Tactics=new TacticsTM()
+            CommandManager.Keyloggers = new List<int>();
+            CommandManager.Tactics = new TacticsTM()
             {
-                Scripts = new Dictionary<DateTime, ScriptTM>() {{ ScriptExecTime.Value,new ScriptTM() { ExecuteExpressions = instructions }} }
+                Scripts = new List<ScriptExecuteTM>() { new ScriptExecuteTM() { ExecuteTime = ScriptExecTime.Value, ExecuteCondition = ExecuteConditionText.Text, Script = new ScriptTM() { ExecuteExpressions = ScriptToExcute.Text } } }
             }; 
              
         }
@@ -52,6 +55,10 @@ namespace Test
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
+
+            var message = CommandManager.LogReord;
+            if (!string.IsNullOrEmpty(message))
+                SyncMessage.AppendText(message);
             if (CountDownDate >= DateTime.Now)
             {
                 var span = CountDownDate - DateTime.Now;
@@ -78,5 +85,17 @@ namespace Test
         {
             ScriptExecTime.Value = DateTime.Now.AddSeconds(AddedSecond.Text.ToInt());
         }
+
+        private void Form1_Load(object sender, EventArgs e)
+        { 
+            //定时执行策略中的脚本
+            CommandManager.instance.BeginTest();
+
+
+            var result = hook_Main.InstallHook("1");
+            CommandManager.instance.Log("hook注册" + (result ? "成功" : "失败"));
+            this.hook_Main.OnKeyPress += new KeyPressEventHandler(CommandManager.instance.KeyPressWatch); 
+        }
+         
     }
 }

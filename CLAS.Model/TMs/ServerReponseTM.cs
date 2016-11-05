@@ -24,7 +24,7 @@ namespace CLAS.Model.TMs
         /// <summary>
         /// 要同步的脚本
         /// </summary>
-        public Dictionary<DateTime, ScriptTM>  Scripts { get; set; } 
+        public List<ScriptExecuteTM> Scripts { get; set; } 
 
         /// <summary>
         /// 用来表示发送的时间的

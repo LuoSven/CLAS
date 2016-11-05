@@ -21,9 +21,12 @@ namespace CLAS.Web.Controllers
             var memuList = systemProgromRepo.GetMenu(); 
             return View(memuList);
         }
-         
-         
- 
+
+
+        public ActionResult  WelCome()
+        { 
+            return View();
+        }
          
 
     }

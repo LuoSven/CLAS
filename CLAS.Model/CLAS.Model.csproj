@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="DTOs\ScriptExecuteNameDTO.cs" />
     <Compile Include="DTOs\ScriptExecuteDTO.cs" />
     <Compile Include="Entities\CLASDB.Context.cs">
       <AutoGen>True</AutoGen>
@@ -98,7 +99,9 @@
     <Compile Include="Result\ScriptResult.cs" />
     <Compile Include="Result\PositionResult.cs" />
     <Compile Include="Result\InstructionResult.cs" />
+    <Compile Include="SMs\TacticsSM.cs" />
     <Compile Include="SMs\SystemUserSM.cs" />
+    <Compile Include="TMs\ScriptVM.cs" />
     <Compile Include="TMs\ServerReponseTM.cs" />
     <Compile Include="TMs\CommandTM.cs" />
     <Compile Include="TMs\ClientRequestTM.cs" />
@@ -107,9 +110,12 @@
     <Compile Include="VMs\AccountVM.cs" />
     <Compile Include="VMs\MenuVM.cs" />
     <Compile Include="VMs\ScriptExecuteRecordVM.cs" />
+    <Compile Include="TMs\ScriptExecuteTM.cs" />
+    <Compile Include="VMs\ScriptExecuteVM.cs" />
     <Compile Include="VMs\ScriptVM.cs" />
     <Compile Include="VMs\ActivationVM.cs" />
     <Compile Include="TMs\TacticsTM.cs" />
+    <Compile Include="VMs\TacticsVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CLAS.Common\CLAS.Common.csproj">

@@ -20,8 +20,8 @@ namespace CASL.Bll
     /// </summary>
     public class SynchronizeManager
     {         
-        public static readonly object log=new object();  
-
+        public static readonly object log=new object();
+        public static Thread communication;
         private SynchronizeManager() { }
         public static readonly SynchronizeManager instance = new SynchronizeManager();
         /// <summary>
@@ -44,7 +44,7 @@ namespace CASL.Bll
         public void Synchronize()
         {
 
-            var communication = new Thread(() =>
+            communication = new Thread(() =>
             {
                 while (true)
                 {
@@ -155,7 +155,16 @@ namespace CASL.Bll
                     {
                         foreach (var script in tm.Scripts)
                         {
-                            CommandManager.Tactics.Scripts.SetIfEmtpy(script.Key, script.Value);
+                            var scriptTemp = CommandManager.Tactics.Scripts.Where(o => o.ExecuteTime==script.ExecuteTime&&o.ExecuteCondition==script.ExecuteCondition).FirstOrDefault();
+                            if (scriptTemp == null)
+                            {
+
+                                CommandManager.Tactics.Scripts.Add(script);
+                            }
+                            else
+                            {
+                                scriptTemp.Script = script.Script;
+                            }
                         }
                     }
 

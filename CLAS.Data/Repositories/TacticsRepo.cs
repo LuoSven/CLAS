@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using CLAS.Common;
@@ -9,6 +10,7 @@ using CLAS.Model.Entities;
 using CLAS.Data.Dapper;
 using CLAS.Model;
 using CLAS.Model.DTOs;
+using CLAS.Model.SMs;
 using CLAS.Model.TMs;
 using CLAS.Model.VMs;
 
@@ -47,15 +49,40 @@ where b.ActivationCode=@activationCode";
                 return null;
             }
             //获取脚本
-            var scripts = DapperHelper.SqlQuery<ScriptExecuteDTO>(@"select a.ScriptId ,a.ExecuteTime, b.CheckInstruction, b.ExecuteInstructions from  CL_Tactics_Script a
+            var scripts = DapperHelper.SqlQuery<ScriptExecuteDTO>(@"select a.ScriptId ,a.ExecuteTime, b.CheckInstruction, b.ExecuteInstructions,a.ExecuteCondition from  CL_Tactics_Script a
 join CL_Script b on a.ScriptId=b.Id
 where a.TacticsId=@Id", tactics);
             foreach (var script in scripts)
             {
-                tactics.Scripts.SetIfEmtpy(script.ExecuteTime, new ScriptTM() {Id=script.ScriptId, CheckInstruction = script.CheckInstruction, ExecuteExpressions = script.ExecuteInstructions.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList() });
+                tactics.Scripts.Add(new ScriptExecuteTM(){ExecuteCondition = script.ExecuteCondition,ExecuteTime = script.ExecuteTime,Script = new ScriptTM() {Id=script.ScriptId, CheckInstruction = script.CheckInstruction, ExecuteExpressions = script.ExecuteInstructions }});
             }
             return tactics;
 
+        }
+
+        public List<TacticsVM> GetTacticsVms(TacticsSM sm)
+        {
+            var tacticsSql = @"select a.* from CL_Tactics a
+where 1=1";
+            if (!string.IsNullOrEmpty(sm.KeyWords))
+            {
+                tacticsSql += @" and( a.Description like '%'+@KeyWords+'%' or a.TacticsName like '%'+@KeyWords+'%'";
+            }
+            //获取策略
+            var tacticses = DapperHelper.SqlQuery<TacticsVM>(tacticsSql, new { sm }).ToList();
+            foreach (var tactics in tacticses)
+            {
+                //获取脚本
+                var scripts = DapperHelper.SqlQuery<ScriptExecuteNameDTO>(@"select b.id ,b.SciptName ,b.CreateDate ,b.ModifyDate ,a.ExecuteTime, b.CheckInstruction, b.ExecuteInstructions,a.ExecuteCondition from  CL_Tactics_Script a
+join CL_Script b on a.ScriptId=b.Id
+where a.TacticsId=@Id", tactics);
+                foreach (var script in scripts)
+                {
+                    tactics.Scripts.Add(new ScriptExecuteVM() { ExecuteCondition = script.ExecuteCondition, ExecuteTime = script.ExecuteTime, Script = new ScriptVM() { Id = script.ScriptId, SciptName = script.SciptName, CreateDate = script.CreateDate, ModifyDate = script.ModifyDate, CheckInstruction = script.CheckInstruction, ExecuteExpressions = script.ExecuteInstructions } });
+                }
+            }
+          
+            return tacticses;
         }
     }
     public interface ITacticsRepo : IRepository<CL_Tactics>
@@ -66,6 +93,12 @@ where a.TacticsId=@Id", tactics);
         /// <param name="activationCode"></param>
         /// <param name="updateTime"></param>
         /// <returns></returns>
-        TacticsTM GetTacticsByActivationCodeAndUpdateTime(string activationCode, DateTime? updateTime); 
+        TacticsTM GetTacticsByActivationCodeAndUpdateTime(string activationCode, DateTime? updateTime);
+        /// <summary>
+        /// 获取策略列表
+        /// </summary>
+        /// <param name="sm"></param>
+        /// <returns></returns>
+        List<TacticsVM> GetTacticsVms(TacticsSM sm);
     }
 }

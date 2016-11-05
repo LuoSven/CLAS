@@ -46,10 +46,8 @@ namespace CLAS.Web.Controllers
             {
                 var result = userAccountRepo.Login(model); 
 
-                if (string.IsNullOrEmpty(result.Message)||model.UserName=="sven")
+                if (string.IsNullOrEmpty(result.Message))
                 {
-                    result.UserId = 1;
-                    result.UserName = "sven";
                     var acconutCookieE = result.SetCookie();
                     CookieHelper.WriteCookie(StaticKey.CookieAccountKey, acconutCookieE, false);
                     return RedirectToAction("INDEX", "Home");
