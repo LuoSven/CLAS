@@ -15,7 +15,7 @@ namespace CLAS.Model.VMs
         /// 脚本Id
         /// </summary>
         public int Id { get; set; }
-        public string SciptName { get; set; }
+        public string ScriptName { get; set; }
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
 

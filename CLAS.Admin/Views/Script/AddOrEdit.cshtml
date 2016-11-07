@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@using CLAS.Model.Entities;
+@model CL_User   
+@{
+}
+<link rel="stylesheet" href="/Css/Programs/Tactics.css"/>
+<form id="form1"  >
+    <input type="hidden"  id="TacticsId" value="@ViewBag.Id" />
+    <div class="form">
+        <ul>
+            <li>
+                策略名称：<input name="TacticsName" v-model="TacticsName" />
+            </li>
+            <li>
+                描述：<input name="Description" v-model="Description" />
+            </li>
+            <li>
+                停止同步时间-开始：<input name="SyncStopTimeBeginName" v-model="SyncStopTimeBeginName" />
+            </li>
+            <li>
+                停止同步时间-结束：<input name="SyncStopTimeStopName" v-model="SyncStopTimeStopName" />
+            </li>
+            <li>
+                价格获取脚本：<select name="PriceScript"><option v-for="option in ScriptSelectItems" value="option.id">{{option.name}}</option></select>
+            </li>
+            <li>
+                <h4>脚本信息</h4>
+                <ul>
+                    <li>
+                        <div class="r1">名称</div>
+                        <div class="r2">触发时间</div>
+                        <div class="r3">触发条件</div>
+                        <div class="r4">脚本信息</div>
+                        <div class="r5">操作</div>
+                    </li>
+                    <li v-for="script in Scripts" >
+                        <div class="r1">{{script.Name}}</div>
+                        <div class="r2">{{script.ExecuteTimeName}}</div>
+                        <div class="r3">{{script.ExecuteCondition}}</div>
+                        <div class="r4">{{script.Script.SciptName}}</div>
+                        <div class="r5">
+                            <a v-on:click="editExecute(script)">编辑</a>
+                            <br><a v-on:click="deleteExecute(script)">删除</a>
+                        </div> 
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</form>  
+
+
+<script src="/Js/Program/Tactics.js"></script>

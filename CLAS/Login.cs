@@ -15,7 +15,7 @@ namespace CLAS
     {
         public Login()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -41,7 +41,7 @@ namespace CLAS
 
         private void Login_Load(object sender, EventArgs e)
         {
-
+            DownloadManager.instance.DownLoadDmDlls(DownloadManager.dmcDllPath);
         }
 
         private void Login_FormClosed(object sender, FormClosedEventArgs e)

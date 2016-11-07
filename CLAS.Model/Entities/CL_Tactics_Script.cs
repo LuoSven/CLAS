@@ -17,6 +17,7 @@ namespace CLAS.Model.Entities
         public int Id { get; set; }
         public int TacticsId { get; set; }
         public int ScriptId { get; set; }
-        public System.DateTime ExecuteTime { get; set; }
+        public Nullable<System.DateTime> ExecuteTime { get; set; }
+        public string ExecuteCondition { get; set; }
     }
 }

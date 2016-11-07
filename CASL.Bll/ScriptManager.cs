@@ -131,6 +131,9 @@ namespace CASL.Bll
                     recordVm.Message = string.Join(",", scriptMessage);
                     //记录脚本执行情况
                     ScriptExecuteRecords.Add(recordVm);
+
+                   //脚本执行结束后按钮信息要清空
+                   CommandManager.Keyloggers.Clear();
              
                
             }
@@ -365,6 +368,7 @@ namespace CASL.Bll
         {
             var variables = new Dictionary<string, object>();
             variables.SetIfEmtpy("keyDownCount", CommandManager.Keyloggers.Count);
+            variables.SetIfEmtpy("allDownCount", CommandManager.AllKeyloggers.Count);
             variables.SetIfEmtpy("price", CommandManager.Price);
             return variables;
         }

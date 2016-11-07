@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace CLAS.Model.SMs
 {
-    public class TacticsSM
+    public class ScriptSM
     {
         /// <summary>
         /// 名称，描述
         /// </summary>
         public string KeyWords { get; set; }
 
-
-        public int? Id { get; set; }
+         
 
 
     }

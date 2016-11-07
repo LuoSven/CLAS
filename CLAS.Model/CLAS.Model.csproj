@@ -43,6 +43,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="DTOs\ScriptExecuteNameDTO.cs" />
     <Compile Include="DTOs\ScriptExecuteDTO.cs" />
@@ -99,6 +103,7 @@
     <Compile Include="Result\ScriptResult.cs" />
     <Compile Include="Result\PositionResult.cs" />
     <Compile Include="Result\InstructionResult.cs" />
+    <Compile Include="SMs\ScriptSM.cs" />
     <Compile Include="SMs\TacticsSM.cs" />
     <Compile Include="SMs\SystemUserSM.cs" />
     <Compile Include="TMs\ScriptVM.cs" />
@@ -108,7 +113,9 @@
     <Compile Include="TMs\ScriptResultTM.cs" />
     <Compile Include="VMs\AccountLoginVM.cs" />
     <Compile Include="VMs\AccountVM.cs" />
+    <Compile Include="VMs\ListItem.cs" />
     <Compile Include="VMs\MenuVM.cs" />
+    <Compile Include="VMs\ScriptExecuteRecordDetailVM.cs" />
     <Compile Include="VMs\ScriptExecuteRecordVM.cs" />
     <Compile Include="TMs\ScriptExecuteTM.cs" />
     <Compile Include="VMs\ScriptExecuteVM.cs" />

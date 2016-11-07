@@ -11,6 +11,7 @@ using System.Threading;
 using CLAS.Model.VMs;
 using CLAS.Utils;
 using System.Diagnostics;
+using CLAS.Model.Base;
 using CLAS.Model.Result;
 using CLAS.Web.Core.Base;
 
@@ -22,7 +23,7 @@ namespace CASL.Bll
     public class InstructionManager
     { 
 
-       public CDmSoft dm = new CDmSoft();
+       public CDmSoft dm = new CDmSoft(DownloadManager.dmcDllPath+"dm.dll");
         public static readonly object log=new object();
         private  readonly char splitKey = ':';  
         public  BaseForm form { get; set; }
@@ -93,7 +94,11 @@ namespace CASL.Bll
                         break;
                 //3:82115
                 case InstructionCommandType.KeyPress:
-                        dm.KeyPressStr(commandValue,20);
+                        foreach (var item in commandValue)
+                        {
+                            Thread.Sleep(10);
+                            dm.KeyPress(item.CharToAsc());
+                        }
                         break;
                 //4:
                 case InstructionCommandType.MouseDoubleClick:

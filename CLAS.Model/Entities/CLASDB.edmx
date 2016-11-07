@@ -110,7 +110,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TacticsId" Type="int" Nullable="false" />
           <Property Name="ScriptId" Type="int" Nullable="false" />
-          <Property Name="ExecuteTime" Type="datetime" Nullable="false" />
+          <Property Name="ExecuteTime" Type="datetime" />
+          <Property Name="ExecuteCondition" Type="nvarchar" MaxLength="3000" />
         </EntityType>
         <EntityType Name="CL_User">
           <Key>
@@ -206,7 +207,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="TacticsId" Type="Int32" Nullable="false" />
           <Property Name="ScriptId" Type="Int32" Nullable="false" />
-          <Property Name="ExecuteTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExecuteTime" Type="DateTime" Precision="3" />
+          <Property Name="ExecuteCondition" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="CLASEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CL_Bidder" EntityType="Self.CL_Bidder" />
@@ -336,6 +338,7 @@
           <EntitySetMapping Name="CL_Tactics_Script">
             <EntityTypeMapping TypeName="CLASModel.CL_Tactics_Script">
               <MappingFragment StoreEntitySet="CL_Tactics_Script">
+                <ScalarProperty Name="ExecuteCondition" ColumnName="ExecuteCondition" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TacticsId" ColumnName="TacticsId" />
                 <ScalarProperty Name="ScriptId" ColumnName="ScriptId" />

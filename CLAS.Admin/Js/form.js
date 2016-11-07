@@ -137,8 +137,7 @@ Global.Form.GetKeyWords = function (content) {
     //抓取关键词算法
     content.split("。")
 }
-Global.Form.Auto3
-Textarea = function () {
+Global.Form.AutoTextarea = function () {
     $("textarea").each(function () {
         var t = this.scrollHeight + "px";
         this.style.height = t;

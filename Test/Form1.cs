@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CASL.Bll;
 using CLAS.Common;
+using CLAS.Model.Base;
 using CLAS.Model.TMs;
 using CLAS.Web.Core.Base;
 
@@ -22,9 +23,7 @@ namespace Test
         public Form1()
         {
             InitializeComponent();
-            InstructionManager.instance.Init(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height,this);
-            MouseEventHelper.Init(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-            ScriptExecTime.CustomFormat = "HH:mm:ss.fff ";
+          
               
         }
 
@@ -91,10 +90,14 @@ namespace Test
             //定时执行策略中的脚本
             CommandManager.instance.BeginTest();
 
-
+            DownloadManager.instance.DownLoadDmDlls(DownloadManager.dmcDllPath);
             var result = hook_Main.InstallHook("1");
             CommandManager.instance.Log("hook注册" + (result ? "成功" : "失败"));
-            this.hook_Main.OnKeyPress += new KeyPressEventHandler(CommandManager.instance.KeyPressWatch); 
+            this.hook_Main.OnKeyPress += new KeyPressEventHandler(CommandManager.instance.KeyPressWatch);
+
+            InstructionManager.instance.Init(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, this);
+            MouseEventHelper.Init(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            ScriptExecTime.CustomFormat = "HH:mm:ss.fff ";
         }
          
     }

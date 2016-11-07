@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -114,10 +115,6 @@
     <ProjectReference Include="..\CLAS.Utils\CLAS.Utils.csproj">
       <Project>{a0fbef8f-7fc5-4243-baf4-8c7366ff3b0f}</Project>
       <Name>CLAS.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CLAS.Web.Core\CLAS.Web.Core.csproj">
-      <Project>{2fffda5d-ad4b-4d19-b40d-a967a2d68c13}</Project>
-      <Name>CLAS.Web.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

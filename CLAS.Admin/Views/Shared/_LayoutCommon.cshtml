@@ -9,8 +9,7 @@
     <meta name="viewport" content="width=device-width" />
          @Html.Partial("_CommonCss")
         <link rel="stylesheet" href="~/Css/Form.css" type="text/css" />  
-    <meta name="renderer" content="webkit"> 
-    <script src="/Scripts/jquery-1.8.2.min.js"></script>
+    <meta name="renderer" content="webkit">  
       @RenderSection("Css",false)
 </head>
 <body>
@@ -19,9 +18,10 @@
         @RenderBody()
     </div>
 
-    <script>
-        Global = {};
-    </script>
+<script>
+    Global = {};
+</script>
+    <script src="/Js/Third/vue/1.0.27/vue.js"></script>
     <script src="~/Js/Third/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
     <script src="~/Js/common.js" type="text/javascript"></script>
     <script src="~/Js/form.js" type="text/javascript"></script>

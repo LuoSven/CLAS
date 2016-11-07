@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@using CLAS.Model.VMs;
+@model List<ScriptExecuteRecordDetailVM>
+<div class="SearchForm">
+    <form id="SearchForm" action="@Url.Action("ExecuteRecord", "Script")">
+        <input type="text" name="KeyWords" value="" placeholder="关键词">
+        <button class="searchButton" type="submit">搜索</button>
+    </form>
+
+</div>
+
+<div id="List">
+    @Html.Partial("_ListExecuteRecord", Model)
+</div>
+
+@section Js{
+    <script>
+
+    </script>
+}

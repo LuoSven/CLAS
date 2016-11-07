@@ -8,8 +8,10 @@ namespace CLAS.Model.DTOs
 {
     public class ScriptExecuteNameDTO
     {
-
+        public int Id { get; set; }
         public int ScriptId { get; set; }
+
+        public string Name { get; set; }
 
         public string SciptName { get; set; }
         public System.DateTime CreateDate { get; set; } 

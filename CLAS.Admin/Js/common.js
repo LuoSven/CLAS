@@ -67,6 +67,44 @@ Global.Utils.ChangeColor = function (rgbColor, span, length, type ){
     }
     return '#' + ('00000' + (Math.random() * 0x1000000 << 0).toString(16)).slice(-6);
 }
+//复制对象属性
+Global.CopyOb = function (fromOb, toObject) {
+    toObject = toObject || {};
+    for (var i in fromOb) {
+        var ob = fromOb[i];
+        toObject[i] = ob;
+    }
+    return toObject;
+}
+Global.CopyObNoFunction = function (fromOb, toObject) {
+    toObject = toObject || {};
+    for (var i in fromOb) { 
+        var ob = fromOb[i];
+        if (typeof ob == "function") {
+           continue;
+        }
+        toObject[i] = ob;
+    }
+    return toObject;
+}
+Global.EmptyObject = function (toCopy) {
+    for (var i in toCopy) {
+        var ob = toCopy[i];
+        if (!isNaN(toCopy[i]) && typeof (toCopy[i]) == 'number') {
+            toCopy[i] = 0;
+        } else {
+            toCopy[i] = "";
+        }
+    }
+    return toCopy;
+}
+Global.isEmpty = function (s) {
+    if (s === null || s === undefined || s === '') {
+        return true;
+    }
+    return false;
+}
+ 
 Global.Log = function (ob)
 {
     try

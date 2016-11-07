@@ -1,17 +1,15 @@
 ﻿@using CLAS.Model.VMs;
-@model List<TacticsVM>
+@model List<ScriptExecuteRecordDetailVM>
 <table class="table table-hover">
     <thead>
         <tr>
-            <th class="w50">编号</th>
-            <th class="w80">策略名</th>
-            <th class="w80">描述</th>
-            <th class="w100">同步停止时间段</th>
-            <th class="w200">脚本名称</th>
-            <th class="w100">触发时间</th>
-            <th class="w300">触发条件</th>
-            <th class="w90">创建人<br>日期</th>
-            <th class="w90">更新人<br>日期</th>
+            <th class="w50">脚本id/名称</th>
+            <th class="w80">执行时间</th>
+            <th class="w80">实际开始时间</th>
+            <th class="w100">实际结束时间</th>
+            <th class="w200">信息</th>
+            <th class="w100">拍手</th>
+            <th class="w300">执行时间</th> 
             <th>操作</th>
         </tr>
     </thead>
@@ -30,7 +28,7 @@
                     @(tactics.SyncStopTimeBegin.HasValue ? tactics.SyncStopTimeBegin.Value.ToString("HH:mm:ss.fff") : "无")<br>@(tactics.SyncStopTimeStop.HasValue ? tactics.SyncStopTimeStop.Value.ToString(" HH:mm:ss.fff") : "无")
                 </td>
                 <td>
-                    @Html.Raw(string.Join("<br/>", tactics.Scripts.Select(o => o.Script.ScriptName)))
+                    @Html.Raw(string.Join("<br/>", tactics.Scripts.Select(o => o.Script.SciptName)))
                 </td>
 
                 <td>
