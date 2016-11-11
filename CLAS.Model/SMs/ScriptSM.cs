@@ -13,8 +13,9 @@ namespace CLAS.Model.SMs
         /// </summary>
         public string KeyWords { get; set; }
 
-         
 
+        public int? ScriptId { get; set; }
 
+        public int? BidderId { get; set; } 
     }
 }

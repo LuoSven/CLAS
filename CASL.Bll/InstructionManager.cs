@@ -60,6 +60,7 @@ namespace CASL.Bll
         /// <param name="instruction"></param>
         public InstruqctionResult DoInstruction(string instruction)
         {
+            dm.SetShowErrorMsg(1);
             //执行结果
             var instruqctionResult = new InstruqctionResult() { IsSucceed = false };
             //参数类型
@@ -110,8 +111,11 @@ namespace CASL.Bll
                         Thread.Sleep(commandValue.ToInt());
                         break;
                 //6:300,200,300
-                case InstructionCommandType.GetString:
-                    instruqctionResult.Data = dm.OcrEx(values[0].ToInt(), values[1].ToInt(), values[2].ToInt(), values[3].ToInt(), values[4], 1.0);
+                case InstructionCommandType.Ocr:
+                    instruqctionResult.Data = dm.Ocr(values[0].ToInt(), values[1].ToInt(), values[2].ToInt(), values[3].ToInt(), values[4], 1.0);
+                    break;
+                case InstructionCommandType.OcrInFile:
+                    instruqctionResult.Data = dm.OcrInFile(values[0].ToInt(), values[1].ToInt(), values[2].ToInt(), values[3].ToInt(), values[4],values[5], 1.0);
                     break;
                 //AddDict:1,409FF3FE7FC008010$1$0.0.31$9 
                 case InstructionCommandType.AddDict:
@@ -132,6 +136,17 @@ namespace CASL.Bll
                 //GetDictCount:0
                 case InstructionCommandType.GetDictCount:
                     instruqctionResult.Data=dm.GetDictCount(commandValue.ToInt());
+                    break;
+                //GetDictCount:0
+                case InstructionCommandType.SetDict:
+                    instruqctionResult.Data = dm.SetDict(values[0].ToInt(), values[1]);
+                    break;
+                case InstructionCommandType.SetPath:
+                    instruqctionResult.Data = dm.SetPath(commandValue);
+                    break;
+                case InstructionCommandType.Capture:
+                    instruqctionResult.Data = dm.Capture(values[0].ToInt(), values[1].ToInt(), values[2].ToInt(), values[3].ToInt(), values[4]);
+                    //13;OcrHelper.GetFromOcr(values[0]);
                     break;
                     
                 //200:0180300600C00000081B01C018C3186307B203C000001FCE0F00600C01801C18FE0000007F383C01803006007063F8$-300$0.0.133$13,-300,00b913-000000

@@ -3,10 +3,13 @@
     Layout = "~/Views/Shared/_LayoutCommon.cshtml";
 }
 @using CLAS.Model.VMs;
-@model List<ScriptExecuteRecordDetailVM>
+@using CLAS.Data.Infrastructure;
+@model PagedResult<ScriptExecuteRecordDetailVM>
 <div class="SearchForm">
     <form id="SearchForm" action="@Url.Action("ExecuteRecord", "Script")">
         <input type="text" name="KeyWords" value="" placeholder="关键词">
+        <input type="text" name="ScriptId" value="" placeholder="脚本Id">
+        <input type="text" name="BidderId" value="" placeholder="拍手Id">
         <button class="searchButton" type="submit">搜索</button>
     </form>
 

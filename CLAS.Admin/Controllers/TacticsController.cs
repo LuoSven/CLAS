@@ -32,6 +32,15 @@ namespace CLAS.Admin.Controllers
             return View(vms);
         }
 
+        [Description("新增策略")]
+        [ActionType(RightType.Form)]
+        public async Task<ActionResult> Add()
+        {
+            ViewBag.Id = 0;
+            return View("AddOrEdit");
+        }
+
+
         [Description("编辑策略")]
         [ActionType(RightType.Form)]
         public async Task<ActionResult> Edit(int id)

@@ -20,19 +20,18 @@ namespace CLAS.Admin.Controllers
     [Description("脚本管理")]
     public class ScriptController : BaseController
     {
-        private readonly ITacticsRepo tacticsRepo = new TacticsRepo(new DatabaseFactory());
-        private readonly IScriptRepo scriptRepo = new ScriptRepo(new DatabaseFactory());
+        private readonly IScriptExecuteRecordRpeo scriptExecuteRecordRpeo = new ScriptExecuteRecordRpeo(new DatabaseFactory());
 
-        //[Description("脚本执行记录")]
-        //[ActionType(RightType.View)]
-        //public async Task<ActionResult> ExecuteRecord(ScriptSM sm)
-        //{
-        //    var vms =  tacticsRepo.GetTacticsVms(sm);
+        [Description("脚本执行记录")]
+        [ActionType(RightType.View)]
+        public async Task<ActionResult> ExecuteRecord(ScriptSM sm,int page=1,int pageSize=20)
+        {
+            var vms = scriptExecuteRecordRpeo.GetList(sm, page, pageSize);
 
-        //    if (Request.IsAjaxRequest())
-        //        return PartialView("_ListExecuteRecord", vms);
-        //    return View(vms);
-        //}
+            if (Request.IsAjaxRequest())
+                return PartialView("_ListExecuteRecord", vms);
+            return View(vms);
+        }
 
 
 

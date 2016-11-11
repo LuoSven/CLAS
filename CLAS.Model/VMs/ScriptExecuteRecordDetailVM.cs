@@ -11,42 +11,17 @@ namespace CLAS.Model.VMs
     /// </summary>
     public class ScriptExecuteRecordDetailVM
     {
-         /// <summary>
-         /// 脚本编号
-         /// </summary>
+        public int Id { get; set; }
         public int ScriptId { get; set; }
-        /// <summary>
-        /// 脚本名称
-        /// </summary>
-        public int ScriptName { get; set; }
-        /// <summary>
-        /// 脚本执行开始时间
-        /// </summary>
+        public string ScriptName { get; set; }
         public DateTime ExecuteTime { get; set; }
-         /// <summary>
-         /// 脚本执行开始时间
-         /// </summary>
-         public DateTime ActualExecutionStartTime { get; set; }
-         /// <summary>
-         /// 脚本执行结束时间
-         /// </summary>
-         public DateTime ActualExecutionEndTime { get; set; }
-         /// <summary>
-         /// 脚本执行时间，毫秒
-         /// </summary>
-         public int ExecuteMSec { get; set; }
-
-         /// <summary>
-         /// 脚本执行信息
-         /// </summary>
-         public string Message { get; set; }
-
-         /// <summary>
-         /// 脚本是否执行成功，目前脚本后面叫加一个验证函数
-         /// </summary>
-         public bool IsSucceed { get; set; }
-
-         public string BidderName { get; set; }
+        public DateTime ActualExecutionStartTime { get; set; }
+        public DateTime ActualExecutionEndTime { get; set; }
+        public string Message { get; set; }
+        public bool IsSucceed { get; set; }
+        public string BidderName { get; set; }
+        public int BidderId { get; set; }
+        public int? ExecuteMSec { get; set; }
 
     }
 }

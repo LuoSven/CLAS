@@ -19,6 +19,9 @@ namespace CASL.Bll
     /// </summary>
     public class ActivationCodeManager
     {
+
+        public bool? IsSuccess ;
+        public Thread check;
        /// <summary>
        /// 验证码
        /// </summary>
@@ -32,21 +35,32 @@ namespace CASL.Bll
         /// </summary>
         /// <param name="activationCode"></param>
         /// <returns></returns>
-        public bool SendActivationCodeAndCheck(string activationCode)
-        { 
+        public void SendActivationCodeAndCheck(string activationCode)
+        {
+            check = new Thread(CheckActivationCode);
+            check.IsBackground = true;
+            check.Start(activationCode);
+        }
+
+        private void CheckActivationCode(object code)
+        {
+            var activationCode = (string) code;
             var loginVm = new ActivationVM()
             {
                 ActivationCode = activationCode
             };
             var obStr = DESEncrypt.EncryptModel(loginVm);
             var result = RequestHelper.HttpGet(SiteUrl.GetApiUrl("command/Login?s=" + obStr));
-            var isLogin = DESEncrypt.Decrypt(result.Replace("\"", "")); 
-            if ( isLogin== "true")
+            var isLogin = DESEncrypt.Decrypt(result.Replace("\"", ""));
+            if (isLogin == "true")
             {
                 ActivationCode = activationCode;
-                return true;
+                IsSuccess = true;
             }
-            return false;
+            else
+            {
+                IsSuccess = false;
+            }
         }
         #endregion
 

@@ -1,49 +1,32 @@
 ﻿@using CLAS.Model.VMs;
-@model List<ScriptExecuteRecordDetailVM>
+@using CLAS.Web.Core;
+@using CLAS.Common;
+@model CLAS.Data.Infrastructure.PagedResult<ScriptExecuteRecordDetailVM>
 <table class="table table-hover">
     <thead>
-        <tr>
-            <th class="w50">脚本id/名称</th>
-            <th class="w80">执行时间</th>
-            <th class="w80">实际开始时间</th>
-            <th class="w100">实际结束时间</th>
-            <th class="w200">信息</th>
-            <th class="w100">拍手</th>
-            <th class="w300">执行时间</th> 
-            <th>操作</th>
-        </tr>
+    <tr>
+        <th class="w200">脚本Id/名称</th>
+        <th class="w200">拍手Id/名称</th>
+        <th class="w200">执行时间</th>
+        <th class="w200">实际开始时间</th>
+        <th class="w100">实际结束时间</th>
+        <th class="w200">信息</th>
+        <th class="w80">执行时间(毫秒)</th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var tactics in Model)
-        {
-            <tr>
-                <td>@tactics.Id
-                <td>
-                    @tactics.TacticsName
-                </td>
-                <td>
-                    @tactics.Description
-                </td>
-                <td>
-                    @(tactics.SyncStopTimeBegin.HasValue ? tactics.SyncStopTimeBegin.Value.ToString("HH:mm:ss.fff") : "无")<br>@(tactics.SyncStopTimeStop.HasValue ? tactics.SyncStopTimeStop.Value.ToString(" HH:mm:ss.fff") : "无")
-                </td>
-                <td>
-                    @Html.Raw(string.Join("<br/>", tactics.Scripts.Select(o => o.Script.SciptName)))
-                </td>
-
-                <td>
-                    @Html.Raw(string.Join("<br/>", tactics.Scripts.Select(s => s.ExecuteTime.HasValue ? s.ExecuteTime.Value.ToString("HH:mm:ss.fff") : "")))
-                </td>
-                <td>
-                    @Html.Raw(string.Join("<br/>", tactics.Scripts.Select(s => s.ExecuteCondition)));
-                </td> 
-                <td>@tactics.Creater<br>@tactics.CreateDate</td>
-                <td>@tactics.Modifier<br>@tactics.ModifyDate</td>
-                <td>
-                    <a onclick="window.parent.Global.Iframe.OpenIframe('编辑策略','Tactics@(tactics.Id)','@Url.Action("Edit", new { tactics.Id })',false)">编辑</a>
-                    <a onclick="Global.Form.Delete('@Url.Action("Delete", new { tactics.Id })',this,false)">删除</a>
-                </td>
-            </tr>
-        }
+    @foreach (var executeRecord in Model.Results)
+    {
+        <tr>
+            <td>@executeRecord.ScriptId/@executeRecord.ScriptName</td>
+            <td>@executeRecord.BidderId/@executeRecord.BidderName</td>
+            <td>@executeRecord.ExecuteTime</td>
+            <td>@executeRecord.ActualExecutionStartTime</td>
+            <td>@executeRecord.ActualExecutionEndTime</td>
+            <td>@executeRecord.Message.Omit()</td>
+            <td>@executeRecord.ExecuteMSec</td>
+        </tr>
+    }
     </tbody>
 </table>
+@Html.Partial("_Pager",new PagerModel(Model.RowCount,Model.PageSize,Model.CurrentPage))
