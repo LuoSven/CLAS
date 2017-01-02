@@ -23,5 +23,6 @@ namespace CLAS.Model.Entities
         public bool IsSucceed { get; set; }
         public int BidderId { get; set; }
         public Nullable<int> ExecuteMSec { get; set; }
+        public string ExecuteConditionExpress { get; set; }
     }
 }

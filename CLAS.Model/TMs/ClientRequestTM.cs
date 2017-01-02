@@ -30,5 +30,15 @@ namespace CLAS.Model.TMs
         public DateTime? TacticsLastUpdateTime { get; set; }
 
         public List<ScriptExecuteRecordVM> ScriptExecuteRecords { get; set; }
+
+        /// <summary>
+        /// 屏幕截图
+        /// </summary>
+        public List<long> ScreenImgs{get; set; }
+
+        /// <summary>
+        /// 按钮记录
+        /// </summary>
+        public List<KeyDownRecordVM> KeyDownRecords { get; set; }
     }
 }

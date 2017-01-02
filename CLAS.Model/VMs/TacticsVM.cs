@@ -44,7 +44,7 @@ namespace CLAS.Model.VMs
         public string Modifier { get; set; }
 
 
-        public int PriceScript { get; set; }
+        public int PriceScriptId { get; set; }
 
         /// <summary>
         /// 要执行的脚本列表

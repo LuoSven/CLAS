@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c3e61177719a411894c7d498379d1f42" Name="Diagram1">
+      <Diagram DiagramId="c3e61177719a411894c7d498379d1f42" Name="Diagram1" ZoomLevel="127">
         <EntityTypeShape EntityType="CLASModel.CL_Bidder" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CLASModel.CL_Script" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CLASModel.CL_Script_Instruction" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
@@ -14,6 +14,10 @@
         <EntityTypeShape EntityType="CLASModel.CL_Bidder_Activite_Record" Width="1.5" PointX="3.375" PointY="7.75" />
         <EntityTypeShape EntityType="CLASModel.CL_System_Program" Width="1.5" PointX="7.375" PointY="4.75" />
         <EntityTypeShape EntityType="CLASModel.CL_User" Width="1.5" PointX="0.75" PointY="8.75" />
+        <EntityTypeShape EntityType="CLASModel.CL_Bidder_ScreenCut" Width="1.5" PointX="7.375" PointY="8.75" />
+        <EntityTypeShape EntityType="CLASModel.CL_License" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="CLASModel.CL_Sync_Record" Width="1.5" PointX="9.375" PointY="4.75" />
+        <EntityTypeShape EntityType="CLASModel.CL_Bidder_KeyDownRecord" Width="1.5" PointX="9.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

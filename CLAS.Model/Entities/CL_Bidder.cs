@@ -26,5 +26,6 @@ namespace CLAS.Model.Entities
         public string SystemInfo { get; set; }
         public Nullable<int> TracticsId { get; set; }
         public Nullable<System.DateTime> LastActiveDate { get; set; }
+        public Nullable<bool> IsOnFlag { get; set; }
     }
 }

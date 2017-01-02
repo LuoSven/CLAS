@@ -38,7 +38,19 @@ namespace CLAS.Model.TMs
             {
                 scripts = value;
             }
-        }
+        } 
+
+        /// <summary>
+        /// 价格脚本
+        /// </summary>
+        public string PriceScript { get; set; }
+
+
+
+        /// <summary>
+        /// 获取时间的脚本，51用
+        /// </summary>
+        public string TimeScript { get; set; }
         /// <summary>
         /// 停止同步时间-开始
         /// </summary>
@@ -47,5 +59,18 @@ namespace CLAS.Model.TMs
         /// 停止同步时间-结束
         /// </summary>
         public DateTime? SyncStopTimeStop { get; set; }
+
+        /// <summary>
+        ///加价价格
+        /// </summary>
+        public int? AddPrice { get; set; }
+        /// <summary>
+        /// 差多少提交
+        /// </summary>
+        public int? DownReducePrice { get; set; }
+        /// <summary>
+        /// 延时时间（毫秒）
+        /// </summary>
+        public int? DelayTime { get; set; }
     }
 }

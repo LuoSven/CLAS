@@ -71,7 +71,11 @@ Global.Form.FileUploader = function () {
 Global.Form.DatePicker = function () {
     //时间插件目前用my97来做
     $(".datepicker").focus(function () {
-        WdatePicker({ el: this.id })
+        WdatePicker({ el: this.id });
+    });
+
+    $(".datepicker_time").focus(function () {
+        WdatePicker({ el: this.id, dateFmt: "yyyy/MM/dd HH:mm:dd " });
     });
 }
 Global.Form.DateSelecter = function ()

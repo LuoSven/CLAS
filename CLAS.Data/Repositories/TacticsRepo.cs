@@ -33,8 +33,11 @@ namespace CLAS.Data.Repositories
 
         public TacticsTM GetTacticsByActivationCodeAndUpdateTime(string activationCode, DateTime? updateTime)
         {
-            var tacticsSql = @"select a.Id,a.SyncStopTimeBegin,a.SyncStopTimeStop from CL_Tactics a
-join CL_Bidder b on b.TracticsId=a.Id
+            var tacticsSql = @"select a.AddPrice,a.DownReducePrice,a.DelayTime, d.ExecuteInstructions TimeScript,c.ExecuteInstructions PriceScript,a.PriceScriptId,a.Id,a.SyncStopTimeBegin,a.SyncStopTimeStop from CL_Tactics a
+join CL_License e on e.TracticsId =a.Id
+join CL_Bidder b on b.Id=e.BidderId 
+left join CL_Script c on c.Id=a.PriceScriptId
+left join CL_Script d on d.Id=a.TimeScriptId 
 where b.ActivationCode=@activationCode";
             if (updateTime.HasValue)
             {
@@ -161,6 +164,12 @@ where a.TacticsId=@Id", tactics);
             entity.ExecuteCondition = model.ExecuteCondition;
             DataContext.SaveChanges();
         }
+
+
+        public List<ListItem> GetList()
+        {
+            return DapperHelper.SqlQuery<ListItem>("select Id id,TacticsName name from CL_Tactics where Id!=1").ToList();
+        }
     }
     public interface ITacticsRepo : IRepository<CL_Tactics>
     {
@@ -189,5 +198,7 @@ where a.TacticsId=@Id", tactics);
 
 
         void SaveTactics(TacticsVM model,string userName);
+
+        List<ListItem> GetList();
     }
 }

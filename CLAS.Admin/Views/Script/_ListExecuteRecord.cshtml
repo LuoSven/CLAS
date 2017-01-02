@@ -5,10 +5,11 @@
 <table class="table table-hover">
     <thead>
     <tr>
-        <th class="w200">脚本Id/名称</th>
-        <th class="w200">拍手Id/名称</th>
-        <th class="w200">执行时间</th>
-        <th class="w200">实际开始时间</th>
+        <th class="w100">脚本Id/名称</th>
+        <th class="w100">拍手Id/名称</th>
+        <th class="w200">执行条件</th>
+        <th class="w100">执行时间</th>
+        <th class="w100">实际开始时间</th>
         <th class="w100">实际结束时间</th>
         <th class="w200">信息</th>
         <th class="w80">执行时间(毫秒)</th>
@@ -20,6 +21,7 @@
         <tr>
             <td>@executeRecord.ScriptId/@executeRecord.ScriptName</td>
             <td>@executeRecord.BidderId/@executeRecord.BidderName</td>
+            <td>@executeRecord.ExecuteConditionExpress</td>
             <td>@executeRecord.ExecuteTime</td>
             <td>@executeRecord.ActualExecutionStartTime</td>
             <td>@executeRecord.ActualExecutionEndTime</td>

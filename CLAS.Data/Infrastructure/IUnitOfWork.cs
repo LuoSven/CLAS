@@ -7,8 +7,7 @@ namespace CLAS.Data.Infrastructure
 {
     public interface IUnitOfWork
     {
-        void Commit();
-        void CommitAsync();
+        void Commit(); 
 
 
         /// <summary>

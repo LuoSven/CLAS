@@ -12,6 +12,7 @@ using CASL.Bll;
 using CLAS.Common;
 using CLAS.Model.Base;
 using CLAS.Model.TMs;
+using CLAS.Utils;
 using CLAS.Web.Core.Base;
 
 namespace Test
@@ -23,7 +24,19 @@ namespace Test
         public Form1()
         {
             InitializeComponent();
-          
+             
+            CommandManager.instance.IsFrom51 = true;
+            CommandManager.instance.IsTest = true;
+
+            //定时执行策略中的脚本
+            CommandManager.instance.BeginTest();
+            var result = hook_Main.InstallHook("1");
+            CommandManager.instance.Log("hook注册" + (result ? "成功" : "失败"));
+            this.hook_Main.OnKeyPress += new KeyPressEventHandler(CommandManager.instance.KeyPressWatch);
+
+            InstructionManager.instance.Init(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, this);
+            MouseEventHelper.Init(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            ScriptExecTime.CustomFormat = "HH:mm:ss.fff ";
               
         }
 
@@ -61,7 +74,6 @@ namespace Test
             if (CountDownDate >= DateTime.Now)
             {
                 var span = CountDownDate - DateTime.Now;
-
                 CountDownText.Text = string.Format("{0}秒后输入验证码", span.Seconds);
             }
             else
@@ -87,18 +99,18 @@ namespace Test
 
         private void Form1_Load(object sender, EventArgs e)
         { 
-            //定时执行策略中的脚本
-            CommandManager.instance.BeginTest();
-
-            DownloadManager.instance.DownLoadDmDlls(DownloadManager.dmcDllPath);
-            var result = hook_Main.InstallHook("1");
-            CommandManager.instance.Log("hook注册" + (result ? "成功" : "失败"));
-            this.hook_Main.OnKeyPress += new KeyPressEventHandler(CommandManager.instance.KeyPressWatch);
-
-            InstructionManager.instance.Init(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, this);
-            MouseEventHelper.Init(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-            ScriptExecTime.CustomFormat = "HH:mm:ss.fff ";
+          
         }
+
+        private void DCoding_Click(object sender, EventArgs e)
+        {
+            Code.Text = DESEncrypt.Decrypt(Code.Text);
+        }
+
+        private void ECoding_Click(object sender, EventArgs e)
+        {
+            Code.Text = DESEncrypt.Encrypt(Code.Text);
+        } 
          
     }
 }

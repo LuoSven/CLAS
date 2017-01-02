@@ -79,14 +79,14 @@ namespace CASL.Bll
 
 
 
-
         /// <summary>
-        /// 完成脚本
+        /// 执行脚本
         /// </summary>
-        /// <param name="executeTime">executeTime</param>
-        /// <param name="script">script</param>
-        /// <param name="message">message</param>
-        public bool DoScript(ScriptTM script,string message=null)
+        /// <param name="script"></param>
+        /// <param name="express"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public bool DoScript(ScriptTM script, string express,string message=null)
         {
             //同一时间只能执行一个脚本
             lock (log)
@@ -102,9 +102,10 @@ namespace CASL.Bll
                     {
                         ScriptId = script.Id,
                         ExecuteTime = DateTime.Now,
-                        ActualExecutionStartTime = DateTime.Now
+                        ActualExecutionStartTime = DateTime.Now,
+                        ExecuteConditionExpress=express
                     };
-
+                
                     //执行表达式
                     var expressionsResult = ExecExpressions(variables, script.ExecuteExpressions);
                     scriptMessage.AddRange(expressionsResult.Logs);
@@ -114,15 +115,14 @@ namespace CASL.Bll
                     //记录执行结束时间
                     recordVm.ActualExecutionEndTime = DateTime.Now;
                     recordVm.ExecuteMSec = (recordVm.ActualExecutionEndTime - recordVm.ActualExecutionStartTime).Milliseconds;
-                    CommandManager.instance.Log(string.Format("{0}执行完毕脚本{1}", DateTime.Now, script.Id));
+                    LogManager.instance.LogFormat("{0}执行完毕脚本{1}", DateTime.Now, script.Id);
                     if (!string.IsNullOrEmpty(script.CheckInstruction))
                     {
                         //验证脚本
                         var checkResult = InstructionManager.instance.DoInstruction(script.CheckInstruction);
                         recordVm.IsSucceed = checkResult.IsSucceed;
 
-                        CommandManager.instance.Log(string.Format("{0}脚本{1}执行{2}", DateTime.Now, script.Id,
-                            checkResult.IsSucceed ? "成功" : "失败"));
+                        LogManager.instance.LogFormat("{0}脚本{1}执行{2}", DateTime.Now, script.Id,checkResult.IsSucceed ? "成功" : "失败");
                     }
                     if (!string.IsNullOrEmpty(message))
                     {
@@ -181,7 +181,7 @@ namespace CASL.Bll
         private Dictionary<string, object> SetVariable(Dictionary<string, object> variables, string instruction)
         {
             var equals = instruction.Split('=');
-            var equalLeft = equals[0];
+            var equalLeft = equals[0].Trim();
             //表达式
             var expression = equals[1];
             var values = new Dictionary<string, object>();
@@ -245,23 +245,36 @@ namespace CASL.Bll
 
         }
 
-        private ScriptResult ExecExpressions(Dictionary<string, object> variables, string expressions)
+        //执行脚本
+
+        public ScriptResult ExecExpressions(Dictionary<string, object> variables, string expressions)
         {
             var scriptResult = new ScriptResult() {Logs = new List<string>()};
             expressions = expressions.Replace("\r\n", "").Replace("\n", "");
             //执行表达式
             foreach (var expression in expressions.Split(new[] { ";" }, StringSplitOptions.RemoveEmptyEntries).ToList())
-            { 
-                var result = ExecExpression(variables, expression);
-                variables = result.Variables;
-                scriptResult.Logs.Add((result.IsSucceed ? "成功" : "失败") + ":" + expression);
-                if (result.IsBreak)
+            {
+                try
                 {
-                    scriptResult.IsBreak = result.IsBreak;
-                    scriptResult.Logs.Add("跳出了循环");
-                    break;
+                    var result = ExecExpression(variables, expression);
+                    variables = result.Variables;
+                    var reslutMessage = string.Format("执行结果:{0},执行信息:{1},\r\n执行脚本{2}",result.Message ?? "",(result.IsSucceed ? "成功" : "失败") , expression);
+                    scriptResult.Logs.Add(reslutMessage);
+                    if (result.IsBreak)
+                    {
+                        scriptResult.IsBreak = result.IsBreak;
+                        scriptResult.Logs.Add("跳出了循环");
+                        break;
+                    }
                 }
+                catch (Exception ex)
+                {
+                    
+                     
+                }
+               
             }
+            scriptResult.Results = variables;
             return scriptResult;
         }
 
@@ -288,7 +301,7 @@ namespace CASL.Bll
                 while (!isFinish)
                 {
                     var boolResult = ExecBoolInstruction(variables, whileCondition);
-                    if (boolResult)
+                    if (boolResult.Result)
                     {
                         //如果条件成功,就执行while里面的内容
                         var whileExpression = expression.SplitByBraces();
@@ -309,7 +322,7 @@ namespace CASL.Bll
                 var ifConditions = expression.SplitByBrackets();
                 var ifCondition = ifConditions[0];
                 var boolResult = ExecBoolInstruction(variables, ifCondition);
-                if (!boolResult)
+                if (!boolResult.Result)
                 { 
                     //如果条件成功,就执行if里面的内容
                         var ifExpression = expression.SplitByBraces();
@@ -351,13 +364,17 @@ namespace CASL.Bll
         /// <param name="variables"></param>
         /// <param name="instruction"></param>
         /// <returns></returns>
-        public bool ExecBoolInstruction(Dictionary<string, object> variables, string instruction)
+        public BoolInstructionResult ExecBoolInstruction(Dictionary<string, object> variables, string instruction)
         {
             //生成while(1==1&&1==1)括号里面内容的判断式
             var jsExpress = InputVariable(variables, instruction, true);
             //判断的结果
-            var jsResult = (bool)jsExpress.ExcuteAsJs();
-            return jsResult;
+            var jsResult = (bool)jsExpress.ExcuteAsJs(); 
+            return new BoolInstructionResult()
+            {
+                Result = jsResult,
+                Express = jsExpress,
+            };
         }
 
         /// <summary>
@@ -367,11 +384,84 @@ namespace CASL.Bll
         public Dictionary<string, object> GetPublicVariable()
         {
             var variables = new Dictionary<string, object>();
-            variables.SetIfEmtpy("keyDownCount", CommandManager.Keyloggers.Count);
-            variables.SetIfEmtpy("allDownCount", CommandManager.AllKeyloggers.Count);
-            variables.SetIfEmtpy("price", CommandManager.Price);
+            if (CommandManager.instance.IsLogKey)
+            {
+                variables.SetIfEmtpy(PublicVariby.keyDownCount.ToString(), CommandManager.Keyloggers.Count);
+                variables.SetIfEmtpy(PublicVariby.allDownCount.ToString(), CommandManager.AllKeyloggers.Count);
+            }
+            else
+            {
+                variables.SetIfEmtpy(PublicVariby.keyDownCount.ToString(), 4);
+                variables.SetIfEmtpy(PublicVariby.allDownCount.ToString(), 4);
+            }
+            variables.SetIfEmtpy(PublicVariby.price48.ToString(), CommandManager.instance.Price48);
+            variables.SetIfEmtpy(PublicVariby.price.ToString(), CommandManager.Price);
+            variables.SetIfEmtpy(PublicVariby.addPrice.ToString(), CommandManager.Tactics.AddPrice.HasValue?CommandManager.Tactics.AddPrice.ToString():"");
+            variables.SetIfEmtpy(PublicVariby.delayTime.ToString(), CommandManager.Tactics.DelayTime ?? 0);
+            variables.SetIfEmtpy(PublicVariby.downReducePrice.ToString(), CommandManager.Tactics.DownReducePrice ?? 0);
             return variables;
         }
+
+        #region 这里是一些通过执行脚本获取数据的公共函数，还没想好放哪里，先放这里，放Command里面总不是办法
+        /// <summary>
+        /// 获取价格
+        /// </summary>
+        /// <returns></returns>
+        public int? GetPrice()
+        {
+            var variables = new Dictionary<string, object>();
+            if (string.IsNullOrEmpty(CommandManager.Tactics.PriceScript))
+            {
+                return null;
+            }
+            var priceResult = ScriptManager.instance.ExecExpressions(variables, CommandManager.Tactics.PriceScript);
+            variables = priceResult.Results;
+            if (!variables.ContainsKey(PublicVariby.price.ToString()))
+            {
+                return null;
+            }
+
+            var priceString = (string)variables[PublicVariby.price.ToString()];
+            if (priceString.Length != 5)
+            {
+                return null;
+            }
+            return priceString.ToInt();
+        }
+        /// <summary>
+        /// 获取51界面内的时间
+        /// </summary>
+        /// <returns></returns>
+        public DateTime? GetTimeBy51()
+        {
+            var key = PublicVariby.time51.ToString();
+            var time = DateTime.Now;
+            var variables = new Dictionary<string, object>();
+            if (string.IsNullOrEmpty(CommandManager.Tactics.TimeScript))
+            {
+                return null;
+            }
+            var priceResult =ExecExpressions(variables, CommandManager.Tactics.TimeScript);
+            variables = priceResult.Results;
+            if (!variables.ContainsKey(key))
+            {
+                return null;
+            }
+
+            var timeString = variables[key].ToString();
+            timeString = timeString.Replace(":", "");
+            //正常是获取6位 HHmmss
+            if (timeString.Length != 6)
+            {
+                return null;
+            }
+            var hh = timeString.Substring(0, 2).ToInt();
+            var mm = timeString.Substring(2, 2).ToInt();
+            var ss = timeString.Substring(4, 2).ToInt();
+            return new DateTime(time.Year, time.Month, time.Day, hh, mm, ss); ;
+        }
+        #endregion
+       
         #endregion
 
 

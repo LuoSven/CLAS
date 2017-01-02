@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@using CLAS.Model.VMs;
+@model List<KeyDownRecordGroupVM>
+<div class="SearchForm">
+    <form id="SearchForm" action="@Url.Action("KeyDownRecord", "Bidder")">
+        <input type="text" name="BidderId" value="" placeholder="拍手编号">
+        <input type="text" name="StartTime" class="datepicker_time" value="" placeholder="开始时间">
+        <input type="text" name="EndTime" class="datepicker_time" value="" placeholder="结束时间">
+        <button class="searchButton" type="submit">搜索</button> 
+    </form>
+
+</div>
+
+<div id="List">
+    @Html.Partial("_KeyDownRecordList", Model)
+</div>
+
+@section Js{
+    <script>
+ 
+    </script>
+}

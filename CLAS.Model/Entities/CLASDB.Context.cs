@@ -34,5 +34,9 @@ namespace CLAS.Model.Entities
         public virtual DbSet<CL_Bidder_Activite_Record> CL_Bidder_Activite_Record { get; set; }
         public virtual DbSet<CL_System_Program> CL_System_Program { get; set; }
         public virtual DbSet<CL_User> CL_User { get; set; }
+        public virtual DbSet<CL_Bidder_ScreenCut> CL_Bidder_ScreenCut { get; set; }
+        public virtual DbSet<CL_License> CL_License { get; set; }
+        public virtual DbSet<CL_Sync_Record> CL_Sync_Record { get; set; }
+        public virtual DbSet<CL_Bidder_KeyDownRecord> CL_Bidder_KeyDownRecord { get; set; }
     }
 }

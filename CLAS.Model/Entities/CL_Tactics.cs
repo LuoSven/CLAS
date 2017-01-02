@@ -23,5 +23,10 @@ namespace CLAS.Model.Entities
         public string Modifier { get; set; }
         public Nullable<System.DateTime> SyncStopTimeBegin { get; set; }
         public Nullable<System.DateTime> SyncStopTimeStop { get; set; }
+        public Nullable<int> PriceScriptId { get; set; }
+        public Nullable<int> TimeScriptId { get; set; }
+        public Nullable<int> AddPrice { get; set; }
+        public Nullable<int> DownReducePrice { get; set; }
+        public Nullable<int> DelayTime { get; set; }
     }
 }

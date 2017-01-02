@@ -41,5 +41,9 @@ namespace CLAS.Model.VMs
          /// 脚本是否执行成功，目前脚本后面叫加一个验证函数
          /// </summary>
          public bool IsSucceed { get; set; }
+        /// <summary>
+        /// 记录执行的表达式
+        /// </summary>
+         public string ExecuteConditionExpress { get; set; }
     }
 }

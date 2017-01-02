@@ -11,6 +11,8 @@ using System.Threading;
 using CLAS.Model.VMs;
 using CLAS.Utils;
 using System.Diagnostics;
+using System.IO;
+using System.Net;
 using CLAS.Model.Base;
 using CLAS.Model.Result;
 using CLAS.Web.Core.Base;
@@ -60,7 +62,7 @@ namespace CASL.Bll
         /// <param name="instruction"></param>
         public InstruqctionResult DoInstruction(string instruction)
         {
-            dm.SetShowErrorMsg(1);
+            dm.SetShowErrorMsg(0);
             //执行结果
             var instruqctionResult = new InstruqctionResult() { IsSucceed = false };
             //参数类型
@@ -112,7 +114,7 @@ namespace CASL.Bll
                         break;
                 //6:300,200,300
                 case InstructionCommandType.Ocr:
-                    instruqctionResult.Data = dm.Ocr(values[0].ToInt(), values[1].ToInt(), values[2].ToInt(), values[3].ToInt(), values[4], 1.0);
+                        instruqctionResult.Data = dm.Ocr(values[0].ToInt(), values[1].ToInt(), values[2].ToInt(), values[3].ToInt(), values[4], values.Length > 5 ? values[5].ToDouble() : (double)1.0);
                     break;
                 case InstructionCommandType.OcrInFile:
                     instruqctionResult.Data = dm.OcrInFile(values[0].ToInt(), values[1].ToInt(), values[2].ToInt(), values[3].ToInt(), values[4],values[5], 1.0);
@@ -151,9 +153,7 @@ namespace CASL.Bll
                     
                 //200:0180300600C00000081B01C018C3186307B203C000001FCE0F00600C01801C18FE0000007F383C01803006007063F8$-300$0.0.133$13,-300,00b913-000000
                 case InstructionCommandType.Find:
-                        dm.AddDict(0, values[0]);
-                        result = dm.FindStr(0, 0, screenWidth, screenHeight, values[1], values[2], 1.0, out x, out y);
-                        
+                        result = dm.FindStr(0, 0, screenWidth, screenHeight, values[0], values[1], 1.0, out x, out y);
                         if (result == -1)
                         {
                             return instruqctionResult;
@@ -173,7 +173,22 @@ namespace CASL.Bll
                         break;
                 //302:10
                 case InstructionCommandType.Log:
-                        CommandManager.instance.Log(commandValue);
+                        LogManager.instance.Log(commandValue);
+                        break;
+                //302:10
+                case InstructionCommandType.Set48Price:
+                        CommandManager.instance.Price48 = CommandManager.Price + CommandManager.Tactics.AddPrice??0;
+                        instruqctionResult.Message = "48秒价格：" + CommandManager.instance.Price48;
+                        break;
+                //302:10
+                case InstructionCommandType.SetSendPrice:
+                        CommandManager.instance.SendPrice = CommandManager.Price;
+                        instruqctionResult.Message = "提交价格：" + CommandManager.instance.SendPrice;
+                        break;
+                case InstructionCommandType.CaptureAndUpload:
+                    var fileName = DateTime.Now.Ticks + ".bmp";
+                    instruqctionResult.Data = dm.Capture(values[0].ToInt(), values[1].ToInt(), values[2].ToInt(), values[3].ToInt(), fileName);
+                    UploadImg(fileName);
                         break;
                     
             }
@@ -217,6 +232,38 @@ namespace CASL.Bll
         {
             var time = TimerHelper.GetBeijingTime();
             return time;
+        }
+
+
+        private void UploadImg(string file)
+        {
+            if (!File.Exists(file))
+            {
+                LogManager.instance.Log("要上传的文件不存在！文件名" + file);
+                return;
+
+            }
+            
+            var  th=new Thread(() =>
+            {
+                try
+                {
+                    var tm = new ScreenCutTM() { ActivationCode = ActivationCodeManager.ActivationCode, UploadTime = DateTime.Now };
+                    var s = DESEncrypt.EncryptModel(tm);
+                    new WebClient().UploadFile(SiteUrl.GetApiUrl("upload/ImgUpload?s=" + s), file);
+                    File.Delete(file);
+
+                }
+                catch (Exception ex)
+                {
+
+                    LogManager.instance.Error("出错码3-267 请联系开发人员");
+                }
+
+               
+            });
+            th.IsBackground = true;
+            th.Start();
         }
         
     }

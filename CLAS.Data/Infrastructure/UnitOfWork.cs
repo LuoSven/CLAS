@@ -28,11 +28,7 @@ namespace CLAS.Data.Infrastructure
         {
             DataContext.SaveChanges();
         }
-
-        public void CommitAsync()
-        {
-            DataContext.SaveChangesAsync();
-        }
+         
 
          /// <summary>
         /// Raises the Saved event.

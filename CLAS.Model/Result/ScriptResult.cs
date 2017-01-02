@@ -14,6 +14,14 @@ namespace CLAS.Model.Result
         /// </summary>
         public bool IsBreak { get; set; }
 
-        public List<string> Logs { get; set; } 
+        /// <summary>
+        /// 每个命令的执行记录
+        /// </summary>
+        public List<string> Logs { get; set; }
+
+        /// <summary>
+        /// 执行的参数集合，其实就是传入的variables
+        /// </summary>
+        public Dictionary<string, object> Results { get; set; }
     }
 }

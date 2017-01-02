@@ -1,0 +1,37 @@
+﻿@using CLAS.Model.VMs;
+@model List<KeyDownRecordGroupVM>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th >
+            <div class="w200  dI">拍手Id</div>
+            <div class="w100 dI">拍手名称</div>
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var record in Model)
+    {
+        <tr>
+            <td>
+                <div onclick="$(this).next().toggle()">
+                    <div class="w200 dI">@record.BidderId</div>
+                    <div class="w100 dI">@record.BidderName</div></div>
+                <div style="display: none">
+                    <table>
+                        <thead><tr><th class="w200 taC  dI">按钮名称</th><th>按钮时间</th></tr></thead>
+                        @foreach (var detail in record.Details)
+                        {
+                            <tbody><tr><td>@detail.KeyName</td><td>@detail.KeyDownTimeName</td></tr></tbody>
+                        }
+                    </table>
+                </div>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+<script>
+    
+</script>

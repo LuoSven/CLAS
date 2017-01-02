@@ -27,5 +27,13 @@ namespace CLAS.Model.TMs
         /// 执行条件
         /// </summary>
         public string ExecuteCondition { get; set; }
+
+
+
+
+        /// <summary>
+        /// 执行条件表达式
+        /// </summary>
+        public string ExecuteConditionExpress { get; set; }
     }
 }

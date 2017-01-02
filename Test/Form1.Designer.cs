@@ -48,9 +48,14 @@
             this.RefreshRecord = new System.Windows.Forms.Button();
             this.RecordInfo = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.Code = new System.Windows.Forms.TextBox();
+            this.DCoding = new System.Windows.Forms.Button();
+            this.ECoding = new System.Windows.Forms.Button();
             this.tabPage1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabPage1
@@ -71,7 +76,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(215, 336);
+            this.tabPage1.Size = new System.Drawing.Size(215, 383);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "测试脚本";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -205,11 +210,12 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(223, 362);
+            this.tabControl1.Size = new System.Drawing.Size(632, 407);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage2
@@ -218,7 +224,7 @@
             this.tabPage2.Controls.Add(this.RecordInfo);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(215, 336);
+            this.tabPage2.Size = new System.Drawing.Size(215, 383);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "脚本执行结果";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -246,11 +252,52 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.ECoding);
+            this.tabPage3.Controls.Add(this.DCoding);
+            this.tabPage3.Controls.Add(this.Code);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(624, 381);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "解密";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // Code
+            // 
+            this.Code.Location = new System.Drawing.Point(6, 6);
+            this.Code.Multiline = true;
+            this.Code.Name = "Code";
+            this.Code.Size = new System.Drawing.Size(610, 331);
+            this.Code.TabIndex = 0;
+            // 
+            // DCoding
+            // 
+            this.DCoding.Location = new System.Drawing.Point(520, 343);
+            this.DCoding.Name = "DCoding";
+            this.DCoding.Size = new System.Drawing.Size(45, 32);
+            this.DCoding.TabIndex = 1;
+            this.DCoding.Text = "解密";
+            this.DCoding.UseVisualStyleBackColor = true;
+            this.DCoding.Click += new System.EventHandler(this.DCoding_Click);
+            // 
+            // ECoding
+            // 
+            this.ECoding.Location = new System.Drawing.Point(573, 343);
+            this.ECoding.Name = "ECoding";
+            this.ECoding.Size = new System.Drawing.Size(45, 32);
+            this.ECoding.TabIndex = 2;
+            this.ECoding.Text = "加密";
+            this.ECoding.UseVisualStyleBackColor = true;
+            this.ECoding.Click += new System.EventHandler(this.ECoding_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(223, 362);
+            this.ClientSize = new System.Drawing.Size(632, 407);
             this.Controls.Add(this.tabControl1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -264,6 +311,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -289,6 +338,10 @@
         private System.Windows.Forms.TextBox ExecuteConditionText;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox SyncMessage;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button ECoding;
+        private System.Windows.Forms.Button DCoding;
+        private System.Windows.Forms.TextBox Code;
 
     }
 }

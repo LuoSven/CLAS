@@ -48,6 +48,7 @@
     <Compile Include="ActivationCodeManager.cs" />
     <Compile Include="DownloadManager.cs" />
     <Compile Include="InstructionManager.cs" />
+    <Compile Include="LogManager.cs" />
     <Compile Include="SynchronizeManager.cs" />
     <Compile Include="ScriptManager.cs" />
     <Compile Include="CommandManager.cs" />

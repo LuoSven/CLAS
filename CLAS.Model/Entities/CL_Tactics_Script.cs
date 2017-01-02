@@ -19,5 +19,6 @@ namespace CLAS.Model.Entities
         public int ScriptId { get; set; }
         public Nullable<System.DateTime> ExecuteTime { get; set; }
         public string ExecuteCondition { get; set; }
+        public string Name { get; set; }
     }
 }

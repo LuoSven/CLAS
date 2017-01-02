@@ -52,8 +52,9 @@ namespace CASL.Bll
             var obStr = DESEncrypt.EncryptModel(loginVm);
             var result = RequestHelper.HttpGet(SiteUrl.GetApiUrl("command/Login?s=" + obStr));
             var isLogin = DESEncrypt.Decrypt(result.Replace("\"", ""));
-            if (isLogin == "true")
+            if (isLogin != "false")
             {
+                CommandManager.BidderName = isLogin;
                 ActivationCode = activationCode;
                 IsSuccess = true;
             }

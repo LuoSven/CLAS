@@ -23,5 +23,6 @@ namespace CLAS.Model.VMs
         public int BidderId { get; set; }
         public int? ExecuteMSec { get; set; }
 
+        public string ExecuteConditionExpress { get; set; }
     }
 }

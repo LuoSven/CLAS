@@ -21,6 +21,7 @@
           <Property Name="SystemInfo" Type="nvarchar" MaxLength="3000" />
           <Property Name="TracticsId" Type="int" />
           <Property Name="LastActiveDate" Type="datetime" />
+          <Property Name="IsOnFlag" Type="bit" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“CLAS.dbo.CL_Bidder_Activite_Record”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -34,6 +35,43 @@
           <Property Name="BidderId" Type="int" Nullable="false" />
           <Property Name="LoginDate" Type="datetime" Nullable="false" />
           <Property Name="SystemInfo" Type="nvarchar" MaxLength="3000" />
+        </EntityType>
+        <EntityType Name="CL_Bidder_KeyDownRecord">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BidderId" Type="int" Nullable="false" />
+          <Property Name="Key" Type="int" Nullable="false" />
+          <Property Name="KeyDownTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CL_Bidder_ScreenCut">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BidderId" Type="int" Nullable="false" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="3000" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="3000" Nullable="false" />
+          <Property Name="UploadTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CL_License">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="3000" Nullable="false" />
+          <Property Name="BidderId" Type="int" />
+          <Property Name="TracticsId" Type="int" />
+          <Property Name="Code" Type="nvarchar" MaxLength="3000" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="3000" Nullable="false" />
+          <Property Name="IDCard" Type="nvarchar" MaxLength="3000" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="3000" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="3000" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="Creater" Type="nvarchar" MaxLength="3000" Nullable="false" />
+          <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="Modifier" Type="nvarchar" MaxLength="3000" />
         </EntityType>
         <EntityType Name="CL_Script">
           <Key>
@@ -58,10 +96,11 @@
           <Property Name="ExecuteTime" Type="datetime" Nullable="false" />
           <Property Name="ActualExecutionStartTime" Type="datetime" Nullable="false" />
           <Property Name="ActualExecutionEndTime" Type="datetime" Nullable="false" />
-          <Property Name="Message" Type="nvarchar" MaxLength="500" />
+          <Property Name="Message" Type="nvarchar" MaxLength="3000" />
           <Property Name="IsSucceed" Type="bit" Nullable="false" />
           <Property Name="BidderId" Type="int" Nullable="false" />
           <Property Name="ExecuteMSec" Type="int" />
+          <Property Name="ExecuteConditionExpress" Type="nvarchar" MaxLength="3000" />
         </EntityType>
         <EntityType Name="CL_Script_Instruction">
           <Key>
@@ -74,6 +113,16 @@
           <Property Name="Params" Type="nvarchar" MaxLength="3000" />
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="Creater" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CL_Sync_Record">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BidderId" Type="int" Nullable="false" />
+          <Property Name="SyncTime" Type="datetime" Nullable="false" />
+          <Property Name="SyncType" Type="int" Nullable="false" />
+          <Property Name="SyncInfo" Type="nvarchar" MaxLength="3000" Nullable="false" />
         </EntityType>
         <EntityType Name="CL_System_Program">
           <Key>
@@ -102,12 +151,18 @@
           <Property Name="Modifier" Type="nvarchar" MaxLength="500" />
           <Property Name="SyncStopTimeBegin" Type="datetime" />
           <Property Name="SyncStopTimeStop" Type="datetime" />
+          <Property Name="PriceScriptId" Type="int" />
+          <Property Name="TimeScriptId" Type="int" />
+          <Property Name="AddPrice" Type="int" />
+          <Property Name="DownReducePrice" Type="int" />
+          <Property Name="DelayTime" Type="int" />
         </EntityType>
         <EntityType Name="CL_Tactics_Script">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="3000" />
           <Property Name="TacticsId" Type="int" Nullable="false" />
           <Property Name="ScriptId" Type="int" Nullable="false" />
           <Property Name="ExecuteTime" Type="datetime" />
@@ -123,9 +178,13 @@
         </EntityType>
         <EntityContainer Name="CLASModelStoreContainer">
           <EntitySet Name="CL_Bidder" EntityType="Self.CL_Bidder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CL_Bidder_KeyDownRecord" EntityType="Self.CL_Bidder_KeyDownRecord" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CL_Bidder_ScreenCut" EntityType="Self.CL_Bidder_ScreenCut" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CL_License" EntityType="Self.CL_License" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Script" EntityType="Self.CL_Script" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Script_Execute_Record" EntityType="Self.CL_Script_Execute_Record" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Script_Instruction" EntityType="Self.CL_Script_Instruction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CL_Sync_Record" EntityType="Self.CL_Sync_Record" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_System_Program" EntityType="Self.CL_System_Program" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Tactics" EntityType="Self.CL_Tactics" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Tactics_Script" EntityType="Self.CL_Tactics_Script" Schema="dbo" store:Type="Tables" />
@@ -159,6 +218,7 @@
           <Property Name="SystemInfo" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
           <Property Name="TracticsId" Type="Int32" />
           <Property Name="LastActiveDate" Type="DateTime" Precision="3" />
+          <Property Name="IsOnFlag" Type="Boolean" />
         </EntityType>
         <EntityType Name="CL_Script">
           <Key>
@@ -199,6 +259,11 @@
           <Property Name="Modifier" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="SyncStopTimeBegin" Type="DateTime" Precision="3" />
           <Property Name="SyncStopTimeStop" Type="DateTime" Precision="3" />
+          <Property Name="PriceScriptId" Type="Int32" />
+          <Property Name="TimeScriptId" Type="Int32" />
+          <Property Name="AddPrice" Type="Int32" />
+          <Property Name="DownReducePrice" Type="Int32" />
+          <Property Name="DelayTime" Type="Int32" />
         </EntityType>
         <EntityType Name="CL_Tactics_Script">
           <Key>
@@ -209,6 +274,7 @@
           <Property Name="ScriptId" Type="Int32" Nullable="false" />
           <Property Name="ExecuteTime" Type="DateTime" Precision="3" />
           <Property Name="ExecuteCondition" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="CLASEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CL_Bidder" EntityType="Self.CL_Bidder" />
@@ -220,6 +286,10 @@
           <EntitySet Name="CL_Bidder_Activite_Record" EntityType="CLASModel.CL_Bidder_Activite_Record" />
           <EntitySet Name="CL_System_Program" EntityType="CLASModel.CL_System_Program" />
           <EntitySet Name="CL_User" EntityType="CLASModel.CL_User" />
+          <EntitySet Name="CL_Bidder_ScreenCut" EntityType="CLASModel.CL_Bidder_ScreenCut" />
+          <EntitySet Name="CL_License" EntityType="CLASModel.CL_License" />
+          <EntitySet Name="CL_Sync_Record" EntityType="CLASModel.CL_Sync_Record" />
+          <EntitySet Name="CL_Bidder_KeyDownRecord" EntityType="CLASModel.CL_Bidder_KeyDownRecord" />
         </EntityContainer>
         <EntityType Name="CL_Script_Execute_Record">
           <Key>
@@ -230,10 +300,11 @@
           <Property Name="ExecuteTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ActualExecutionStartTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ActualExecutionEndTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Message" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
           <Property Name="IsSucceed" Type="Boolean" Nullable="false" />
           <Property Name="BidderId" Type="Int32" Nullable="false" />
           <Property Name="ExecuteMSec" Type="Int32" />
+          <Property Name="ExecuteConditionExpress" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CL_Bidder_Activite_Record">
           <Key>
@@ -268,6 +339,53 @@
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="CL_Bidder_ScreenCut">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BidderId" Type="Int32" Nullable="false" />
+          <Property Name="FilePath" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="FileName" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="UploadTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="CL_License">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BidderId" Type="Int32" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="IDCard" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Creater" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+          <Property Name="Modifier" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="TracticsId" Type="Int32" />
+          <Property Name="Note" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CL_Sync_Record">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BidderId" Type="Int32" Nullable="false" />
+          <Property Name="SyncTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SyncType" Type="Int32" Nullable="false" />
+          <Property Name="SyncInfo" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CL_Bidder_KeyDownRecord">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BidderId" Type="Int32" Nullable="false" />
+          <Property Name="Key" Type="Int32" Nullable="false" />
+          <Property Name="KeyDownTime" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -277,6 +395,7 @@
           <EntitySetMapping Name="CL_Bidder">
             <EntityTypeMapping TypeName="CLASModel.CL_Bidder">
               <MappingFragment StoreEntitySet="CL_Bidder">
+                <ScalarProperty Name="IsOnFlag" ColumnName="IsOnFlag" />
                 <ScalarProperty Name="LastActiveDate" ColumnName="LastActiveDate" />
                 <ScalarProperty Name="TracticsId" ColumnName="TracticsId" />
                 <ScalarProperty Name="SystemInfo" ColumnName="SystemInfo" />
@@ -323,6 +442,11 @@
           <EntitySetMapping Name="CL_Tactics">
             <EntityTypeMapping TypeName="CLASModel.CL_Tactics">
               <MappingFragment StoreEntitySet="CL_Tactics">
+                <ScalarProperty Name="DelayTime" ColumnName="DelayTime" />
+                <ScalarProperty Name="DownReducePrice" ColumnName="DownReducePrice" />
+                <ScalarProperty Name="AddPrice" ColumnName="AddPrice" />
+                <ScalarProperty Name="TimeScriptId" ColumnName="TimeScriptId" />
+                <ScalarProperty Name="PriceScriptId" ColumnName="PriceScriptId" />
                 <ScalarProperty Name="SyncStopTimeStop" ColumnName="SyncStopTimeStop" />
                 <ScalarProperty Name="SyncStopTimeBegin" ColumnName="SyncStopTimeBegin" />
                 <ScalarProperty Name="Modifier" ColumnName="Modifier" />
@@ -338,6 +462,7 @@
           <EntitySetMapping Name="CL_Tactics_Script">
             <EntityTypeMapping TypeName="CLASModel.CL_Tactics_Script">
               <MappingFragment StoreEntitySet="CL_Tactics_Script">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ExecuteCondition" ColumnName="ExecuteCondition" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="TacticsId" ColumnName="TacticsId" />
@@ -349,6 +474,7 @@
           <EntitySetMapping Name="CL_Script_Execute_Record">
             <EntityTypeMapping TypeName="CLASModel.CL_Script_Execute_Record">
               <MappingFragment StoreEntitySet="CL_Script_Execute_Record">
+                <ScalarProperty Name="ExecuteConditionExpress" ColumnName="ExecuteConditionExpress" />
                 <ScalarProperty Name="ExecuteMSec" ColumnName="ExecuteMSec" />
                 <ScalarProperty Name="BidderId" ColumnName="BidderId" />
                 <ScalarProperty Name="IsSucceed" ColumnName="IsSucceed" />
@@ -392,6 +518,57 @@
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CL_Bidder_ScreenCut">
+            <EntityTypeMapping TypeName="CLASModel.CL_Bidder_ScreenCut">
+              <MappingFragment StoreEntitySet="CL_Bidder_ScreenCut">
+                <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="BidderId" ColumnName="BidderId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CL_License">
+            <EntityTypeMapping TypeName="CLASModel.CL_License">
+              <MappingFragment StoreEntitySet="CL_License">
+                <ScalarProperty Name="Note" ColumnName="Note" />
+                <ScalarProperty Name="TracticsId" ColumnName="TracticsId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Modifier" ColumnName="Modifier" />
+                <ScalarProperty Name="ModifyDate" ColumnName="ModifyDate" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="BidderId" ColumnName="BidderId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CL_Sync_Record">
+            <EntityTypeMapping TypeName="CLASModel.CL_Sync_Record">
+              <MappingFragment StoreEntitySet="CL_Sync_Record">
+                <ScalarProperty Name="SyncInfo" ColumnName="SyncInfo" />
+                <ScalarProperty Name="SyncType" ColumnName="SyncType" />
+                <ScalarProperty Name="SyncTime" ColumnName="SyncTime" />
+                <ScalarProperty Name="BidderId" ColumnName="BidderId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CL_Bidder_KeyDownRecord">
+            <EntityTypeMapping TypeName="CLASModel.CL_Bidder_KeyDownRecord">
+              <MappingFragment StoreEntitySet="CL_Bidder_KeyDownRecord">
+                <ScalarProperty Name="KeyDownTime" ColumnName="KeyDownTime" />
+                <ScalarProperty Name="Key" ColumnName="Key" />
+                <ScalarProperty Name="BidderId" ColumnName="BidderId" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
