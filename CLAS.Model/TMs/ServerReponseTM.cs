@@ -29,6 +29,11 @@ namespace CLAS.Model.TMs
         /// <summary>
         /// 用来表示发送的时间的
         /// </summary>
-        public DateTime SendTime { get; set; } 
+        public DateTime SendTime { get; set; }
+
+        /// <summary>
+        /// 是否是51版
+        /// </summary>
+        public bool IsFor51 { get; set; }
     }
 }

@@ -11,11 +11,35 @@ namespace CLAS.Model.Base
     {
 
         public DateTime CountDownDate { get; set; }
-        public virtual void ShowMessage(string message)
+        /// <summary>
+        /// 展示信息
+        /// </summary>
+        /// <param name="message"></param>
+        public virtual void AlertMessage(string message)
         {
             throw new NotImplementedException();
         }
+        /// <summary>
+        /// 倒计时
+        /// </summary>
+        /// <param name="seconds"></param>
         public virtual void CountDown(int seconds)
+        {
+            throw new NotImplementedException();
+        }
+        /// <summary>
+        /// 清除信息
+        /// </summary> 
+        public virtual void ClearMessage()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// 加载信息
+        /// </summary>
+        public virtual void LoadMessage()
         {
             throw new NotImplementedException();
         }

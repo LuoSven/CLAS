@@ -40,7 +40,21 @@ namespace CLAS.Admin.Controllers
             licenseRepo.AutoCreateActivationCode();
             return Json(new{code=1});
         }
+        [Description("打开51模拟")]
+        [ActionType(RightType.Form)]
+        public async Task<ActionResult> OpenIsFor51()
+        {
+            bidderRepo.UpdateIsFor51(true);
+            return Json(new { code = 1 });
+        }
 
+        [Description("关闭51模拟")]
+        [ActionType(RightType.Form)]
+        public async Task<ActionResult> CloseIsFor51()
+        {
+            bidderRepo.UpdateIsFor51(false);
+            return Json(new { code = 1 });
+        }
         private void InitSelect()
         {
             var bidderList = bidderRepo.GetList();

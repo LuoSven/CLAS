@@ -29,11 +29,11 @@ namespace CLAS.Data.Repositories
 
         public List<LicenseDTO> GetList(LicenseSM sm)
         {
-            var sql = @"select a.IDCard,a.Id,b.ActivationCode,a.Name,a.Code,a.Password,a.TracticsId,c.TacticsName,a.BidderId,b.Name BidderName,a.Note,d.SyncTime LastSyncTime,e.LoginDate LastActiveTime from CL_License  a
+            var sql = @"select a.IDCard,a.Id,b.ActivationCode,a.Name,a.Code,a.Password,a.TracticsId,c.TacticsName,a.BidderId,b.Name BidderName,a.Note,d.SyncTime LastSyncTime,e.LoginDate LastActiveTime,b.IsFor51 from CL_License  a
 join CL_Bidder b  on a.BidderId=b.Id
 join CL_Tactics c on a.TracticsId=c.Id
-join ( select * from  (select * ,ROW_NUMBER()over(partition by BidderId order by SyncTime desc) rowNumber from CL_Sync_Record) t where rowNumber=1) d on a.BidderId=d.BidderId
-join ( select * from  (select * ,ROW_NUMBER()over(partition by BidderId order by LoginDate desc) rowNumber from CL_Bidder_Activite_Record) t where rowNumber=1) e on a.BidderId=e.BidderId
+left join ( select * from  (select * ,ROW_NUMBER()over(partition by BidderId order by SyncTime desc) rowNumber from CL_Sync_Record) t where rowNumber=1) d on a.BidderId=d.BidderId
+left join ( select * from  (select * ,ROW_NUMBER()over(partition by BidderId order by LoginDate desc) rowNumber from CL_Bidder_Activite_Record) t where rowNumber=1) e on a.BidderId=e.BidderId
 where 1=1";
             if (!string.IsNullOrEmpty(sm.ActivationCode))
             {

@@ -54,6 +54,10 @@ namespace CLAS.Model.DTOs
         /// <summary>
         ///验证码
         /// </summary>
-        public DateTime? LastSyncTime { get; set; } 
+        public DateTime? LastSyncTime { get; set; }
+        /// <summary>
+        /// 是否是模拟
+        /// </summary>
+        public bool? IsFor51 { get; set; }
     }
 }

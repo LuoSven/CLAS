@@ -15,6 +15,7 @@ namespace CLAS.Model.SMs
 
 
         public int? ScriptId { get; set; }
+        public int? ScriptName { get; set; }
 
         public int? BidderId { get; set; }
 

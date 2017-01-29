@@ -38,5 +38,6 @@ namespace CLAS.Model.Entities
         public virtual DbSet<CL_License> CL_License { get; set; }
         public virtual DbSet<CL_Sync_Record> CL_Sync_Record { get; set; }
         public virtual DbSet<CL_Bidder_KeyDownRecord> CL_Bidder_KeyDownRecord { get; set; }
+        public virtual DbSet<CL_Performance_Record> CL_Performance_Record { get; set; }
     }
 }

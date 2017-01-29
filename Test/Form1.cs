@@ -57,7 +57,7 @@ namespace Test
         }
 
 
-        public override void ShowMessage(string message)
+        public override void AlertMessage(string message)
         {
             MessageBox.Show(message);
         }

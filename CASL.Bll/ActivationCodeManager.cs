@@ -20,7 +20,7 @@ namespace CASL.Bll
     public class ActivationCodeManager
     {
 
-        public bool? IsSuccess ;
+        public bool? IsSuccess; 
         public Thread check;
        /// <summary>
        /// 验证码
@@ -51,10 +51,11 @@ namespace CASL.Bll
             };
             var obStr = DESEncrypt.EncryptModel(loginVm);
             var result = RequestHelper.HttpGet(SiteUrl.GetApiUrl("command/Login?s=" + obStr));
-            var isLogin = DESEncrypt.Decrypt(result.Replace("\"", ""));
-            if (isLogin != "false")
-            {
-                CommandManager.BidderName = isLogin;
+            var loginInfo = DESEncrypt.Decrypt(result.Replace("\"", ""));
+            if (loginInfo != "false")
+            { 
+                CommandManager.BidderName =  loginInfo.Split(',')[0];
+                CommandManager.IsFor51 = loginInfo.Split(',')[1]=="1";
                 ActivationCode = activationCode;
                 IsSuccess = true;
             }

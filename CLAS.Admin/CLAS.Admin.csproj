@@ -594,6 +594,7 @@
     <Content Include="Views\License\_List.cshtml" />
     <Content Include="Views\License\AddOrEdit.cshtml" />
     <Content Include="Views\License\Index.cshtml" />
+    <Content Include="Views\Script\_List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

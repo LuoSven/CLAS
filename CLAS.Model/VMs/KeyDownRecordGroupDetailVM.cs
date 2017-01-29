@@ -11,6 +11,8 @@ namespace CLAS.Model.VMs
 
 
          public int BidderId { get; set; }
+
+         public int Id { get; set; }
         
          /// <summary>
          /// 按下的按键
@@ -35,7 +37,7 @@ namespace CLAS.Model.VMs
          /// 按键时间
          /// </summary>
          public string KeyDownTimeName {
-             get { return KeyDownTime.ToString("yyyy-MM-dd HH:mm:ss.fff"); }
+             get { return KeyDownTime.ToString("HH:mm:ss.fff"); }
          }
     }
 }

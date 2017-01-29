@@ -59,7 +59,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Class1.cs" />
+    <Compile Include="DTOs\BidderScreenCutGroupDTO.cs" />
+    <Compile Include="DTOs\KeyDownRecordDTO.cs" />
     <Compile Include="DTOs\LicenseDTO.cs" />
+    <Compile Include="DTOs\BidderScreenCutDTO.cs" />
     <Compile Include="DTOs\ScriptExecuteNameDTO.cs" />
     <Compile Include="DTOs\ScriptExecuteDTO.cs" />
     <Compile Include="Entities\CLASDB.Context.cs">
@@ -90,6 +93,9 @@
       <DependentUpon>CLASDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\CL_License.cs">
+      <DependentUpon>CLASDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\CL_Performance_Record.cs">
       <DependentUpon>CLASDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Entities\CL_Script.cs">

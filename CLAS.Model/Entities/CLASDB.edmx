@@ -22,6 +22,7 @@
           <Property Name="TracticsId" Type="int" />
           <Property Name="LastActiveDate" Type="datetime" />
           <Property Name="IsOnFlag" Type="bit" />
+          <Property Name="IsFor51" Type="bit" />
         </EntityType>
         <!--生成过程中发现错误:
 警告 6002: 表/视图“CLAS.dbo.CL_Bidder_Activite_Record”未定义主键。已推断出该键，并将定义创建为只读的表/视图。-->
@@ -44,6 +45,7 @@
           <Property Name="BidderId" Type="int" Nullable="false" />
           <Property Name="Key" Type="int" Nullable="false" />
           <Property Name="KeyDownTime" Type="datetime" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="CL_Bidder_ScreenCut">
           <Key>
@@ -54,6 +56,7 @@
           <Property Name="FilePath" Type="nvarchar" MaxLength="3000" Nullable="false" />
           <Property Name="FileName" Type="nvarchar" MaxLength="3000" Nullable="false" />
           <Property Name="UploadTime" Type="datetime" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="CL_License">
           <Key>
@@ -71,6 +74,19 @@
           <Property Name="CreateDate" Type="datetime" Nullable="false" />
           <Property Name="Creater" Type="nvarchar" MaxLength="3000" Nullable="false" />
           <Property Name="ModifyDate" Type="datetime" />
+          <Property Name="Modifier" Type="nvarchar" MaxLength="3000" />
+        </EntityType>
+        <EntityType Name="CL_Performance_Record">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BidderId" Type="int" Nullable="false" />
+          <Property Name="RecordType" Type="int" Nullable="false" />
+          <Property Name="PeroformanceTime" Type="datetime" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="Creater" Type="nvarchar" MaxLength="3000" Nullable="false" />
+          <Property Name="ModifyTime" Type="datetime" />
           <Property Name="Modifier" Type="nvarchar" MaxLength="3000" />
         </EntityType>
         <EntityType Name="CL_Script">
@@ -181,6 +197,7 @@
           <EntitySet Name="CL_Bidder_KeyDownRecord" EntityType="Self.CL_Bidder_KeyDownRecord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Bidder_ScreenCut" EntityType="Self.CL_Bidder_ScreenCut" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_License" EntityType="Self.CL_License" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CL_Performance_Record" EntityType="Self.CL_Performance_Record" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Script" EntityType="Self.CL_Script" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Script_Execute_Record" EntityType="Self.CL_Script_Execute_Record" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CL_Script_Instruction" EntityType="Self.CL_Script_Instruction" Schema="dbo" store:Type="Tables" />
@@ -219,6 +236,7 @@
           <Property Name="TracticsId" Type="Int32" />
           <Property Name="LastActiveDate" Type="DateTime" Precision="3" />
           <Property Name="IsOnFlag" Type="Boolean" />
+          <Property Name="IsFor51" Type="Boolean" />
         </EntityType>
         <EntityType Name="CL_Script">
           <Key>
@@ -290,6 +308,7 @@
           <EntitySet Name="CL_License" EntityType="CLASModel.CL_License" />
           <EntitySet Name="CL_Sync_Record" EntityType="CLASModel.CL_Sync_Record" />
           <EntitySet Name="CL_Bidder_KeyDownRecord" EntityType="CLASModel.CL_Bidder_KeyDownRecord" />
+          <EntitySet Name="CL_Performance_Record" EntityType="CLASModel.CL_Performance_Record" />
         </EntityContainer>
         <EntityType Name="CL_Script_Execute_Record">
           <Key>
@@ -348,6 +367,7 @@
           <Property Name="FilePath" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
           <Property Name="FileName" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
           <Property Name="UploadTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="CL_License">
           <Key>
@@ -385,6 +405,20 @@
           <Property Name="BidderId" Type="Int32" Nullable="false" />
           <Property Name="Key" Type="Int32" Nullable="false" />
           <Property Name="KeyDownTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="CL_Performance_Record">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BidderId" Type="Int32" Nullable="false" />
+          <Property Name="RecordType" Type="Int32" Nullable="false" />
+          <Property Name="PeroformanceTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Creater" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="ModifyTime" Type="DateTime" Precision="3" />
+          <Property Name="Modifier" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -395,6 +429,7 @@
           <EntitySetMapping Name="CL_Bidder">
             <EntityTypeMapping TypeName="CLASModel.CL_Bidder">
               <MappingFragment StoreEntitySet="CL_Bidder">
+                <ScalarProperty Name="IsFor51" ColumnName="IsFor51" />
                 <ScalarProperty Name="IsOnFlag" ColumnName="IsOnFlag" />
                 <ScalarProperty Name="LastActiveDate" ColumnName="LastActiveDate" />
                 <ScalarProperty Name="TracticsId" ColumnName="TracticsId" />
@@ -524,6 +559,7 @@
           <EntitySetMapping Name="CL_Bidder_ScreenCut">
             <EntityTypeMapping TypeName="CLASModel.CL_Bidder_ScreenCut">
               <MappingFragment StoreEntitySet="CL_Bidder_ScreenCut">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="FilePath" ColumnName="FilePath" />
@@ -565,10 +601,25 @@
           <EntitySetMapping Name="CL_Bidder_KeyDownRecord">
             <EntityTypeMapping TypeName="CLASModel.CL_Bidder_KeyDownRecord">
               <MappingFragment StoreEntitySet="CL_Bidder_KeyDownRecord">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="KeyDownTime" ColumnName="KeyDownTime" />
                 <ScalarProperty Name="Key" ColumnName="Key" />
                 <ScalarProperty Name="BidderId" ColumnName="BidderId" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CL_Performance_Record">
+            <EntityTypeMapping TypeName="CLASModel.CL_Performance_Record">
+              <MappingFragment StoreEntitySet="CL_Performance_Record">
+                <ScalarProperty Name="Modifier" ColumnName="Modifier" />
+                <ScalarProperty Name="ModifyTime" ColumnName="ModifyTime" />
+                <ScalarProperty Name="Creater" ColumnName="Creater" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="PeroformanceTime" ColumnName="PeroformanceTime" />
+                <ScalarProperty Name="RecordType" ColumnName="RecordType" />
+                <ScalarProperty Name="BidderId" ColumnName="BidderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

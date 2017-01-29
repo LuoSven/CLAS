@@ -21,6 +21,9 @@ namespace CLAS.Admin.Controllers
     public class ScriptController : BaseController
     {
         private readonly IScriptExecuteRecordRpeo scriptExecuteRecordRpeo = new ScriptExecuteRecordRpeo(new DatabaseFactory());
+        private readonly IScriptRepo scriptRpeo = new ScriptRepo(new DatabaseFactory());
+
+
 
         [Description("脚本执行记录")]
         [ActionType(RightType.View)]
@@ -34,6 +37,16 @@ namespace CLAS.Admin.Controllers
         }
 
 
+        [Description("脚本管理")]
+        [ActionType(RightType.View)]
+        public ActionResult Index(ScriptSM sm, int page = 1, int pageSize = 20)
+        {
+            var vms = scriptExecuteRecordRpeo.GetList(sm, page, pageSize);
+
+            if (Request.IsAjaxRequest())
+                return PartialView("_List", vms);
+            return View(vms);
+        }
 
     }
 }

@@ -65,8 +65,16 @@ namespace CLAS
                             Application.DoEvents();
                             ActivationCodeManager.instance.IsSuccess = null;
                             ActivationCodeManager.instance.check = null;
+#if !DEBUG
+     
                             ShortCutHelper.CreateShorCut("拍牌助手", "ca", "拍牌助手");
-                            DownloadManager.instance.DownLoadDmDlls(DownloadManager.dmcDllPath);
+                            DownloadManager.instance.DownLoadDmDlls(DownloadManager.dmcDllPath);                       
+#endif
+
+#if DEBUG
+
+                            DownloadManager.downLoadStatus = DownloadManager.maxdownLoadStatus;                     
+#endif
                         }
                         else
                         {

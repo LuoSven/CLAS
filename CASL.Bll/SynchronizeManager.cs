@@ -167,6 +167,11 @@ namespace CASL.Bll
 
                     LogManager.instance.LogFormat("{0}同步完毕策略 {1}", DateTime.Now, tm.Tactics.Id);
                     LogManager.instance.Message("数据更新完毕");
+                    if (tm.IsFor51)
+                    {
+                        CommandManager.IsFor51 = tm.IsFor51;
+                        LogManager.instance.Message("当前是51测试版");
+                    }
                     break;
                     //同步脚本
                 case ServerCommandType.SynScript:
