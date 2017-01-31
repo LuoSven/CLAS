@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@using CLAS.Model.DTOs;
+@model List<LicenseDTO>
+<div class="SearchForm">
+    <form id="SearchForm" action="@Url.Action("Index", "License")">
+        <input type="text" name="Name" value="" placeholder="姓名">
+        <input type="text" name="ActivationCode" value="" placeholder="激活码">
+        <input type="checkbox" id="Refresh"   checked="checked">自动刷新页面
+        <button class="searchButton" type="submit">搜索</button> 
+        <button id="create" onclick="CreateActiveCode()" type="button">自动生成验证码</button> 
+        <button   onclick="Open51()" type="button">打开模拟</button> 
+        <button   onclick="Close51()" type="button">关闭模拟</button> 
+    </form>
+
+</div>
+
+<div id="List">
+    @Html.Partial("_List", Model)
+</div>
+
+@section Js{
+    <script>
+        var CreateActiveCode = function() {
+            $.ajax({
+                url: "/License/AutoCreateActivationCode",
+                success: function() {
+                    $(".searchButton").click();
+                }
+            });
+        }
+        var Close51 = function () {
+            $.ajax({
+                url: "/License/CloseIsFor51",
+                success: function () {
+                    $(".searchButton").click();
+                }
+            });
+        }
+        var Open51 = function () {
+            $.ajax({
+                url: "/License/OpenIsFor51",
+                success: function () {
+                    $(".searchButton").click();
+                }
+            });
+        }
+        var s = setInterval(function() {
+            var $Refresh = $("#Refresh");
+            if ($Refresh.is(":checked")) {
+                $(".searchButton").click();
+            }
+        }, 5000);
+    </script>
+}

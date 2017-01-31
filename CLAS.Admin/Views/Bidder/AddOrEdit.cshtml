@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@using CLAS.Model.Entities;
+@model CL_User   
+@{
+}
+
+<link rel="stylesheet" href="/Css/Programs/Tactics.css"/>
+<form id="form1"  >
+    <input type="hidden"  id="TacticsId" value="@ViewBag.Id" />
+    <div class="form">
+        <ul>
+            <li> 
+                <button v-on:click="save()" class="btn btn-success" type="button" >保存</button>
+            </li>
+            <li>
+                策略名称：<input name="TacticsName" v-model="TacticsName"/>
+            </li>
+            <li>
+                描述：<input name="Description" v-model="Description"/>
+            </li>
+            <li>
+                停止同步时间-开始：<input name="SyncStopTimeBeginName" v-model="SyncStopTimeBeginName"/>
+            </li>
+            <li>
+                停止同步时间-结束：<input name="SyncStopTimeStopName" v-model="SyncStopTimeStopName"/>
+            </li>
+            <li>
+                价格获取脚本：<select name="PriceScriptId"><option v-for="option in ScriptSelectItems" value="option.id">{{option.name}}</option></select>
+            </li>
+            <li>
+                策略详情:
+                <div class="detail">
+                    名称：<input type="text" name="Name" v-model="tempScript.Name"/>
+                    触发时间：<input type="text" name="ExecuteTime" v-model="tempScript.ExecuteTime"/>
+                    触发条件：<input type="text" name="ExecuteCondition" v-model="tempScript.ExecuteCondition"/>
+                    脚本：<select id="ScriptSelect" name="tempScript.Script.ScriptId" v-model="tempScript.Script.ScriptId"><option v-for="option in ScriptSelectItems"v-bind:value="option.id">{{option.name}}</option></select>
+                    <button type="button" v-if="tempScript.Id==0">添加</button>
+                    <button v-on:click="editToExecute()" type="button" v-if="tempScript.Id>0">保存</button>
+                    <button v-on:click="cancelToExecute()" type="button" v-if="tempScript.Id>0">取消</button>
+                </div>
+                <table class="list table table-hover ">
+                    <tr>
+                        <th>名称</th>
+                        <th>触发时间</th>
+                        <th>触发条件</th>
+                        <th>脚本信息</th>
+                        <th class="w60">操作</th>
+                    </tr>
+                    <tr v-for="script in Scripts" track-by="$index">
+                        <td>{{script.Name}}</td>
+                        <td>{{script.ExecuteTimeName}}</td>
+                        <td>{{script.ExecuteCondition}}</td>
+                        <td>{{script.Script.ScriptName}}</td>
+                        <td>
+                            <a v-on:click="editExecute($index,script)">编辑</a>
+                            <br><a v-on:click="deleteExecute(script)">删除</a>
+                        </td>
+                    </tr>
+                </table>
+
+            </li>
+        </ul>
+    </div>
+    @*<div class="scriptMaker hidden">
+        输入数字数<select><option v-bind:value="option.id" v-for="option in ExpressSelectItems">{{option.name}}</option></select><input type="text" name="keyDownCount" />
+        当前价格<select><option v-bind:value="option.id" v-for="option in ExpressSelectItems">{{option.name}}</option></select><input type="text" name="price" /> 
+    </div>*@
+</form>  
+
+
+<script src="/Js/Program/Tactics.js"></script>

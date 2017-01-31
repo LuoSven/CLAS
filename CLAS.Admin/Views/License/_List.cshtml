@@ -1,0 +1,40 @@
+﻿@using CLAS.Common
+@using CLAS.Model.DTOs;
+@model List<LicenseDTO>
+@{ 
+    var bidderList = (SelectList)ViewBag.BidderList;
+    var tacticsList = (SelectList)ViewBag.TacticsList;
+}
+<table class="table table-hover">
+    <thead>
+        <tr> 
+            <th class="w50">姓名</th>
+            <th class="w100">拍手</th>
+            <th class="w80">激活码</th>
+            <th class="w80">标书号</th>
+            <th class="w100">标书密码</th>
+            <th class="w100">身份证</th>
+            <th class="w100">策略</th>
+            <th class="w100">上次激活时间</th>
+            <th class="w100">上次同步时间</th>  
+            <th class="w100">是否模拟</th>  
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var license in Model)
+        {
+            <tr> 
+                <td>@license.Name</td>
+                <td>@license.BidderName</td>
+                <td>@license.ActivationCode</td>
+                <td>@license.Code</td>
+                <td>@license.Password</td>
+                <td>@license.IDCard</td>
+                <td>@license.TacticsName</td>
+                <td>@license.LastActiveTime</td>
+                <td>@license.LastSyncTime</td> 
+                <td>@(license.IsFor51.Be()?"是":"否")</td> 
+            </tr>
+        }
+    </tbody>
+</table>

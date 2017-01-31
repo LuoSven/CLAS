@@ -1,0 +1,51 @@
+﻿@using CLAS.Model.VMs;
+@model List<TacticsVM>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th class="w50">编号</th>
+            <th class="w80">策略名</th>
+            <th class="w80">描述</th>
+            <th class="w100">同步停止时间段</th>
+            <th class="w200">脚本名称</th>
+            <th class="w100">触发时间</th>
+            <th class="w300">触发条件</th>
+            <th class="w90">创建人<br>日期</th>
+            <th class="w90">更新人<br>日期</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tactics in Model)
+        {
+            <tr>
+                <td>@tactics.Id
+                <td>
+                    @tactics.TacticsName
+                </td>
+                <td>
+                    @tactics.Description
+                </td>
+                <td>
+                    @(tactics.SyncStopTimeBegin.HasValue ? tactics.SyncStopTimeBegin.Value.ToString("HH:mm:ss.fff") : "无")<br>@(tactics.SyncStopTimeStop.HasValue ? tactics.SyncStopTimeStop.Value.ToString(" HH:mm:ss.fff") : "无")
+                </td>
+                <td>
+                    @Html.Raw(string.Join("<br/>", tactics.Scripts.Select(o => o.Script.ScriptName)))
+                </td>
+
+                <td>
+                    @Html.Raw(string.Join("<br/>", tactics.Scripts.Select(s => s.ExecuteTime.HasValue ? s.ExecuteTime.Value.ToString("HH:mm:ss.fff") : "")))
+                </td>
+                <td>
+                    @Html.Raw(string.Join("<br/>", tactics.Scripts.Select(s => s.ExecuteCondition)));
+                </td> 
+                <td>@tactics.Creater<br>@tactics.CreateDate</td>
+                <td>@tactics.Modifier<br>@tactics.ModifyDate</td>
+                <td>
+                    <a onclick="window.parent.Global.Iframe.OpenIframe('编辑策略','Tactics@(tactics.Id)','@Url.Action("Edit", new { tactics.Id })',false)">编辑</a>
+                    <a onclick="Global.Form.Delete('@Url.Action("Delete", new { tactics.Id })',this,false)">删除</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

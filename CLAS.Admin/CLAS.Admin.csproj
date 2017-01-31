@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -608,10 +609,6 @@
       <Project>{b4199c1e-4332-4914-82ce-aa335f9c14f8}</Project>
       <Name>CASL.Bll</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CLAS.Common\CLAS.Common.csproj">
-      <Project>{a8abdf78-a267-4c8c-b578-2c7b53ffc4d6}</Project>
-      <Name>CLAS.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CLAS.Data\CLAS.Data.csproj">
       <Project>{540e21ee-f510-4031-a391-32b61079c171}</Project>
       <Name>CLAS.Data</Name>
@@ -623,10 +620,6 @@
     <ProjectReference Include="..\CLAS.Utils\CLAS.Utils.csproj">
       <Project>{a0fbef8f-7fc5-4243-baf4-8c7366ff3b0f}</Project>
       <Name>CLAS.Utils</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CLAS.Web.Core\CLAS.Web.Core.csproj">
-      <Project>{2fffda5d-ad4b-4d19-b40d-a967a2d68c13}</Project>
-      <Name>CLAS.Web.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

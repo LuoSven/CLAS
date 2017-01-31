@@ -157,10 +157,6 @@
     <Compile Include="VMs\TacticsVM.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CLAS.Common\CLAS.Common.csproj">
-      <Project>{a8abdf78-a267-4c8c-b578-2c7b53ffc4d6}</Project>
-      <Name>CLAS.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CLAS.Utils\CLAS.Utils.csproj">
       <Project>{a0fbef8f-7fc5-4243-baf4-8c7366ff3b0f}</Project>
       <Name>CLAS.Utils</Name>
