@@ -85,6 +85,10 @@
     <Compile Include="Repositories\ScriptExecuteRecordRpeo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CLAS.Common\CLAS.Common.csproj">
+      <Project>{a8abdf78-a267-4c8c-b578-2c7b53ffc4d6}</Project>
+      <Name>CLAS.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CLAS.Model\CLAS.Model.csproj">
       <Project>{917e16ef-f17c-4133-88bf-39ab3fa2a2e6}</Project>
       <Name>CLAS.Model</Name>

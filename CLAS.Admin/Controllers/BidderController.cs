@@ -88,7 +88,7 @@ namespace CLAS.Admin.Controllers
             }
             ViewBag.start = sm.StartTime;
             ViewBag.end = sm.EndTime;
-            var vms = bidderScreenCutRpeo.GetGroupedList(sm);
+            var vms = bidderScreenCutRpeo.GetList(sm);
             if (Request.IsAjaxRequest())
                 return PartialView("_KeyDownRecordList", vms);
             return View(vms);

@@ -50,8 +50,12 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -79,6 +83,10 @@
     <Folder Include="Filter\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CLAS.Common\CLAS.Common.csproj">
+      <Project>{a8abdf78-a267-4c8c-b578-2c7b53ffc4d6}</Project>
+      <Name>CLAS.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CLAS.Data\CLAS.Data.csproj">
       <Project>{540e21ee-f510-4031-a391-32b61079c171}</Project>
       <Name>CLAS.Data</Name>
