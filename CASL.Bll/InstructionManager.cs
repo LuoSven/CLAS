@@ -103,6 +103,14 @@ namespace CASL.Bll
                             dm.KeyPress(item.CharToAsc());
                         }
                         break;
+                case InstructionCommandType.KeyPressAsk:
+
+                    foreach (var item in values)
+                    {
+                        Thread.Sleep(10);
+                        dm.KeyPress(item.ToInt());
+                    } 
+                    break;
                 //4:
                 case InstructionCommandType.MouseDoubleClick:
                         dm.LeftDoubleClick();
@@ -250,27 +258,41 @@ namespace CASL.Bll
                 return;
 
             }
-            
-            var  th=new Thread(() =>
+
+            try
             {
-                try
-                {
-                    var tm = new ScreenCutTM() { ActivationCode = ActivationCodeManager.ActivationCode, UploadTime = DateTime.Now };
-                    var s = DESEncrypt.EncryptModel(tm);
-                    new WebClient().UploadFile(SiteUrl.GetApiUrl("upload/ImgUpload?s=" + s), file);
-                    File.Delete(file);
+                var tm = new ScreenCutTM() { ActivationCode = ActivationCodeManager.ActivationCode, UploadTime = DateTime.Now };
+                var s = DESEncrypt.EncryptModel(tm);
+                new WebClient().UploadFile(SiteUrl.GetApiUrl("upload/ImgUpload?s=" + s), file);
+                File.Delete(file);
 
-                }
-                catch (Exception ex)
-                {
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                LogManager.instance.Error("出错码3-267 请联系开发人员", ex);
+            }
 
-                    LogManager.instance.Error("出错码3-267 请联系开发人员");
-                }
+            //var  th=new Thread(() =>
+            //{
+            //    try
+            //    {
+            //        var tm = new ScreenCutTM() { ActivationCode = ActivationCodeManager.ActivationCode, UploadTime = DateTime.Now };
+            //        var s = DESEncrypt.EncryptModel(tm);
+            //        new WebClient().UploadFile(SiteUrl.GetApiUrl("upload/ImgUpload?s=" + s), file);
+            //        File.Delete(file);
+
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        throw ex;
+            //        LogManager.instance.Error("出错码3-267 请联系开发人员",ex);
+            //    }
 
                
-            });
-            th.IsBackground = true;
-            th.Start();
+            //});
+            //th.IsBackground = true;
+            //th.Start();
         }
         
     }

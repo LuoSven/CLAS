@@ -65,22 +65,16 @@ namespace CLAS
                             Application.DoEvents();
                             ActivationCodeManager.instance.IsSuccess = null;
                             ActivationCodeManager.instance.check = null;
-#if !DEBUG
-     
+                             
                             ShortCutHelper.CreateShorCut("拍牌助手", "ca", "拍牌助手");
-                            DownloadManager.instance.DownLoadDmDlls(DownloadManager.dmcDllPath);                       
-#endif
-
-#if DEBUG
-
-                            DownloadManager.downLoadStatus = DownloadManager.maxdownLoadStatus;                     
-#endif
+                            DownloadManager.instance.DownLoadDmDlls(DownloadManager.dmcDllPath); 
+ 
                         }
                         else
                         {
                             if (ActivationCodeManager.instance.IsSuccess.HasValue)
                             {
-                                MessageBox.Show("验证码有误，请联系管理员");
+                                MessageBox.Show(ActivationCodeManager.instance.Message);
                             }
                             ActivationCodeManager.instance.IsSuccess = null;
                             ActivationCodeManager.instance.check = null;

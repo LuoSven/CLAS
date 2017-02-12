@@ -96,7 +96,7 @@ namespace CLAS.API.Controllers
                             BidderId = bidderId.Value,
                             KeyDownTime = record.KeyDownTime,
                             CreateTime = DateTime.Now,
-
+                            IsEffictive=record.IsEffictive
                         };
                         bidderKeyDownRecordRpeo.AddByDapper(entity);
                     }

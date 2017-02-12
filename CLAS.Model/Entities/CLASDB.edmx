@@ -46,6 +46,7 @@
           <Property Name="Key" Type="int" Nullable="false" />
           <Property Name="KeyDownTime" Type="datetime" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" />
+          <Property Name="IsEffictive" Type="bit" />
         </EntityType>
         <EntityType Name="CL_Bidder_ScreenCut">
           <Key>
@@ -57,6 +58,7 @@
           <Property Name="FileName" Type="nvarchar" MaxLength="3000" Nullable="false" />
           <Property Name="UploadTime" Type="datetime" Nullable="false" />
           <Property Name="CreateTime" Type="datetime" />
+          <Property Name="Url" Type="nvarchar" MaxLength="3000" />
         </EntityType>
         <EntityType Name="CL_License">
           <Key>
@@ -368,6 +370,7 @@
           <Property Name="FileName" Type="String" Nullable="false" MaxLength="3000" FixedLength="false" Unicode="true" />
           <Property Name="UploadTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="Url" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CL_License">
           <Key>
@@ -406,6 +409,7 @@
           <Property Name="Key" Type="Int32" Nullable="false" />
           <Property Name="KeyDownTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="IsEffictive" Type="Boolean" />
         </EntityType>
         <EntityType Name="CL_Performance_Record">
           <Key>
@@ -559,6 +563,7 @@
           <EntitySetMapping Name="CL_Bidder_ScreenCut">
             <EntityTypeMapping TypeName="CLASModel.CL_Bidder_ScreenCut">
               <MappingFragment StoreEntitySet="CL_Bidder_ScreenCut">
+                <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="UploadTime" ColumnName="UploadTime" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />
@@ -601,6 +606,7 @@
           <EntitySetMapping Name="CL_Bidder_KeyDownRecord">
             <EntityTypeMapping TypeName="CLASModel.CL_Bidder_KeyDownRecord">
               <MappingFragment StoreEntitySet="CL_Bidder_KeyDownRecord">
+                <ScalarProperty Name="IsEffictive" ColumnName="IsEffictive" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
                 <ScalarProperty Name="KeyDownTime" ColumnName="KeyDownTime" />
                 <ScalarProperty Name="Key" ColumnName="Key" />

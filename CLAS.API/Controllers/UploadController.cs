@@ -32,7 +32,7 @@ namespace CLAS.API.Controllers
         /// <returns></returns>
         [HttpPost] 
         public void ImgUpload(string s)
-        {
+        { 
             if (string.IsNullOrEmpty(s))
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
@@ -44,7 +44,7 @@ namespace CLAS.API.Controllers
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             }
             // 文件保存目录路径 
-            var saveTempPath = "~/UploadFiles/" + bidderId + "/";
+            var saveTempPath = "/UploadFiles/" + bidderId+"/" ;
             var dirTempPath = HttpContext.Current.Server.MapPath(saveTempPath);
             if (!Directory.Exists(dirTempPath))
             {
@@ -58,15 +58,21 @@ namespace CLAS.API.Controllers
 
             var ext = imgFile.FileName.Split('.')[1];
             var fileName = string.Format("{0}_{1}.{2}", bidderId, DateTime.Now.ToString("yyyyMMddHHmmssfff"), ext);
-            var filePath = string.Format("{0}/{1}", saveTempPath, fileName);
+            var filePath = saveTempPath + fileName;
             imgFile.SaveAs(dirTempPath + fileName);
+            var host = Request.RequestUri.Host.ToLower();
+            if (host != "www.clas.com")
+            {
+                host = host + ":8333";
+            } 
             var screenCut = new CL_Bidder_ScreenCut()
             {
                 BidderId = bidderId.Value,
                 FileName = fileName,
                 FilePath = filePath,
                 UploadTime = tm.UploadTime,
-                CreateTime=DateTime.Now
+                CreateTime = DateTime.Now,
+                Url = "http://"+host + filePath
             };
             bidderScreenCutRpeo.AddByDapper(screenCut);
 

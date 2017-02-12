@@ -19,30 +19,58 @@ namespace CLAS.Common
             }
         }
 
+        public static string LoaclApiSiteUrl= "www.CLAS.com";
+        public static string ReleaseApiSiteUrl = "139.196.52.240:8333";
+
         /// <summary>
         /// ApiUrl
         /// </summary>
-       private static string ApiSiteUrl
+        private static string ApiSiteUrl
         {
             get
             {
+                var host = ReleaseApiSiteUrl;
                 if (IsDebug)
                 {
-                    return "http://www.CLAS.com/api";
+                    host = LoaclApiSiteUrl;
                 }
-                return "http://139.196.52.240:8333/api";
+                return "http://"+ host + "/api";
+            }
+        }
+
+        /// <summary>
+        /// ApiUrl
+        /// </summary>
+        private static string StaticUrl
+        {
+            get
+            {
+                var host = ReleaseApiSiteUrl;
+                if (IsDebug)
+                {
+                    host = LoaclApiSiteUrl;
+                }
+                return "http://" + host ;
 
             }
         }
- 
+
 
         public static string GetApiUrl(string url)
         {
-            if (url[0]!= '/')
+            if (url[0] != '/')
             {
                 url = "/" + url;
             }
             return ApiSiteUrl + url;
+        }
+        public static string GetStaticUrl(string url)
+        {
+            if (url[0] != '/')
+            {
+                url = "/" + url;
+            }
+            return StaticUrl + url;
         }
     }
 }

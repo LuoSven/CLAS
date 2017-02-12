@@ -15,6 +15,7 @@ using CLAS.Utils;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using CLAS.Model.Result;
+using CLAS.Model.DTOs;
 
 namespace CASL.Bll
 {
@@ -51,9 +52,12 @@ namespace CASL.Bll
             Message(string.Format(message, args));
         }
 
-        public void Error(string error)
+        public void Error(string message,Exception ex)
         {
-            CommandManager.LogReord += ("\r\n" + error);
+            CommandManager.LogReord += ("\r\n" + message);
+
+            message = string.Format("发生了错误,错误信息:{0}\r\n错误原因:{1},错误位置,{2}", message, ex.Message, ex.StackTrace);
+            CommandManager.instance.Logs.Add(new BidderlogTM() { Message= message });
         }
         /// <summary>
         /// 记录日志

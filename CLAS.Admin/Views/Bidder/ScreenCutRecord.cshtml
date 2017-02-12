@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutCommon.cshtml";
+}
+@using CLAS.Common
+@using CLAS.Model.DTOs;
+@model List<BidderScreenCutGroupDTO>
+@section Css{
+    <link rel="stylesheet" href="~/Css/Third/view.js/viewer.min.css"/>
+               <style>
+                   .wordField{ float:left }
+                   .wordField img{width:100px;height: 100px;margin: 10px }
+                   .wordWarning{ color:red }
+                   .word{ text-align: right; }
+                   .info { display: none}
+               </style>
+           }
+<div class="SearchForm">
+    <form id="SearchForm" action="@Url.Action("ScreenCutRecord", "Bidder")">
+        <input type="text" name="BidderId" value="" placeholder="拍手编号">
+        <input type="text" name="StartTime" class="datepicker_time" value="@ViewBag.start" placeholder="开始时间">
+        <input type="text" name="EndTime" class="datepicker_time" value="@ViewBag.end" placeholder="结束时间">
+        <button class="searchButton" type="submit">搜索</button> 
+    </form>
+
+</div>
+
+<div id="List">
+    @Html.Partial("_ScreenCutRecordList", Model)
+</div>
+
+@section Js{
+    <script src="~/Js/Third/view.js/viewer-jquery.min.js"></script>
+    <script>
+     
+        var imgMiss = function(ob) {
+            var src = ob.src;
+            var localSiteUrl = "@SiteUrl.LoaclApiSiteUrl.ToLower()";
+            var releaseSiteUrl = "@SiteUrl.ReleaseApiSiteUrl.ToLower()";
+            ob.src =
+                src.indexOf(localSiteUrl) > -1 ?
+                src.replace(localSiteUrl, releaseSiteUrl) :
+                src.replace(releaseSiteUrl, localSiteUrl);
+        }
+
+    </script>
+}

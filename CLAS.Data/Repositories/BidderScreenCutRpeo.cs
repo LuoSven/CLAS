@@ -30,7 +30,8 @@ namespace CLAS.Data.Repositories
            ,@FilePath
            ,@FileName
            ,@UploadTime
-           ,@CreateTime)", entity);
+           ,@CreateTime
+           ,@Url)", entity);
                 return result > 0;
             
           
@@ -38,7 +39,9 @@ namespace CLAS.Data.Repositories
 
         public List<BidderScreenCutGroupDTO> GetList(ScreenCutRecordSM sm)
         {
-            var sql = "select * from CL_Bidder_ScreenCut";
+            var sql = @" select a.*,b.Name from CL_Bidder_ScreenCut a
+ join CL_Bidder b on a.BidderId = b.id
+ ";
             if (!string.IsNullOrEmpty(sm.BidderId))
             {
                 sql += " and BidderId=@BidderId";
@@ -54,11 +57,15 @@ namespace CLAS.Data.Repositories
                 sql += " and UploadTime<=@EndTime";
             }
             sql += " order by id ";
-            DapperHelper.SqlQuery<CL_Bidder_ScreenCut>(sql);
+            var scs=DapperHelper.SqlQuery<BidderScreenCutDTO>(sql, sm);
 
-
-
-            return new List<BidderScreenCutGroupDTO>();
+            var result = scs.GroupBy(o => new { o.BidderId, o.Name }).Select(o => new BidderScreenCutGroupDTO
+            {
+                BidderId = o.Key.BidderId,
+                BidderName = o.Key.Name,
+                List = o.ToList()
+            }).ToList();
+            return result;
 
         }
 

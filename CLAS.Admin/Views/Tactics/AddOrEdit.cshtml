@@ -36,8 +36,8 @@
                     名称：<input type="text" name="Name" v-model="tempScript.Name"/>
                     触发时间：<input type="text" name="ExecuteTime" v-model="tempScript.ExecuteTime"/>
                     触发条件：<input type="text" name="ExecuteCondition" v-model="tempScript.ExecuteCondition"/>
-                    脚本：<select id="ScriptSelect" name="tempScript.Script.ScriptId" v-model="tempScript.Script.ScriptId"><option v-for="option in ScriptSelectItems"v-bind:value="option.id">{{option.name}}</option></select>
-                    <button type="button" v-if="tempScript.Id==0">添加</button>
+                    脚本：<select id="ScriptSelect" name="tempScript.ScriptId" v-model="tempScript.ScriptId"><option v-for="option in ScriptSelectItems"v-bind:value="option.id">{{option.name}}</option></select>
+                    <button v-on:click="editToExecute()" type="button" v-if="tempScript.Id==0">添加</button>
                     <button v-on:click="editToExecute()" type="button" v-if="tempScript.Id>0">保存</button>
                     <button v-on:click="cancelToExecute()" type="button" v-if="tempScript.Id>0">取消</button>
                 </div>

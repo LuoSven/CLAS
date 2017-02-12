@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CLAS.Common;
 using System.Threading.Tasks;
 
 namespace CLAS.Model.DTOs
@@ -11,8 +12,10 @@ namespace CLAS.Model.DTOs
         public int id { get; set; }
         public int BidderId { get; set; } 
         public string FilePath { get; set; }
+        public string Url { get; set; }
         public string FileName { get; set; }
         public System.DateTime UploadTime { get; set; }
         public Nullable<System.DateTime> CreateTime { get; set; }
+        public string Name { get; set; }
     }
 }

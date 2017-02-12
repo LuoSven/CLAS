@@ -20,5 +20,6 @@ namespace CLAS.Model.Entities
         public string FileName { get; set; }
         public System.DateTime UploadTime { get; set; }
         public Nullable<System.DateTime> CreateTime { get; set; }
+        public string Url { get; set; }
     }
 }

@@ -64,6 +64,10 @@ namespace CLAS.Common
         /// 从文件载入字库
         /// </summary>
         SetDict,
+        /// <summary>
+        /// 从文件载入字库
+        /// </summary>
+        KeyPressAsk,
 
         SetPath,
         Capture,

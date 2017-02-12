@@ -20,7 +20,8 @@ namespace CASL.Bll
     public class ActivationCodeManager
     {
 
-        public bool? IsSuccess; 
+        public bool? IsSuccess;
+        public string Message;
         public Thread check;
        /// <summary>
        /// 验证码
@@ -44,13 +45,23 @@ namespace CASL.Bll
 
         private void CheckActivationCode(object code)
         {
+            var result = "";
             var activationCode = (string) code;
             var loginVm = new ActivationVM()
             {
                 ActivationCode = activationCode
             };
             var obStr = DESEncrypt.EncryptModel(loginVm);
-            var result = RequestHelper.HttpGet(SiteUrl.GetApiUrl("command/Login?s=" + obStr));
+            try
+            {
+                 result = RequestHelper.HttpGet(SiteUrl.GetApiUrl("command/Login?s=" + obStr));
+            }
+            catch (Exception)
+            {
+                Message = "服务器发生错误，请重试";
+                IsSuccess = false;
+                return;
+            }
             var loginInfo = DESEncrypt.Decrypt(result.Replace("\"", ""));
             if (loginInfo != "false")
             { 
@@ -61,6 +72,7 @@ namespace CASL.Bll
             }
             else
             {
+                Message = "验证码错误，请重试";
                 IsSuccess = false;
             }
         }

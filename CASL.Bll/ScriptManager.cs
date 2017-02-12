@@ -130,12 +130,7 @@ namespace CASL.Bll
                     }
                     recordVm.Message = string.Join(",", scriptMessage);
                     //记录脚本执行情况
-                    ScriptExecuteRecords.Add(recordVm);
-
-                   //脚本执行结束后按钮信息要清空
-                   CommandManager.Keyloggers.Clear();
-             
-               
+                    ScriptExecuteRecords.Add(recordVm);      
             }
 
 

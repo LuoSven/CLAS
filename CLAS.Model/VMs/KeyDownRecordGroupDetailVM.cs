@@ -39,5 +39,7 @@ namespace CLAS.Model.VMs
          public string KeyDownTimeName {
              get { return KeyDownTime.ToString("HH:mm:ss.fff"); }
          }
+
+        public bool? IsEffictive { get; set; }
     }
 }

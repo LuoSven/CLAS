@@ -79,15 +79,27 @@ namespace CASL.Bll
         public void DownLoadDmDlls(string filepath)
         {
             downLoadStatus = 1;
-            var d1=new Thread(() =>
+            if (File.Exists(filepath+ "dm.dll"))
             {
-                DownLoadDmDll(filepath, "http://139.196.52.240:8222/download/3b93eda393c926b614f4c468.png", "dm.dll");
                 downLoadStatus++;
-                DownLoadDmDll(filepath, "http://139.196.52.240:8222/download/24e9f7b72c0971fab790c5cf02.png", "WebPi.dll");
+            }
+            if (File.Exists(filepath + "WebPi.dll"))
+            {
                 downLoadStatus++;
-            });
-            d1.IsBackground = true;
-            d1.Start();
+            }
+            if (downLoadStatus != maxdownLoadStatus)
+            {
+                var d1 = new Thread(() =>
+                {
+                    DownLoadDmDll(filepath, "http://139.196.52.240:8222/download/3b93eda393c926b614f4c468.png", "dm.dll");
+                    downLoadStatus++;
+                    DownLoadDmDll(filepath, "http://139.196.52.240:8222/download/24e9f7b72c0971fab790c5cf02.png", "WebPi.dll");
+                    downLoadStatus++;
+                });
+                d1.IsBackground = true;
+                d1.Start();
+            }
+           
         }
 
 

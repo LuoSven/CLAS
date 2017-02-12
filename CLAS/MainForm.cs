@@ -26,7 +26,7 @@ namespace CLAS
             this.Text = "拍牌助手 v1.2";
             BidderName.Text = CommandManager.BidderName;
             CommandManager.instance.IsFrom51 = CommandManager.IsFor51;
-            CommandManager.instance.IsTest = false;
+            CommandManager.instance.IsTest = true;
             Width = 350;
 
 
@@ -41,11 +41,10 @@ namespace CLAS
 
           
 
+             
+ 
 
-#if DEBUG
-            CommandManager.instance.IsFrom51 = true;
-            CommandManager.instance.IsTest = true;
-#endif
+
             if (CommandManager.instance.IsFrom51)
             {
                 this.Text = "拍牌助手（51测试版）";
@@ -118,9 +117,14 @@ namespace CLAS
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             var time= InstructionManager.instance.GetNetTime();
-            if(time.HasValue)
-            TimerHelper.SetDate(time.Value);
-            System.Environment.Exit(0);
+            if (time.HasValue)
+            {
+                TimerHelper.SetDate(time.Value);
+            }
+            //关闭前同步一次
+            SynchronizeManager.instance.Synchronize();
+
+            Environment.Exit(0);
             //Close();
         }
      

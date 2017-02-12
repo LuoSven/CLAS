@@ -10,7 +10,7 @@ namespace CLAS.Model.DTOs
     {
         public int id { get; set; }
         public int BidderId { get; set; }
-        public int BidderName { get; set; }
+        public string BidderName { get; set; }
         public List<BidderScreenCutDTO> List { get; set; }
     }
 }

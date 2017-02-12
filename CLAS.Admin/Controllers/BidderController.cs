@@ -90,7 +90,7 @@ namespace CLAS.Admin.Controllers
             ViewBag.end = sm.EndTime;
             var vms = bidderScreenCutRpeo.GetList(sm);
             if (Request.IsAjaxRequest())
-                return PartialView("_KeyDownRecordList", vms);
+                return PartialView("_ScreenCutRecordList", vms);
             return View(vms);
         }
     }

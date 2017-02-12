@@ -19,12 +19,12 @@
                         <div class="w200 dI">@record.BidderId</div>
                         <div class="w100 dI">@record.BidderName</div>
                     </div>
-                    <div style="display: none">
+                    <div >
                         <ul>
                             @foreach (var detail in record.Details)
                             {
                                 <li class="wordField">
-                                    <div onmouseover="mouseIn(this)" onmouseout="mouseOut(this)" class="word">@detail.KeyName</div>
+                                    <div onmouseover="mouseIn(this)" onmouseout="mouseOut(this)" class="word @((detail.IsEffictive.HasValue&&!detail.IsEffictive.Value)?"wordWarning":"")">@detail.KeyName</div>
                                     <div class="info">@(detail.Id)/@detail.KeyDownTimeName</div>
                                 </li>
                             }

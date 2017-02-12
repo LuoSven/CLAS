@@ -13,7 +13,6 @@ using CLAS.Common;
 using CLAS.Model.Base;
 using CLAS.Model.TMs;
 using CLAS.Utils;
-using CLAS.Web.Core.Base;
 
 namespace Test
 {

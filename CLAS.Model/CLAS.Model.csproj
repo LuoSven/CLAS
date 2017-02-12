@@ -133,6 +133,7 @@
     <Compile Include="SMs\LicenseSM.cs" />
     <Compile Include="SMs\TacticsSM.cs" />
     <Compile Include="SMs\SystemUserSM.cs" />
+    <Compile Include="TMs\BidderlogTM.cs" />
     <Compile Include="TMs\ScreenCutTM.cs" />
     <Compile Include="TMs\ScriptTM.cs" />
     <Compile Include="TMs\ServerReponseTM.cs" />

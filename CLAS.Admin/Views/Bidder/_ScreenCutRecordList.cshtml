@@ -1,0 +1,51 @@
+﻿@using CLAS.Model.DTOs;
+@using CLAS.Common;
+@model List<BidderScreenCutGroupDTO>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                <div class="w200  dI">拍手Id</div>
+                <div class="w100 dI">拍手名称</div>
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var record in Model)
+        {
+            <tr>
+                <td>
+                    <div onclick="$(this).next().toggle()">
+                        <div class="w200 dI">@record.BidderId</div>
+                        <div class="w100 dI">@record.BidderName</div>
+                    </div>
+                    <div >
+                        <ul>
+                            @foreach (var detail in record.List)
+                            {
+                                {
+                                    if (string.IsNullOrEmpty(detail.Url))
+                                    {
+                                        detail.Url = SiteUrl.GetStaticUrl(detail.FilePath);
+                                    }
+                                }
+                                <li class="wordField">
+                                  <img src="@detail.Url"  alt="@detail.UploadTime-@detail.CreateTime" onerror="imgMiss(this)" />
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+    </table>
+<script>
+    setTimeout(function () {
+        $("ul").each(function() {
+            $(this).viewer({ transition :false});
+        });
+       
+    }, 5000);
+</script>

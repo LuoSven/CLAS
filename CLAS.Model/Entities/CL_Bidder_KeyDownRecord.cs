@@ -19,5 +19,6 @@ namespace CLAS.Model.Entities
         public int Key { get; set; }
         public System.DateTime KeyDownTime { get; set; }
         public Nullable<System.DateTime> CreateTime { get; set; }
+        public Nullable<bool> IsEffictive { get; set; }
     }
 }

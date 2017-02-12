@@ -1,14 +1,15 @@
 ﻿using CLAS.Model.TMs;
-using CLAS.Common; 
+using CLAS.Common;
 using System;
 using System.Collections.Generic;
-using System.Linq; 
+using System.Linq;
 using System.Threading;
 using System.Reflection;
 using System.Diagnostics;
 using System.Windows.Forms;
 using CLAS.Model.Result;
 using CLAS.Model.VMs;
+using CLAS.Model.DTOs;
 
 namespace CASL.Bll
 {
@@ -18,7 +19,9 @@ namespace CASL.Bll
     public class CommandManager
     {
 
-
+        public CommandManager() {
+            Logs = new List<BidderlogTM>();
+        }
 
         //策略的获取和更新锁
         public static readonly object lockob = new object();
@@ -36,6 +39,8 @@ namespace CASL.Bll
         private static Thread setTime; 
 
         #region 参数
+
+        public List<BidderlogTM> Logs { get; set; }
 
         /// <summary>
         /// 表示是否记录键值，当hook启动失败的时候此值是false,表示键值拥有成功
@@ -62,8 +67,8 @@ namespace CASL.Bll
         public int Price48;
         /// <summary>
         /// 需要记录的key值
-        /// </summary>
-        private int[] keyDownStrs = {48,49, 50, 51, 52, 53, 54, 55, 56, 57, 8,96,97,98,99,100,101,102,103,104,105};
+        /// </summary> 
+        private int[] keyDownStrs = {48,49, 50, 51, 52, 53, 54, 55, 56, 57, 8};
 
         private static TacticsTM tactics { get; set; }
         /// <summary>
@@ -202,8 +207,7 @@ namespace CASL.Bll
         }
 
         #endregion
-    
-        private CommandManager() { }
+     
         public static readonly CommandManager instance = new CommandManager();
 
 
@@ -236,7 +240,7 @@ namespace CASL.Bll
             }
 
             //和服务器进行同步数据
-            SynchronizeManager.instance.Synchronize();
+            SynchronizeManager.instance.Synchronizes();
             //定时执行策略中的脚本
             Execute();
             //同步时间

